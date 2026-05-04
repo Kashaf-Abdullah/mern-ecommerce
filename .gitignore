@@ -2,8 +2,10 @@
 frontend/node_modules/
 frontend/build/
 # Ignore environment variable files
-/backend/.env       
+/backend/.env     
+/backend/.env.example  
 /frontend/.env
+/frontend/.env.example
 # Ignore log files
 /backend/logs/
 /frontend/logs/

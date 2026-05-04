@@ -1,0 +1,12 @@
+
+frontend/node_modules/
+frontend/build/
+# Ignore environment variable files
+/backend/.env       
+/frontend/.env
+# Ignore log files
+/backend/logs/
+/frontend/logs/
+# Ignore IDE specific files
+.idea/
+.vscode/

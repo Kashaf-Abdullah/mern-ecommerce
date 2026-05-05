@@ -140,6 +140,7 @@ export const settingsAPI = {
   save: (key, value) => API.post('/settings', { key, value }),
   saveBulk: (settings) => API.post('/settings/bulk', { settings }),
   uploadReceipt: (formData) => API.post('/settings/upload-receipt', formData, { headers: { 'Content-Type': 'multipart/form-data' } }),
+  uploadLogo: (formData) => API.post('/upload/logo', formData, { headers: { 'Content-Type': 'multipart/form-data' } }),
 };
 
 export default API;

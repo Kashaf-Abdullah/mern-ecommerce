@@ -219,6 +219,11 @@ const Navbar = () => {
   const textColor = theme.text      || '#1a1a2e';
   const secondary = theme.secondary || '#1a1a2e';
 
+  // Determine if navbar has dark background (for text color contrast)
+  const isDarkNav = navBg.toLowerCase() === '#ffffff' || navBg.toLowerCase() === '#fff' ? false : true;
+  const categoryLinkColor = isDarkNav ? '#e0e0e0' : '#444';
+  const categoryLinkHoverBg = isDarkNav ? 'rgba(255,255,255,0.1)' : primary + '18';
+
   useEffect(() => {
     const onResize = () => setIsMobile(window.innerWidth <= 768);
     window.addEventListener('resize', onResize);
@@ -357,10 +362,35 @@ const Navbar = () => {
 
             {/* LOGO — always left */}
             <Link to="/" style={{
-              fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 22,
-              color: primary, whiteSpace: 'nowrap', flexShrink: 0, textDecoration: 'none'
+              display: 'flex',
+              alignItems: 'center',
+              maxWidth: theme.logoSize === 'small' ? 120 : theme.logoSize === 'medium' ? 200 : theme.logoSize === 'large' ? 300 : theme.logoMaxWidth || 200,
+              maxHeight: theme.logoSize === 'small' ? 40 : theme.logoSize === 'medium' ? 60 : theme.logoSize === 'large' ? 80 : theme.logoMaxHeight || 60,
+              flexShrink: 0,
+              textDecoration: 'none'
             }}>
-              {t('storeName') || 'ShopNow'}
+              {theme.logoType === 'image' && theme.logoImage ? (
+                <img src={theme.logoImage.url} alt="Logo"
+                  style={{
+                    maxWidth: '100%',
+                    maxHeight: '100%',
+                    objectFit: 'contain',
+                    display: 'block'
+                  }} />
+              ) : (
+                <span style={{
+                  fontFamily: 'Syne, sans-serif',
+                  fontWeight: 800,
+                  fontSize: isMobile ? (theme.logoSize === 'small' ? 16 : theme.logoSize === 'medium' ? 20 : theme.logoSize === 'large' ? 24 : 20) :
+                                       (theme.logoSize === 'small' ? 18 : theme.logoSize === 'medium' ? 22 : theme.logoSize === 'large' ? 26 : 22),
+                  color: primary,
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis'
+                }}>
+                  {theme.logoText || t('storeName') || 'ShopNow'}
+                </span>
+              )}
             </Link>
 
             {/* SEARCH — desktop center */}
@@ -475,18 +505,18 @@ const Navbar = () => {
 
         {/* Category bar — desktop only */}
         {!isMobile && (
-          <div style={{ borderTop: '1px solid #f0f0f0', background: navBg }}>
+          <div style={{ borderTop: isDarkNav ? 'none' : '1px solid #f0f0f0', background: navBg }}>
             <div style={{ maxWidth: 1280, margin: '0 auto', display: 'flex', gap: 4, overflowX: 'auto', padding: '7px 16px' }}>
               {[{ name: 'All Products', _id: '' }, ...categories].map(cat => (
                 <Link key={cat._id || cat.name}
                   to={cat._id ? `/products?category=${cat._id}` : '/products'}
                   style={{
                     padding: '6px 14px', borderRadius: 6, fontSize: 13, fontWeight: 500,
-                    whiteSpace: 'nowrap', color: '#444', textDecoration: 'none',
+                    whiteSpace: 'nowrap', color: categoryLinkColor, textDecoration: 'none',
                     transition: 'all 0.2s', background: 'transparent'
                   }}
-                  onMouseEnter={e => { e.currentTarget.style.background = primary + '18'; e.currentTarget.style.color = primary; }}
-                  onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#444'; }}>
+                  onMouseEnter={e => { e.currentTarget.style.background = categoryLinkHoverBg; e.currentTarget.style.color = isDarkNav ? '#fff' : primary; }}
+                  onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = categoryLinkColor; }}>
                   {cat.name}
                 </Link>
               ))}

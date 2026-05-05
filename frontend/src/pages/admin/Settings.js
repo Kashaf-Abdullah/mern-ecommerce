@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { FiSave, FiRefreshCw, FiCopy, FiCheck, FiEye } from 'react-icons/fi';
 import { useTheme } from '../../context/ThemeContext';
 import toast from 'react-hot-toast';
@@ -25,7 +25,6 @@ const TEXT_SECTIONS = {
     { key: 'promoBtn', label: 'Promo Button' },
   ],
   'Navbar & Footer': [
-    { key: 'storeName', label: 'Store Name' },
     { key: 'announcementBar', label: 'Announcement Bar', multiline: true },
     { key: 'footerTagline', label: 'Footer Tagline', multiline: true },
     { key: 'copyright', label: 'Copyright Text' },
@@ -63,10 +62,41 @@ const inputStyle = {
 const AdminSettings = () => {
   const { theme, texts, payment, saveTheme, saveTexts, savePayment, t } = useTheme();
   const [tab, setTab] = useState('theme');
-  const [localTheme, setLocalTheme] = useState({ ...theme });
+  const [localTheme, setLocalTheme] = useState({
+    primary: '#e94560',
+    secondary: '#1a1a2e',
+    bg: '#f8f9fa',
+    nav: '#ffffff',
+    footer: '#1a1a2e',
+    card: '#ffffff',
+    text: '#1a1a2e',
+    radius: '12px',
+    font: "'DM Sans', sans-serif",
+    btnStyle: 'filled',
+    logoType: 'text',
+    logoText: 'ShopNow',
+    logoImage: null,
+    logoSize: 'medium',
+    logoMaxWidth: 200,
+    logoMaxHeight: 60,
+    ...theme
+  });
   const [localTexts, setLocalTexts] = useState({ ...texts });
   const [localPayment, setLocalPayment] = useState({ ...payment });
   const [copied, setCopied] = useState(false);
+
+  // Update local state when theme/texts/payment change
+  useEffect(() => {
+    setLocalTheme({ ...theme });
+  }, [theme]);
+
+  useEffect(() => {
+    setLocalTexts({ ...texts });
+  }, [texts]);
+
+  useEffect(() => {
+    setLocalPayment({ ...payment });
+  }, [payment]);
 
   const updateLocalTheme = (key, val) => setLocalTheme(p => ({ ...p, [key]: val }));
   const updateLocalText = (key, val) => setLocalTexts(p => ({ ...p, [key]: val }));
@@ -107,7 +137,7 @@ const AdminSettings = () => {
   const resetTexts = () => {
     if (!window.confirm('Reset all text to defaults?')) return;
     const defaults = {
-      storeName: 'ShopNow', heroTitle: 'Discover Amazing Products Today',
+      heroTitle: 'Discover Amazing Products Today',
       heroSubtitle: 'Shop the latest trends with unbeatable prices.',
       heroBtn1: 'Shop Now', heroBtn2: 'View Deals',
       featuredTitle: 'Featured Products', trendingTitle: '🔥 Trending Now',
@@ -140,6 +170,7 @@ const AdminSettings = () => {
 
   const tabs = [
     { id: 'theme', label: '🎨 Theme Colors' },
+    { id: 'logo', label: '🏷️ Logo & Branding' },
     { id: 'text', label: '✏️ Text & Content' },
     { id: 'payment', label: '💳 Payment Methods' },
   ];
@@ -231,7 +262,7 @@ const AdminSettings = () => {
           <SectionCard title="Live Preview">
             <div style={{ background: '#f5f5f5', borderRadius: 12, padding: 16 }}>
               <div style={{ background: localTheme.nav, padding: '12px 20px', borderRadius: 10, display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14, boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
-                <span style={{ fontWeight: 800, fontSize: 20, color: localTheme.primary }}>{localTexts.storeName || 'ShopNow'}</span>
+                <span style={{ fontWeight: 800, fontSize: 20, color: localTheme.primary }}>{localTheme.logoText || localTexts.storeName || 'ShopNow'}</span>
                 <div style={{ display: 'flex', gap: 10 }}>
                   {['Add to Cart', 'Buy Now'].map((btn, i) => (
                     <span key={btn} style={{
@@ -266,6 +297,166 @@ const AdminSettings = () => {
             </button>
             <button onClick={handleSaveTheme} className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
               <FiSave size={15} /> Save & Apply Theme
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* ===== LOGO TAB ===== */}
+      {tab === 'logo' && (
+        <div>
+          <SectionCard title="Logo Type">
+            <FieldRow label="Logo Display Type">
+              <div style={{ display: 'flex', gap: 16 }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
+                  <input type="radio" name="logoType" value="text"
+                    checked={localTheme.logoType === 'text'}
+                    onChange={e => updateLocalTheme('logoType', e.target.value)} />
+                  <span>Text Only</span>
+                </label>
+                <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
+                  <input type="radio" name="logoType" value="image"
+                    checked={localTheme.logoType === 'image'}
+                    onChange={e => updateLocalTheme('logoType', e.target.value)} />
+                  <span>Image Only</span>
+                </label>
+              </div>
+            </FieldRow>
+          </SectionCard>
+
+          {localTheme.logoType === 'text' && (
+            <SectionCard title="Text Logo Settings">
+              <FieldRow label="Logo Text">
+                <input type="text" value={localTheme.logoText || ''}
+                  onChange={e => updateLocalTheme('logoText', e.target.value)}
+                  placeholder="Enter your store name"
+                  style={inputStyle} />
+              </FieldRow>
+            </SectionCard>
+          )}
+
+          {localTheme.logoType === 'image' && (
+            <SectionCard title="Image Logo Settings">
+              <FieldRow label="Current Logo">
+                <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                  {localTheme.logoImage ? (
+                    <img src={localTheme.logoImage.url} alt="Logo"
+                      style={{ maxWidth: 150, maxHeight: 60, objectFit: 'contain', border: '1px solid #e0e0e0', borderRadius: 8, padding: 8 }} />
+                  ) : (
+                    <div style={{ width: 150, height: 60, border: '2px dashed #e0e0e0', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#888', fontSize: 12 }}>
+                      No logo uploaded
+                    </div>
+                  )}
+                  <div>
+                    <input type="file" accept="image/*" id="logoUpload" style={{ display: 'none' }}
+                      onChange={async (e) => {
+                        const file = e.target.files[0];
+                        if (!file) return;
+
+                        const formData = new FormData();
+                        formData.append('logo', file);
+
+                        try {
+                          const response = await fetch('/api/upload/logo', {
+                            method: 'POST',
+                            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+                            body: formData
+                          });
+                          const data = await response.json();
+                          if (data.success) {
+                            updateLocalTheme('logoImage', data.logo);
+                            toast.success('Logo uploaded successfully!');
+                          } else {
+                            toast.error('Failed to upload logo');
+                          }
+                        } catch (error) {
+                          toast.error('Upload failed');
+                        }
+                      }} />
+                    <label htmlFor="logoUpload" style={{
+                      padding: '8px 16px', background: localTheme.primary, color: '#fff', borderRadius: 8,
+                      cursor: 'pointer', fontSize: 14, display: 'inline-block'
+                    }}>
+                      {localTheme.logoImage ? 'Change Logo' : 'Upload Logo'}
+                    </label>
+                    {localTheme.logoImage && (
+                      <button onClick={() => updateLocalTheme('logoImage', null)}
+                        style={{ marginLeft: 8, padding: '8px 16px', background: '#dc3545', color: '#fff', border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 14 }}>
+                        Remove
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </FieldRow>
+            </SectionCard>
+          )}
+
+          <SectionCard title="Logo Size & Responsiveness">
+            <FieldRow label="Logo Size Preset">
+              <select value={localTheme.logoSize || 'medium'}
+                onChange={e => updateLocalTheme('logoSize', e.target.value)}
+                style={{ ...inputStyle, width: 200 }}>
+                <option value="small">Small (120x40px max)</option>
+                <option value="medium">Medium (200x60px max)</option>
+                <option value="large">Large (300x80px max)</option>
+                <option value="custom">Custom Size</option>
+              </select>
+            </FieldRow>
+
+            {localTheme.logoSize === 'custom' && (
+              <>
+                <FieldRow label="Max Width (px)">
+                  <input type="number" value={localTheme.logoMaxWidth || 200}
+                    onChange={e => updateLocalTheme('logoMaxWidth', parseInt(e.target.value) || 200)}
+                    min="50" max="500" style={{ ...inputStyle, width: 120 }} />
+                </FieldRow>
+                <FieldRow label="Max Height (px)">
+                  <input type="number" value={localTheme.logoMaxHeight || 60}
+                    onChange={e => updateLocalTheme('logoMaxHeight', parseInt(e.target.value) || 60)}
+                    min="20" max="200" style={{ ...inputStyle, width: 120 }} />
+                </FieldRow>
+              </>
+            )}
+          </SectionCard>
+
+          {/* Logo Preview */}
+          <SectionCard title="Logo Preview">
+            <div style={{ background: localTheme.nav, borderRadius: 12, padding: 20, display: 'flex', alignItems: 'center', gap: 20 }}>
+              <div style={{ fontSize: 16, fontWeight: 600, color: localTheme.text }}>Navbar Preview:</div>
+              <div style={{
+                fontFamily: 'Syne, sans-serif',
+                fontWeight: 800,
+                color: localTheme.primary,
+                display: 'flex',
+                alignItems: 'center',
+                maxWidth: localTheme.logoSize === 'small' ? 120 : localTheme.logoSize === 'medium' ? 200 : localTheme.logoSize === 'large' ? 300 : localTheme.logoMaxWidth,
+                maxHeight: localTheme.logoSize === 'small' ? 40 : localTheme.logoSize === 'medium' ? 60 : localTheme.logoSize === 'large' ? 80 : localTheme.logoMaxHeight,
+              }}>
+                {localTheme.logoType === 'image' && localTheme.logoImage ? (
+                  <img src={localTheme.logoImage.url} alt="Logo"
+                    style={{
+                      maxWidth: '100%',
+                      maxHeight: '100%',
+                      objectFit: 'contain',
+                      display: 'block'
+                    }} />
+                ) : (
+                  <span style={{
+                    fontSize: localTheme.logoSize === 'small' ? 18 : localTheme.logoSize === 'medium' ? 22 : localTheme.logoSize === 'large' ? 26 : 22,
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis'
+                  }}>
+                    {localTheme.logoText || 'ShopNow'}
+                  </span>
+                )}
+              </div>
+            </div>
+          </SectionCard>
+
+          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <button onClick={handleSaveTheme} className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <FiSave size={15} /> Save Logo Settings
             </button>
           </div>
         </div>

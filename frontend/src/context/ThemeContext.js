@@ -12,10 +12,15 @@ const defaultTheme = {
   radius: '12px',
   font: "'DM Sans', sans-serif",
   btnStyle: 'filled',
+  logoType: 'text', // 'text' or 'image'
+  logoText: 'ShopNow',
+  logoImage: null, // { public_id, url }
+  logoSize: 'medium', // 'small', 'medium', 'large'
+  logoMaxWidth: 200, // in pixels
+  logoMaxHeight: 60, // in pixels
 };
 
 const defaultTexts = {
-  storeName: 'ShopNow',
   announcementBar: '🚚 Free shipping on orders above ₹500 | Use code WELCOME10 for 10% off',
   heroTitle: 'Discover Amazing Products Today',
   heroSubtitle: 'Shop the latest trends with unbeatable prices. Free shipping on orders above ₹500.',

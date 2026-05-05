@@ -71,6 +71,13 @@ uploadRouter.post('/avatar', protect, uploadAvatar.single('avatar'), async (req,
   await user.save();
   res.json({ success: true, avatar: user.avatar });
 });
+uploadRouter.post('/logo', protect, authorize('admin'), upload.single('logo'), async (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ success: false, message: 'No logo file uploaded' });
+  }
+  const logoData = { public_id: req.file.filename, url: req.file.path };
+  res.json({ success: true, logo: logoData });
+});
 
 // PAYMENT
 const paymentCtrl = require('../controllers/paymentController');

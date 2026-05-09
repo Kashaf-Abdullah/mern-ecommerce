@@ -117,11 +117,11 @@ const AdminCoupons = () => {
                     <td>
                       <div style={{ fontWeight: 700, fontSize: 16, color: 'var(--primary)', display: 'flex', alignItems: 'center', gap: 4 }}>
                         <FiPercent size={14} />
-                        {coupon.discountType === 'percentage' ? `${coupon.discountValue}%` : `₹${coupon.discountValue}`}
+                        {coupon.discountType === 'percentage' ? `${coupon.discountValue}%` : `Rs.${coupon.discountValue}`}
                       </div>
-                      {coupon.maxDiscount && <div style={{ fontSize: 12, color: '#888' }}>Max: ₹{coupon.maxDiscount}</div>}
+                      {coupon.maxDiscount && <div style={{ fontSize: 12, color: '#888' }}>Max: Rs.{coupon.maxDiscount}</div>}
                     </td>
-                    <td style={{ fontSize: 14 }}>₹{coupon.minOrderAmount || 0}</td>
+                    <td style={{ fontSize: 14 }}>Rs.{coupon.minOrderAmount || 0}</td>
                     <td>
                       <div style={{ fontSize: 14, fontWeight: 600 }}>
                         {coupon.usedCount} / {coupon.usageLimit || '∞'}
@@ -197,13 +197,13 @@ const AdminCoupons = () => {
                   <select value={form.discountType} onChange={e => setForm(f => ({ ...f, discountType: e.target.value }))}
                     className="form-control">
                     <option value="percentage">Percentage (%)</option>
-                    <option value="fixed">Fixed Amount (₹)</option>
+                    <option value="fixed">Fixed Amount (Rs.)</option>
                   </select>
                 </div>
 
                 <div>
                   <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: '#555' }}>
-                    Discount Value * {form.discountType === 'percentage' ? '(%)' : '(₹)'}
+                    Discount Value * {form.discountType === 'percentage' ? '(%)' : '(Rs.)'}
                   </label>
                   <input type="number" value={form.discountValue}
                     onChange={e => setForm(f => ({ ...f, discountValue: e.target.value }))}
@@ -212,7 +212,7 @@ const AdminCoupons = () => {
 
                 {form.discountType === 'percentage' && (
                   <div>
-                    <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: '#555' }}>Max Discount (₹)</label>
+                    <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: '#555' }}>Max Discount (Rs.)</label>
                     <input type="number" value={form.maxDiscount}
                       onChange={e => setForm(f => ({ ...f, maxDiscount: e.target.value }))}
                       className="form-control" min="0" placeholder="No limit" />
@@ -220,7 +220,7 @@ const AdminCoupons = () => {
                 )}
 
                 <div>
-                  <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: '#555' }}>Min Order Amount (₹)</label>
+                  <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: '#555' }}>Min Order Amount (Rs.)</label>
                   <input type="number" value={form.minOrderAmount}
                     onChange={e => setForm(f => ({ ...f, minOrderAmount: e.target.value }))}
                     className="form-control" min="0" placeholder="0" />

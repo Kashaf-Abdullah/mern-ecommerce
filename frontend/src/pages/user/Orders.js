@@ -57,7 +57,7 @@ const Orders = () => {
                     color: statusColors[order.orderStatus],
                     padding: '4px 14px', borderRadius: 20, fontSize: 13, fontWeight: 700, textTransform: 'capitalize'
                   }}>{order.orderStatus}</span>
-                  <div style={{ fontWeight: 800, fontSize: 16 }}>₹{order.totalPrice?.toFixed(2)}</div>
+                  <div style={{ fontWeight: 800, fontSize: 16 }}>Rs.{order.totalPrice?.toFixed(2)}</div>
                   <Link to={`/orders/${order._id}`} className="btn btn-outline btn-sm">
                     <FiEye size={14} /> View
                   </Link>

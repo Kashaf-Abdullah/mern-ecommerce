@@ -87,11 +87,11 @@ const ProductCard = ({ product }) => {
 
         {/* Price */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 4 }}>
-          <span style={{ fontSize: 18, fontWeight: 700, color: 'var(--dark)' }}>₹{effectivePrice.toLocaleString()}</span>
+          <span style={{ fontSize: 18, fontWeight: 700, color: 'var(--dark)' }}>Rs.{effectivePrice.toLocaleString()}</span>
           {savings > 0 && (
             <>
-              <span style={{ fontSize: 13, color: 'var(--gray)', textDecoration: 'line-through' }}>₹{product.price.toLocaleString()}</span>
-              <span style={{ fontSize: 12, color: 'var(--success)', fontWeight: 600 }}>Save ₹{savings}</span>
+              <span style={{ fontSize: 13, color: 'var(--gray)', textDecoration: 'line-through' }}>Rs.{product.price.toLocaleString()}</span>
+              <span style={{ fontSize: 12, color: 'var(--success)', fontWeight: 600 }}>Save Rs.{savings}</span>
             </>
           )}
         </div>

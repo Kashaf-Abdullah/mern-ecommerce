@@ -55,12 +55,12 @@ const emailTemplates = {
           <h2>🎉 Order Confirmed!</h2>
           <p>Hi ${name}, your order <strong>#${order.orderId}</strong> has been placed successfully.</p>
           <div style="background:#f5f5f5;padding:15px;border-radius:6px;margin:15px 0">
-            <p><strong>Total:</strong> ₹${order.totalPrice}</p>
+            <p><strong>Total:</strong> Rs.${order.totalPrice}</p>
             <p><strong>Payment:</strong> ${order.paymentMethod.toUpperCase()}</p>
             <p><strong>Status:</strong> ${order.orderStatus}</p>
           </div>
           <h3>Items:</h3>
-          ${order.items.map(item => `<p>${item.name} × ${item.quantity} = ₹${item.price * item.quantity}</p>`).join('')}
+          ${order.items.map(item => `<p>${item.name} × ${item.quantity} = Rs.${item.price * item.quantity}</p>`).join('')}
         </div>
       </div>
     `

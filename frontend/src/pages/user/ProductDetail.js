@@ -128,10 +128,10 @@
 //           {/* Price */}
 //           <div style={{ background: '#f8f8f8', borderRadius: 12, padding: '16px 20px', marginBottom: 24 }}>
 //             <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-//               <span style={{ fontSize: 32, fontWeight: 800, color: 'var(--dark)' }}>₹{effectivePrice.toLocaleString()}</span>
+//               <span style={{ fontSize: 32, fontWeight: 800, color: 'var(--dark)' }}>Rs.{effectivePrice.toLocaleString()}</span>
 //               {product.discountPrice > 0 && (
 //                 <>
-//                   <span style={{ fontSize: 18, color: 'var(--gray)', textDecoration: 'line-through' }}>₹{product.price.toLocaleString()}</span>
+//                   <span style={{ fontSize: 18, color: 'var(--gray)', textDecoration: 'line-through' }}>Rs.{product.price.toLocaleString()}</span>
 //                   <span style={{ background: 'var(--primary)', color: '#fff', padding: '4px 10px', borderRadius: 6, fontSize: 13, fontWeight: 700 }}>
 //                     {product.discountPercent}% OFF
 //                   </span>
@@ -140,7 +140,7 @@
 //             </div>
 //             {product.discountPrice > 0 && (
 //               <div style={{ color: 'var(--success)', fontSize: 14, marginTop: 6, fontWeight: 600 }}>
-//                 You save ₹{(product.price - product.discountPrice).toLocaleString()}!
+//                 You save Rs.{(product.price - product.discountPrice).toLocaleString()}!
 //               </div>
 //             )}
 //           </div>
@@ -198,7 +198,7 @@
 //           {/* Trust signals */}
 //           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
 //             {[
-//               { icon: <FiTruck size={16} />, text: 'Free delivery on orders above ₹500' },
+//               { icon: <FiTruck size={16} />, text: 'Free delivery on orders above Rs.500' },
 //               { icon: <FiRefreshCw size={16} />, text: '7-day easy returns' },
 //               { icon: <FiShield size={16} />, text: '100% Genuine product guaranteed' },
 //             ].map((item, i) => (
@@ -612,12 +612,12 @@ const ProductDetail = () => {
           <div style={{ background: '#f8f8f8', borderRadius: 14, padding: '18px 22px', marginBottom: 24 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap' }}>
               <span style={{ fontSize: 34, fontWeight: 800, color: 'var(--dark)' }}>
-                ₹{effectivePrice.toLocaleString()}
+                Rs.{effectivePrice.toLocaleString()}
               </span>
               {savings > 0 && (
                 <>
                   <span style={{ fontSize: 18, color: 'var(--gray)', textDecoration: 'line-through' }}>
-                    ₹{product.price.toLocaleString()}
+                    Rs.{product.price.toLocaleString()}
                   </span>
                   <span style={{ background: 'var(--primary)', color: '#fff', padding: '4px 12px', borderRadius: 8, fontSize: 14, fontWeight: 700 }}>
                     {product.discountPercent}% OFF
@@ -627,7 +627,7 @@ const ProductDetail = () => {
             </div>
             {savings > 0 && (
               <div style={{ color: 'var(--success)', fontSize: 14, marginTop: 8, fontWeight: 600 }}>
-                🎉 You save ₹{savings.toLocaleString()}!
+                🎉 You save Rs.{savings.toLocaleString()}!
               </div>
             )}
           </div>
@@ -701,7 +701,7 @@ const ProductDetail = () => {
           {/* Trust signals */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10, paddingTop: 16, borderTop: '1px solid #f0f0f0' }}>
             {[
-              { icon: <FiTruck size={16} />, text: 'Free delivery on orders above ₹500' },
+              { icon: <FiTruck size={16} />, text: 'Free delivery on orders above Rs.500' },
               { icon: <FiRefreshCw size={16} />, text: '7-day easy returns and exchange' },
               { icon: <FiShield size={16} />, text: '100% Genuine product guaranteed' },
             ].map((item, i) => (

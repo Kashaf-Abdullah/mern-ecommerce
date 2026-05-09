@@ -66,7 +66,7 @@
 //     <nav style={{ position: 'sticky', top: 0, zIndex: 1000, boxShadow: scrolled ? '0 2px 20px rgba(0,0,0,0.1)' : '0 1px 0 #f0f0f0', transition: 'box-shadow 0.3s' }}>
 //       {/* Announcement bar */}
 //       <div style={{ background: theme.secondary || '#1a1a2e', color: '#fff', fontSize: 13, padding: '6px 0', textAlign: 'center' }}>
-//         {t('announcementBar') || '🚚 Free shipping on orders above ₹500'}
+//         {t('announcementBar') || '🚚 Free shipping on orders above Rs.500'}
 //       </div>
 
 //       {/* Main nav */}
@@ -350,7 +350,7 @@ const Navbar = () => {
 
         {/* Announcement bar */}
         <div style={{ background: secondary, color: '#fff', fontSize: 13, padding: '6px 0', textAlign: 'center' }}>
-          {t('announcementBar') || '🚚 Free shipping on orders above ₹500'}
+          {t('announcementBar') || '🚚 Free shipping on orders above Rs.500'}
         </div>
 
         {/* Main nav row */}

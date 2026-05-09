@@ -109,11 +109,11 @@ const ProductList = () => {
 
         <FilterSection title="Price Range">
           <div style={{ display: 'flex', gap: 10 }}>
-            <input type="number" placeholder="Min ₹" value={filters.minPrice}
+            <input type="number" placeholder="Min Rs." value={filters.minPrice}
               onChange={e => updateFilter('minPrice', e.target.value)}
               className="form-control" style={{ padding: '8px 10px', fontSize: 13 }}
             />
-            <input type="number" placeholder="Max ₹" value={filters.maxPrice}
+            <input type="number" placeholder="Max Rs." value={filters.maxPrice}
               onChange={e => updateFilter('maxPrice', e.target.value)}
               className="form-control" style={{ padding: '8px 10px', fontSize: 13 }}
             />

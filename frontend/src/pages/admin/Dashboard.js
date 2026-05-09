@@ -58,7 +58,7 @@ const Dashboard = () => {
 
       {/* Stats */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 20, marginBottom: 28 }}>
-        <StatCard title="Total Revenue" value={`₹${data.stats.totalRevenue?.toLocaleString()}`} icon={<FiDollarSign size={22} />} color="#28a745" change={12} />
+        <StatCard title="Total Revenue" value={`Rs.${data.stats.totalRevenue?.toLocaleString()}`} icon={<FiDollarSign size={22} />} color="#28a745" change={12} />
         <StatCard title="Total Orders" value={data.stats.totalOrders?.toLocaleString()} icon={<FiShoppingBag size={22} />} color="#007bff" change={8} />
         <StatCard title="Total Users" value={data.stats.totalUsers?.toLocaleString()} icon={<FiUsers size={22} />} color="#6f42c1" change={5} />
         <StatCard title="Total Products" value={data.stats.totalProducts?.toLocaleString()} icon={<FiPackage size={22} />} color="var(--primary)" />
@@ -75,7 +75,7 @@ const Dashboard = () => {
                 <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                 <XAxis dataKey="name" fontSize={12} />
                 <YAxis fontSize={12} />
-                <Tooltip formatter={(value) => [`₹${value.toLocaleString()}`, 'Revenue']} />
+                <Tooltip formatter={(value) => [`Rs.${value.toLocaleString()}`, 'Revenue']} />
                 <Bar dataKey="revenue" fill="var(--primary)" radius={[6, 6, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
@@ -141,7 +141,7 @@ const Dashboard = () => {
                     <div style={{ fontWeight: 500 }}>{order.user?.name}</div>
                     <div style={{ fontSize: 12, color: '#888' }}>{order.user?.email}</div>
                   </td>
-                  <td style={{ fontWeight: 700 }}>₹{order.totalPrice?.toFixed(2)}</td>
+                  <td style={{ fontWeight: 700 }}>Rs.{order.totalPrice?.toFixed(2)}</td>
                   <td>
                     <span style={{
                       background: statusColors[order.orderStatus] + '22',

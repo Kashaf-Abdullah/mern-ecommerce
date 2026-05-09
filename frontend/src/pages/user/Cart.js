@@ -78,8 +78,8 @@ const Cart = () => {
                   </div>
                 </div>
                 <div style={{ textAlign: 'right' }}>
-                  <div style={{ fontSize: 18, fontWeight: 800 }}>₹{(item.price * item.quantity).toLocaleString()}</div>
-                  <div style={{ fontSize: 13, color: 'var(--gray)' }}>₹{item.price} each</div>
+                  <div style={{ fontSize: 18, fontWeight: 800 }}>Rs.{(item.price * item.quantity).toLocaleString()}</div>
+                  <div style={{ fontSize: 13, color: 'var(--gray)' }}>Rs.{item.price} each</div>
                 </div>
               </div>
             );
@@ -92,9 +92,9 @@ const Cart = () => {
             <h3 style={{ fontSize: 18, fontWeight: 700, marginBottom: 20 }}>Order Summary</h3>
 
             {[
-              { label: 'Subtotal', value: `₹${subtotal.toLocaleString()}` },
-              { label: 'Shipping', value: shippingPrice === 0 ? 'FREE 🎉' : `₹${shippingPrice}`, color: shippingPrice === 0 ? 'var(--success)' : undefined },
-              { label: 'Tax (18% GST)', value: `₹${taxPrice.toFixed(2)}` },
+              { label: 'Subtotal', value: `Rs.${subtotal.toLocaleString()}` },
+              { label: 'Shipping', value: shippingPrice === 0 ? 'FREE 🎉' : `Rs.${shippingPrice}`, color: shippingPrice === 0 ? 'var(--success)' : undefined },
+              { label: 'Tax (18% GST)', value: `Rs.${taxPrice.toFixed(2)}` },
             ].map(row => (
               <div key={row.label} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12, fontSize: 14 }}>
                 <span style={{ color: '#666' }}>{row.label}</span>
@@ -104,14 +104,14 @@ const Cart = () => {
 
             {subtotal < 500 && (
               <div style={{ background: '#fff8e1', padding: '10px 14px', borderRadius: 8, fontSize: 13, marginBottom: 16, color: '#856404', border: '1px solid #ffd54f' }}>
-                Add ₹{(500 - subtotal).toFixed(0)} more for free shipping!
+                Add Rs.{(500 - subtotal).toFixed(0)} more for free shipping!
               </div>
             )}
 
             <div style={{ borderTop: '2px solid #f0f0f0', paddingTop: 14, marginBottom: 20 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 18, fontWeight: 800 }}>
                 <span>Total</span>
-                <span style={{ color: 'var(--primary)' }}>₹{total.toFixed(2)}</span>
+                <span style={{ color: 'var(--primary)' }}>Rs.{total.toFixed(2)}</span>
               </div>
             </div>
 

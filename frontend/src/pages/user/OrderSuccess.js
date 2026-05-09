@@ -33,7 +33,7 @@ const OrderSuccess = () => {
             </div>
             <div style={{ textAlign: 'right' }}>
               <div style={{ fontSize: 12, color: '#888', fontWeight: 600 }}>TOTAL</div>
-              <div style={{ fontSize: 20, fontWeight: 800, color: 'var(--primary)' }}>₹{order.totalPrice?.toFixed(2)}</div>
+              <div style={{ fontSize: 20, fontWeight: 800, color: 'var(--primary)' }}>Rs.{order.totalPrice?.toFixed(2)}</div>
             </div>
           </div>
           <div style={{ display: 'flex', gap: 10 }}>

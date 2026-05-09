@@ -102,7 +102,7 @@ const Home = () => {
       {/* Feature Bar */}
       <div style={{ display:'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit,minmax(200px,1fr))', gap: isMobile ? 12 : 16, marginBottom: isMobile ? 30 : 50 }}>
         {[
-          { icon:<FiTruck size={24}/>,      title:'Free Shipping',   desc:'On orders above ₹500' },
+          { icon:<FiTruck size={24}/>,      title:'Free Shipping',   desc:'On orders above Rs.500' },
           { icon:<FiRefreshCw size={24}/>,  title:'Easy Returns',    desc:'7-day return policy' },
           { icon:<FiShield size={24}/>,     title:'Secure Payment',  desc:'100% safe transactions' },
           { icon:<FiHeadphones size={24}/>, title:'24/7 Support',    desc:'Always here to help' },

@@ -148,8 +148,8 @@
 //                   </td>
 //                   <td style={{ fontSize: 13, color: '#666' }}>{p.category?.name}</td>
 //                   <td>
-//                     <div style={{ fontWeight: 700 }}>₹{(p.discountPrice > 0 ? p.discountPrice : p.price).toLocaleString()}</div>
-//                     {p.discountPrice > 0 && <div style={{ fontSize: 12, color: '#aaa', textDecoration: 'line-through' }}>₹{p.price}</div>}
+//                     <div style={{ fontWeight: 700 }}>Rs.{(p.discountPrice > 0 ? p.discountPrice : p.price).toLocaleString()}</div>
+//                     {p.discountPrice > 0 && <div style={{ fontSize: 12, color: '#aaa', textDecoration: 'line-through' }}>Rs.{p.price}</div>}
 //                   </td>
 //                   <td>
 //                     <span style={{ fontWeight: 600, color: p.stock === 0 ? 'var(--danger)' : p.stock < 10 ? 'var(--warning)' : 'var(--success)' }}>
@@ -207,8 +207,8 @@
 //                   { key: 'name', label: 'Product Name', span: 2, required: true },
 //                   { key: 'brand', label: 'Brand', required: true },
 //                   { key: 'sku', label: 'SKU (optional)' },
-//                   { key: 'price', label: 'Original Price (₹)', type: 'number', required: true },
-//                   { key: 'discountPrice', label: 'Discount Price (₹)', type: 'number' },
+//                   { key: 'price', label: 'Original Price (Rs.)', type: 'number', required: true },
+//                   { key: 'discountPrice', label: 'Discount Price (Rs.)', type: 'number' },
 //                   { key: 'stock', label: 'Stock Quantity', type: 'number', required: true },
 //                   { key: 'tags', label: 'Tags (comma separated)' },
 //                 ].map(f => (
@@ -834,11 +834,11 @@ const AdminProducts = () => {
 
                   <td>
                     <div style={{ fontWeight: 700, fontSize: 14 }}>
-                      ₹{(p.discountPrice > 0 ? p.discountPrice : p.price)?.toLocaleString()}
+                      Rs.{(p.discountPrice > 0 ? p.discountPrice : p.price)?.toLocaleString()}
                     </div>
                     {p.discountPrice > 0 && (
                       <div style={{ fontSize: 11, color: '#bbb', textDecoration: 'line-through' }}>
-                        ₹{p.price?.toLocaleString()}
+                        Rs.{p.price?.toLocaleString()}
                       </div>
                     )}
                   </td>
@@ -957,8 +957,8 @@ const AdminProducts = () => {
                 {[
                   { key: 'brand',        label: 'Brand *',           type: 'text',   placeholder: 'e.g. Apple' },
                   { key: 'sku',          label: 'SKU',               type: 'text',   placeholder: 'e.g. APL-IP15-256 (optional)' },
-                  { key: 'price',        label: 'Original Price ₹ *',type: 'number', placeholder: '0' },
-                  { key: 'discountPrice',label: 'Sale Price ₹',      type: 'number', placeholder: 'Leave blank if no discount' },
+                  { key: 'price',        label: 'Original Price Rs. *',type: 'number', placeholder: '0' },
+                  { key: 'discountPrice',label: 'Sale Price Rs.',      type: 'number', placeholder: 'Leave blank if no discount' },
                   { key: 'stock',        label: 'Stock Qty *',       type: 'number', placeholder: '0' },
                   { key: 'tags',         label: 'Tags',              type: 'text',   placeholder: 'phone, apple, 5g (comma separated)' },
                 ].map(f => (

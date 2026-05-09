@@ -105,7 +105,7 @@ const AdminOrders = () => {
                     <div style={{ fontSize: 12, color: '#888' }}>{order.user?.email}</div>
                   </td>
                   <td style={{ fontSize: 13 }}>{order.items?.length} item(s)</td>
-                  <td style={{ fontWeight: 700 }}>₹{order.totalPrice?.toFixed(2)}</td>
+                  <td style={{ fontWeight: 700 }}>Rs.{order.totalPrice?.toFixed(2)}</td>
                   <td>
                     <span style={{ fontSize: 12, background: '#f5f5f5', padding: '3px 8px', borderRadius: 4, textTransform: 'uppercase', fontWeight: 600 }}>
                       {order.paymentMethod}
@@ -162,7 +162,7 @@ const AdminOrders = () => {
                 {[
                   { label: 'Order ID', value: selectedOrder.orderId },
                   { label: 'Customer', value: selectedOrder.user?.name },
-                  { label: 'Total', value: `₹${selectedOrder.totalPrice?.toFixed(2)}` },
+                  { label: 'Total', value: `Rs.${selectedOrder.totalPrice?.toFixed(2)}` },
                   { label: 'Payment', value: selectedOrder.paymentMethod?.toUpperCase() },
                   { label: 'Current Status', value: selectedOrder.orderStatus },
                   { label: 'Date', value: new Date(selectedOrder.createdAt).toLocaleDateString() },
@@ -184,7 +184,7 @@ const AdminOrders = () => {
                       <div style={{ fontWeight: 500 }}>{item.name}</div>
                       <div style={{ color: '#888' }}>Qty: {item.quantity}</div>
                     </div>
-                    <div style={{ fontWeight: 700, fontSize: 14 }}>₹{(item.price * item.quantity).toLocaleString()}</div>
+                    <div style={{ fontWeight: 700, fontSize: 14 }}>Rs.{(item.price * item.quantity).toLocaleString()}</div>
                   </div>
                 ))}
               </div>

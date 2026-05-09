@@ -144,10 +144,10 @@ const AdminSettings = () => {
       promoBannerTitle: 'Special Offer 🎉', promoBannerText: 'Get up to 50% off on selected items.',
       promoBtn: 'Grab the Deal', addToCartBtn: 'Add to Cart', buyNowBtn: 'Buy Now',
       outOfStockText: 'Out of Stock', copyright: '© 2024 ShopNow. All rights reserved.',
-      freeDeliveryText: 'Free delivery on orders above ₹500', returnsText: '7-day easy returns',
+      freeDeliveryText: 'Free delivery on orders above Rs.500', returnsText: '7-day easy returns',
       guaranteeText: '100% Genuine product guaranteed',
       footerTagline: 'Your one-stop shop for everything you need.',
-      announcementBar: '🚚 Free shipping on orders above ₹500',
+      announcementBar: '🚚 Free shipping on orders above Rs.500',
     };
     setLocalTexts(defaults);
     saveTexts(defaults);
@@ -281,7 +281,7 @@ const AdminSettings = () => {
                   <div key={n} style={{ background: localTheme.card, borderRadius: localTheme.radius, padding: 14, flex: 1, border: '1px solid #e0e0e0' }}>
                     <div style={{ height: 80, background: '#f0f0f0', borderRadius: 8, marginBottom: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 28 }}>🛍️</div>
                     <div style={{ fontWeight: 600, fontSize: 13, color: localTheme.text, marginBottom: 4 }}>Product {n}</div>
-                    <div style={{ fontWeight: 700, fontSize: 16, color: localTheme.primary }}>₹{999 * n}</div>
+                    <div style={{ fontWeight: 700, fontSize: 16, color: localTheme.primary }}>Rs.{999 * n}</div>
                   </div>
                 ))}
               </div>

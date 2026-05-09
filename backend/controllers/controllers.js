@@ -174,7 +174,7 @@ exports.validateCoupon = asyncHandler(async (req, res) => {
 
   if (orderAmount < coupon.minOrderAmount) {
     res.status(400);
-    throw new Error(`Minimum order amount of ₹${coupon.minOrderAmount} required`);
+    throw new Error(`Minimum order amount of Rs.${coupon.minOrderAmount} required`);
   }
 
   if (coupon.usedBy.includes(req.user.id)) {

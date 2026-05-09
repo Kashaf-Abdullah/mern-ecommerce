@@ -110,9 +110,9 @@ export const OrderDetail = () => {
                 <img src={item.image} alt={item.name} style={{ width: isMobile ? 48 : 64, height: isMobile ? 48 : 64, objectFit: 'cover', borderRadius: 8, flexShrink: 0 }} />
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ fontWeight: 600, fontSize: isMobile ? 13 : 15, overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.name}</div>
-                  <div style={{ fontSize: isMobile ? 11 : 13, color: '#888', marginTop: 4 }}>Qty: {item.quantity} × ₹{item.price}</div>
+                  <div style={{ fontSize: isMobile ? 11 : 13, color: '#888', marginTop: 4 }}>Qty: {item.quantity} × Rs.{item.price}</div>
                 </div>
-                <div style={{ fontWeight: 700, fontSize: isMobile ? 13 : 15, textAlign: 'right', flexShrink: 0 }}>₹{(item.price * item.quantity).toLocaleString()}</div>
+                <div style={{ fontWeight: 700, fontSize: isMobile ? 13 : 15, textAlign: 'right', flexShrink: 0 }}>Rs.{(item.price * item.quantity).toLocaleString()}</div>
               </div>
             ))}
           </div>
@@ -139,10 +139,10 @@ export const OrderDetail = () => {
               <FiCreditCard color="var(--primary)" size={isMobile ? 18 : 20} /> Payment Info
             </h3>
             {[
-              { label: 'Items Total', value: `₹${order.itemsPrice?.toFixed(2)}` },
-              { label: 'Shipping', value: order.shippingPrice === 0 ? 'FREE' : `₹${order.shippingPrice}`, color: 'var(--success)' },
-              { label: 'Tax (GST)', value: `₹${order.taxPrice?.toFixed(2)}` },
-              ...(order.discountAmount > 0 ? [{ label: 'Discount', value: `-₹${order.discountAmount?.toFixed(2)}`, color: 'var(--success)' }] : []),
+              { label: 'Items Total', value: `Rs.${order.itemsPrice?.toFixed(2)}` },
+              { label: 'Shipping', value: order.shippingPrice === 0 ? 'FREE' : `Rs.${order.shippingPrice}`, color: 'var(--success)' },
+              { label: 'Tax (GST)', value: `Rs.${order.taxPrice?.toFixed(2)}` },
+              ...(order.discountAmount > 0 ? [{ label: 'Discount', value: `-Rs.${order.discountAmount?.toFixed(2)}`, color: 'var(--success)' }] : []),
             ].map(row => (
               <div key={row.label} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12, fontSize: isMobile ? 12 : 14 }}>
                 <span style={{ color: '#666' }}>{row.label}</span>
@@ -152,7 +152,7 @@ export const OrderDetail = () => {
             <div style={{ borderTop: '2px solid #f0f0f0', paddingTop: 14 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 800, fontSize: isMobile ? 15 : 17 }}>
                 <span>Total</span>
-                <span style={{ color: 'var(--primary)' }}>₹{order.totalPrice?.toFixed(2)}</span>
+                <span style={{ color: 'var(--primary)' }}>Rs.{order.totalPrice?.toFixed(2)}</span>
               </div>
             </div>
             <div style={{ marginTop: 14, padding: isMobile ? '8px 12px' : '10px 14px', background: '#f5f5f5', borderRadius: 8, fontSize: isMobile ? 11 : 13 }}>

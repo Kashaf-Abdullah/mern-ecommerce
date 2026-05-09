@@ -51,7 +51,7 @@ const Checkout = () => {
     try {
       const { data } = await couponAPI.validate(couponCode, subtotal);
       setCouponData(data.coupon);
-      toast.success(`Coupon applied! Save ₹${data.coupon.discount.toFixed(2)}`);
+      toast.success(`Coupon applied! Save Rs.${data.coupon.discount.toFixed(2)}`);
     } catch (err) {
       toast.error(err.response?.data?.message || 'Invalid coupon');
       setCouponData(null);
@@ -105,10 +105,10 @@ const Checkout = () => {
     <div className="card" style={{ padding: 24, position: 'sticky', top: 80 }}>
       <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 16 }}>Price Details</h3>
       {[
-        { label: `Items (${cart.items?.length})`, value: `₹${subtotal.toLocaleString()}` },
-        { label: 'Delivery', value: shippingPrice === 0 ? 'FREE 🎉' : `₹${shippingPrice}`, color: shippingPrice === 0 ? 'var(--success)' : undefined },
-        { label: 'Tax (18% GST)', value: `₹${taxPrice.toFixed(2)}` },
-        ...(discount > 0 ? [{ label: 'Coupon Discount', value: `-₹${discount.toFixed(2)}`, color: 'var(--success)' }] : []),
+        { label: `Items (${cart.items?.length})`, value: `Rs.${subtotal.toLocaleString()}` },
+        { label: 'Delivery', value: shippingPrice === 0 ? 'FREE 🎉' : `Rs.${shippingPrice}`, color: shippingPrice === 0 ? 'var(--success)' : undefined },
+        { label: 'Tax (18% GST)', value: `Rs.${taxPrice.toFixed(2)}` },
+        ...(discount > 0 ? [{ label: 'Coupon Discount', value: `-Rs.${discount.toFixed(2)}`, color: 'var(--success)' }] : []),
       ].map(row => (
         <div key={row.label} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12, fontSize: 14 }}>
           <span style={{ color: '#666' }}>{row.label}</span>
@@ -127,7 +127,7 @@ const Checkout = () => {
       <div style={{ borderTop: '2px solid #f0f0f0', paddingTop: 14 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 17, fontWeight: 800 }}>
           <span>Total</span>
-          <span style={{ color: 'var(--primary)' }}>₹{total.toFixed(2)}</span>
+          <span style={{ color: 'var(--primary)' }}>Rs.{total.toFixed(2)}</span>
         </div>
       </div>
     </div>
@@ -306,16 +306,16 @@ const Checkout = () => {
                     <img src={item.product.images?.[0]?.url} alt={item.product.name} style={{ width: 56, height: 56, objectFit: 'cover', borderRadius: 8 }} />
                     <div style={{ flex: 1 }}>
                       <div style={{ fontWeight: 600, fontSize: 14 }}>{item.product.name}</div>
-                      <div style={{ fontSize: 12, color: '#888' }}>Qty: {item.quantity} × ₹{item.price}</div>
+                      <div style={{ fontSize: 12, color: '#888' }}>Qty: {item.quantity} × Rs.{item.price}</div>
                     </div>
-                    <div style={{ fontWeight: 700 }}>₹{(item.price * item.quantity).toLocaleString()}</div>
+                    <div style={{ fontWeight: 700 }}>Rs.{(item.price * item.quantity).toLocaleString()}</div>
                   </div>
                 ))}
               </div>
               <div style={{ display: 'flex', gap: 12, marginTop: 24 }}>
                 <button onClick={() => setStep(1)} className="btn btn-outline btn-lg" style={{ borderRadius: 10 }}>Back</button>
                 <button onClick={handlePlaceOrder} disabled={loading} className="btn btn-primary btn-lg" style={{ flex: 1, borderRadius: 10, justifyContent: 'center' }}>
-                  {loading ? 'Placing Order...' : `Place Order • ₹${total.toFixed(2)}`}
+                  {loading ? 'Placing Order...' : `Place Order • Rs.${total.toFixed(2)}`}
                 </button>
               </div>
             </div>

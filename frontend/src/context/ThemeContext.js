@@ -21,9 +21,9 @@ const defaultTheme = {
 };
 
 const defaultTexts = {
-  announcementBar: '🚚 Free shipping on orders above ₹500 | Use code WELCOME10 for 10% off',
+  announcementBar: '🚚 Free shipping on orders above Rs.500 | Use code WELCOME10 for 10% off',
   heroTitle: 'Discover Amazing Products Today',
-  heroSubtitle: 'Shop the latest trends with unbeatable prices. Free shipping on orders above ₹500.',
+  heroSubtitle: 'Shop the latest trends with unbeatable prices. Free shipping on orders above Rs.500.',
   heroBtn1: 'Shop Now',
   heroBtn2: 'View Deals',
   featuredTitle: 'Featured Products',
@@ -36,7 +36,7 @@ const defaultTexts = {
   addToCartBtn: 'Add to Cart',
   buyNowBtn: 'Buy Now',
   outOfStockText: 'Out of Stock',
-  freeDeliveryText: 'Free delivery on orders above ₹500',
+  freeDeliveryText: 'Free delivery on orders above Rs.500',
   returnsText: '7-day easy returns',
   guaranteeText: '100% Genuine product guaranteed',
   footerTagline: 'Your one-stop shop for everything you need. Quality products at the best prices.',

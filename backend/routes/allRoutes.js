@@ -38,6 +38,8 @@ userRouter.put('/profile', ctrl.updateProfile);
 userRouter.post('/addresses', ctrl.addAddress);
 userRouter.put('/addresses/:addressId', ctrl.updateAddress);
 userRouter.delete('/addresses/:addressId', ctrl.deleteAddress);
+userRouter.get('/notifications', ctrl.getMyNotifications);
+userRouter.get('/notifications/:id', ctrl.getMyNotification);
 
 // CATEGORIES
 const categoryRouter = express.Router();
@@ -52,6 +54,8 @@ adminRouter.use(protect, authorize('admin'));
 adminRouter.get('/dashboard', ctrl.getDashboard);
 adminRouter.get('/users', ctrl.getAllUsers);
 adminRouter.put('/users/:id/toggle-block', ctrl.toggleUserBlock);
+adminRouter.get('/notifications', ctrl.getNotifications);
+adminRouter.post('/notifications', ctrl.createNotification);
 
 // UPLOAD
 const { upload, uploadAvatar } = require('../config/cloudinary');

@@ -28,6 +28,9 @@ const AdminUsers      = lazy(() => import('./pages/admin/Users'));
 const AdminCategories = lazy(() => import('./pages/admin/Categories'));
 const AdminCoupons    = lazy(() => import('./pages/admin/Coupons'));
 const AdminSettings   = lazy(() => import('./pages/admin/Settings'));
+const AdminNotifications = lazy(() => import('./pages/admin/Notifications'));
+const Notifications = lazy(() => import('./pages/user/Notifications'));
+const NotificationDetail = lazy(() => import('./pages/user/NotificationDetail'));
 
 const Navbar      = lazy(() => import('./components/common/Navbar'));
 const Footer      = lazy(() => import('./components/common/Footer'));
@@ -83,6 +86,8 @@ function AppRoutes() {
           <Route path="/orders"        element={<ProtectedRoute><UserLayout><Orders /></UserLayout></ProtectedRoute>} />
           <Route path="/orders/:id"    element={<ProtectedRoute><UserLayout><OrderDetail /></UserLayout></ProtectedRoute>} />
           <Route path="/profile"       element={<ProtectedRoute><UserLayout><Profile /></UserLayout></ProtectedRoute>} />
+          <Route path="/notifications" element={<ProtectedRoute><UserLayout><Notifications /></UserLayout></ProtectedRoute>} />
+          <Route path="/notifications/:id" element={<ProtectedRoute><UserLayout><NotificationDetail /></UserLayout></ProtectedRoute>} />
 
           <Route path="/admin" element={<ProtectedRoute adminOnly><AdminLayout /></ProtectedRoute>}>
             <Route index             element={<AdminDashboard />} />
@@ -91,6 +96,7 @@ function AppRoutes() {
             <Route path="users"      element={<AdminUsers />} />
             <Route path="categories" element={<AdminCategories />} />
             <Route path="coupons"    element={<AdminCoupons />} />
+            <Route path="notifications" element={<AdminNotifications />} />
             <Route path="settings"   element={<AdminSettings />} />
           </Route>
 

@@ -185,13 +185,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   FiShoppingCart, FiHeart, FiUser, FiSearch, FiMenu, FiX,
-  FiChevronDown, FiLogOut, FiPackage, FiSettings
+  FiChevronDown, FiLogOut, FiPackage, FiSettings, FiBell
 } from 'react-icons/fi';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/CartContext';
 import { useTheme } from '../../context/ThemeContext';
-import { productAPI, categoryAPI } from '../../utils/api';
+import { productAPI, categoryAPI, userAPI } from '../../utils/api';
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -209,6 +209,7 @@ const Navbar = () => {
   const [categories, setCategories] = useState([]);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [scrolled, setScrolled] = useState(false);
+  const [notificationCount, setNotificationCount] = useState(0);
 
   const searchRef = useRef(null);
   const userMenuRef = useRef(null);
@@ -267,6 +268,23 @@ const Navbar = () => {
     }, 300);
     return () => clearTimeout(timer);
   }, [search]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      const fetchNotificationCount = async () => {
+        try {
+          const { data } = await userAPI.getNotifications();
+          const unreadCount = data.notifications.filter(n => !n.isRead).length;
+          setNotificationCount(unreadCount);
+        } catch (error) {
+          console.error('Failed to fetch notification count:', error);
+        }
+      };
+      fetchNotificationCount();
+    } else {
+      setNotificationCount(0);
+    }
+  }, [isAuthenticated]);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -421,6 +439,13 @@ const Navbar = () => {
                     <Badge count={cartCount} />
                   </Link>
 
+                  {isAuthenticated && (
+                    <Link to="/notifications" style={{ color: textColor, display: 'flex', position: 'relative', textDecoration: 'none' }}>
+                      <FiBell size={22} />
+                      <Badge count={notificationCount} />
+                    </Link>
+                  )}
+
                   <button onClick={() => setMobileMenuOpen(true)}
                     style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4, color: textColor, display: 'flex' }}>
                     <FiMenu size={24} />
@@ -438,6 +463,13 @@ const Navbar = () => {
                     <FiShoppingCart size={22} />
                     <Badge count={cartCount} />
                   </Link>
+
+                  {isAuthenticated && (
+                    <Link to="/notifications" style={{ color: textColor, display: 'flex', position: 'relative', textDecoration: 'none' }}>
+                      <FiBell size={22} />
+                      <Badge count={notificationCount} />
+                    </Link>
+                  )}
 
                   {isAuthenticated ? (
                     <div ref={userMenuRef} style={{ position: 'relative' }}>
@@ -461,6 +493,7 @@ const Navbar = () => {
                         }}>
                           {[
                             { to: '/profile', icon: <FiUser size={14} />,    label: 'My Profile' },
+                            { to: '/notifications', icon: <FiBell size={14} />, label: 'Notifications' },
                             { to: '/orders',  icon: <FiPackage size={14} />, label: 'My Orders' },
                             ...(isAdmin ? [{ to: '/admin', icon: <FiSettings size={14} />, label: 'Admin Panel' }] : [])
                           ].map(item => (
@@ -567,6 +600,7 @@ const Navbar = () => {
                 </div>
                 {[
                   { to: '/profile', icon: <FiUser size={16} />,    label: 'My Profile' },
+                  { to: '/notifications', icon: <FiBell size={16} />, label: 'Notifications' },
                   { to: '/orders',  icon: <FiPackage size={16} />, label: 'My Orders' },
                   ...(isAdmin ? [{ to: '/admin', icon: <FiSettings size={16} />, label: 'Admin Panel' }] : [])
                 ].map(item => (

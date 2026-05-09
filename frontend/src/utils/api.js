@@ -124,13 +124,18 @@ export const userAPI = {
   updateAddress: (id, data) => API.put(`/users/addresses/${id}`, data),
   deleteAddress: (id) => API.delete(`/users/addresses/${id}`),
   uploadAvatar: (formData) => API.post('/upload/avatar', formData, { headers: { 'Content-Type': 'multipart/form-data' } }),
+  getNotifications: () => API.get('/users/notifications'),
+  getNotification: (id) => API.get(`/users/notifications/${id}`),
 };
 
 // ==================== ADMIN ====================
 export const adminAPI = {
   getDashboard: () => API.get('/admin/dashboard'),
   getUsers: (params) => API.get('/admin/users', { params }),
+  getAllUsers: () => API.get('/admin/users'),
   toggleBlock: (id) => API.put(`/admin/users/${id}/toggle-block`),
+  getNotifications: () => API.get('/admin/notifications'),
+  createNotification: (data) => API.post('/admin/notifications', data),
 };
 
 // ==================== STORE SETTINGS ====================

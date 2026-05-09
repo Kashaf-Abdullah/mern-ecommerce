@@ -3,6 +3,7 @@ const { Cart, Wishlist, Review, Coupon, Category } = require('../models/index');
 const Product = require('../models/Product');
 const User = require('../models/User');
 const Order = require('../models/Order');
+const Notification = require('../models/Notification');
 
 // ==================== CART ====================
 
@@ -298,6 +299,79 @@ exports.toggleUserBlock = asyncHandler(async (req, res) => {
   user.isActive = !user.isActive;
   await user.save();
   res.json({ success: true, message: `User ${user.isActive ? 'unblocked' : 'blocked'} successfully`, user });
+});
+
+// ==================== NOTIFICATIONS ===
+
+exports.createNotification = asyncHandler(async (req, res) => {
+  const { title, message, link, targetType, users } = req.body;
+  if (!title || !message) {
+    res.status(400);
+    throw new Error('Notification title and message are required');
+  }
+
+  if (targetType === 'specific' && (!users || users.length === 0)) {
+    res.status(400);
+    throw new Error('Please select at least one user for specific notifications');
+  }
+
+  const notification = await Notification.create({
+    title,
+    message,
+    link: link || '',
+    createdBy: req.user.id,
+    targetAll: targetType === 'all',
+    users: targetType === 'specific' ? users : [],
+  });
+
+  res.status(201).json({ success: true, notification });
+});
+
+exports.getNotifications = asyncHandler(async (req, res) => {
+  const notifications = await Notification.find().populate('createdBy', 'name email').populate('users', 'name email').sort('-createdAt');
+  res.json({ success: true, notifications });
+});
+
+exports.getMyNotifications = asyncHandler(async (req, res) => {
+  const notifications = await Notification.find({
+    $or: [
+      { targetAll: true },
+      { users: req.user.id }
+    ]
+  }).sort('-createdAt');
+
+  const formatted = notifications.map(notification => ({
+    _id: notification._id,
+    title: notification.title,
+    message: notification.message,
+    link: notification.link,
+    isRead: notification.readBy.some(id => id.toString() === req.user.id),
+    createdAt: notification.createdAt,
+  }));
+
+  res.json({ success: true, notifications: formatted });
+});
+
+exports.getMyNotification = asyncHandler(async (req, res) => {
+  const notification = await Notification.findOne({
+    _id: req.params.id,
+    $or: [
+      { targetAll: true },
+      { users: req.user.id }
+    ]
+  }).populate('createdBy', 'name email');
+
+  if (!notification) {
+    res.status(404);
+    throw new Error('Notification not found');
+  }
+
+  if (!notification.readBy.some(id => id.toString() === req.user.id)) {
+    notification.readBy.push(req.user.id);
+    await notification.save();
+  }
+
+  res.json({ success: true, notification });
 });
 
 // ==================== CATEGORIES ====================

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Outlet, NavLink, useNavigate } from 'react-router-dom';
-import { FiGrid, FiPackage, FiShoppingBag, FiUsers, FiTag, FiPercent, FiSettings, FiMenu, FiX, FiLogOut, FiEye } from 'react-icons/fi';
+import { FiGrid, FiPackage, FiShoppingBag, FiUsers, FiTag, FiPercent, FiSettings, FiBell, FiMenu, FiX, FiLogOut, FiEye } from 'react-icons/fi';
 import { useAuth } from '../../context/AuthContext';
 
 const navItems = [
@@ -10,6 +10,7 @@ const navItems = [
   { to: '/admin/users',      icon: <FiUsers size={18} />,       label: 'Users' },
   { to: '/admin/categories', icon: <FiTag size={18} />,         label: 'Categories' },
   { to: '/admin/coupons',    icon: <FiPercent size={18} />,     label: 'Coupons' },
+  { to: '/admin/notifications', icon: <FiBell size={18} />,    label: 'Notifications' },
   { to: '/admin/settings',   icon: <FiSettings size={18} />,    label: 'Settings' },
 ];
 

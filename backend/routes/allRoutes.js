@@ -56,6 +56,7 @@ adminRouter.get('/users', ctrl.getAllUsers);
 adminRouter.put('/users/:id/toggle-block', ctrl.toggleUserBlock);
 adminRouter.get('/notifications', ctrl.getNotifications);
 adminRouter.post('/notifications', ctrl.createNotification);
+adminRouter.get('/wishlist-activity', ctrl.getWishlistActivity);
 
 // UPLOAD
 const { upload, uploadAvatar } = require('../config/cloudinary');

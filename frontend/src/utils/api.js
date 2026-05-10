@@ -136,6 +136,7 @@ export const adminAPI = {
   toggleBlock: (id) => API.put(`/admin/users/${id}/toggle-block`),
   getNotifications: () => API.get('/admin/notifications'),
   createNotification: (data) => API.post('/admin/notifications', data),
+  getWishlistActivity: (page = 1) => API.get('/admin/wishlist-activity', { params: { page } }),
 };
 
 // ==================== STORE SETTINGS ====================

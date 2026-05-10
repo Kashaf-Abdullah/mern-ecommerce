@@ -112,4 +112,15 @@ couponSchema.methods.isValid = function () {
 
 const Coupon = mongoose.model('Coupon', couponSchema);
 
-module.exports = { Category, Review, Cart, Wishlist, Coupon };
+// ==================== WISHLIST ACTIVITY ====================
+const wishlistActivitySchema = new mongoose.Schema({
+  user: { type: mongoose.Schema.ObjectId, ref: 'User', required: true },
+  product: { type: mongoose.Schema.ObjectId, ref: 'Product', required: true },
+  action: { type: String, enum: ['added', 'removed'], required: true },
+}, { timestamps: true });
+
+wishlistActivitySchema.index({ user: 1, product: 1, createdAt: -1 });
+
+const WishlistActivity = mongoose.model('WishlistActivity', wishlistActivitySchema);
+
+module.exports = { Category, Review, Cart, Wishlist, Coupon, WishlistActivity };

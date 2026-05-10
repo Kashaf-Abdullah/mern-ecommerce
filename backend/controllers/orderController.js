@@ -1,6 +1,8 @@
 const asyncHandler = require('express-async-handler');
 const Order = require('../models/Order');
 const Product = require('../models/Product');
+const User = require('../models/User');
+const Notification = require('../models/Notification');
 const { Cart, Coupon } = require('../models/index');
 const sendEmail = require('../utils/sendEmail');
 
@@ -87,6 +89,25 @@ exports.createOrder = asyncHandler(async (req, res) => {
 
   // Clear cart
   await Cart.findOneAndUpdate({ user: req.user.id }, { items: [], couponApplied: null, discountAmount: 0 });
+
+  // Notify admins about new order
+  try {
+    const admins = await User.find({ role: { $in: ['admin', 'subadmin'] } });
+    const adminIds = admins.map(a => a._id);
+    
+    if (adminIds.length > 0) {
+      await Notification.create({
+        title: 'New Order Received',
+        message: `New order #${order.orderId} received from ${req.user.name}. Total: ₹${order.totalPrice}`,
+        link: `/admin/orders/${order._id}`,
+        createdBy: req.user.id,
+        targetAll: false,
+        users: adminIds,
+      });
+    }
+  } catch (err) {
+    console.log('Order notification error:', err.message);
+  }
 
   // Send confirmation email
   try {
@@ -224,9 +245,24 @@ exports.updateOrderStatus = asyncHandler(async (req, res) => {
 
   await order.save();
 
+  // Notify user via notification
+  try {
+    const user = await User.findById(order.user);
+    await Notification.create({
+      title: 'Order Status Updated',
+      message: `Your order #${order.orderId} status changed to "${status.charAt(0).toUpperCase() + status.slice(1)}". ${description || ''}`,
+      link: `/orders/${order._id}`,
+      createdBy: req.user.id,
+      targetAll: false,
+      users: [order.user],
+    });
+  } catch (err) {
+    console.log('Notification error:', err.message);
+  }
+
   // Notify user via email
   try {
-    const user = await require('../models/User').findById(order.user);
+    const user = await User.findById(order.user);
     await sendEmail({
       email: user.email,
       subject: `Order ${status.charAt(0).toUpperCase() + status.slice(1)} - #${order.orderId}`,

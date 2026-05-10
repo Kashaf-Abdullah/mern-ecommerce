@@ -1,5 +1,5 @@
 const asyncHandler = require('express-async-handler');
-const { Cart, Wishlist, Review, Coupon, Category } = require('../models/index');
+const { Cart, Wishlist, Review, Coupon, Category, WishlistActivity } = require('../models/index');
 const Product = require('../models/Product');
 const User = require('../models/User');
 const Order = require('../models/Order');
@@ -24,6 +24,7 @@ exports.addToCart = asyncHandler(async (req, res) => {
 
   const existingItem = cart.items.find(item => item.product.toString() === productId);
   const price = product.discountPrice > 0 ? product.discountPrice : product.price;
+  let isNewItem = false;
 
   if (existingItem) {
     const newQty = existingItem.quantity + quantity;
@@ -32,10 +33,29 @@ exports.addToCart = asyncHandler(async (req, res) => {
     existingItem.price = price;
   } else {
     cart.items.push({ product: productId, quantity, price });
+    isNewItem = true;
   }
 
   await cart.save();
   await cart.populate('items.product', 'name images price discountPrice stock');
+
+  // Notify admins about cart addition
+  if (isNewItem) {
+    const user = await User.findById(req.user.id);
+    const admins = await User.find({ role: { $in: ['admin', 'subadmin'] } });
+    const adminIds = admins.map(a => a._id);
+    
+    if (adminIds.length > 0) {
+      await Notification.create({
+        title: 'New Item Added to Cart',
+        message: `${user.name} added "${product.name}" to their cart`,
+        createdBy: req.user.id,
+        targetAll: false,
+        users: adminIds,
+      });
+    }
+  }
+
   res.json({ success: true, cart });
 });
 
@@ -97,6 +117,36 @@ exports.toggleWishlist = asyncHandler(async (req, res) => {
     action = 'added';
   }
   await wishlist.save();
+
+  // Log wishlist activity
+  await WishlistActivity.create({
+    user: req.user.id,
+    product: productId,
+    action
+  });
+
+  // Notify admins when product is added to wishlist
+  if (action === 'added') {
+    try {
+      const product = await Product.findById(productId);
+      const user = await User.findById(req.user.id);
+      const admins = await User.find({ role: { $in: ['admin', 'subadmin'] } });
+      const adminIds = admins.map(a => a._id);
+      
+      if (adminIds.length > 0) {
+        await Notification.create({
+          title: 'Product Added to Wishlist',
+          message: `${user.name} added "${product.name}" to their wishlist`,
+          createdBy: req.user.id,
+          targetAll: false,
+          users: adminIds,
+        });
+      }
+    } catch (err) {
+      console.log('Wishlist notification error:', err.message);
+    }
+  }
+
   res.json({ success: true, action, message: `Product ${action} ${action === 'added' ? 'to' : 'from'} wishlist` });
 });
 
@@ -333,9 +383,11 @@ exports.getNotifications = asyncHandler(async (req, res) => {
 });
 
 exports.getMyNotifications = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user.id);
+  
   const notifications = await Notification.find({
     $or: [
-      { targetAll: true },
+      { targetAll: true, createdAt: { $gte: user.createdAt } },
       { users: req.user.id }
     ]
   }).sort('-createdAt');
@@ -353,10 +405,12 @@ exports.getMyNotifications = asyncHandler(async (req, res) => {
 });
 
 exports.getMyNotification = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user.id);
+  
   const notification = await Notification.findOne({
     _id: req.params.id,
     $or: [
-      { targetAll: true },
+      { targetAll: true, createdAt: { $gte: user.createdAt } },
       { users: req.user.id }
     ]
   }).populate('createdBy', 'name email');
@@ -424,4 +478,24 @@ exports.deleteCoupon = asyncHandler(async (req, res) => {
   if (!coupon) { res.status(404); throw new Error('Coupon not found'); }
   await coupon.deleteOne();
   res.json({ success: true, message: 'Coupon deleted' });
+});
+
+// ==================== WISHLIST ACTIVITY (ADMIN) ====================
+
+exports.getWishlistActivity = asyncHandler(async (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 20;
+  const skip = (page - 1) * limit;
+
+  const [activities, total] = await Promise.all([
+    WishlistActivity.find()
+      .populate('user', 'name email')
+      .populate('product', 'name images price')
+      .sort('-createdAt')
+      .skip(skip)
+      .limit(limit),
+    WishlistActivity.countDocuments()
+  ]);
+
+  res.status(200).json({ success: true, activities, total, page, pages: Math.ceil(total / limit) });
 });

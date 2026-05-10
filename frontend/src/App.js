@@ -29,6 +29,7 @@ const AdminCategories = lazy(() => import('./pages/admin/Categories'));
 const AdminCoupons    = lazy(() => import('./pages/admin/Coupons'));
 const AdminSettings   = lazy(() => import('./pages/admin/Settings'));
 const AdminNotifications = lazy(() => import('./pages/admin/Notifications'));
+const AdminWishlistActivity = lazy(() => import('./pages/admin/WishlistActivity'));
 const Notifications = lazy(() => import('./pages/user/Notifications'));
 const NotificationDetail = lazy(() => import('./pages/user/NotificationDetail'));
 
@@ -97,6 +98,7 @@ function AppRoutes() {
             <Route path="categories" element={<AdminCategories />} />
             <Route path="coupons"    element={<AdminCoupons />} />
             <Route path="notifications" element={<AdminNotifications />} />
+            <Route path="wishlist-activity" element={<AdminWishlistActivity />} />
             <Route path="settings"   element={<AdminSettings />} />
           </Route>
 

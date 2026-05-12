@@ -22,7 +22,14 @@ const Checkout = () => {
   const [paymentMethod, setPaymentMethod] = useState('');
   const [receiptFile, setReceiptFile] = useState(null);
   const [receiptPreview, setReceiptPreview] = useState(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const fileRef = useRef(null);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const [address, setAddress] = useState({
     fullName: user?.name || '', phone: '',
@@ -102,15 +109,20 @@ const Checkout = () => {
   ].filter(Boolean);
 
   const SummaryBar = () => (
-    <div className="card" style={{ padding: 24, position: 'sticky', top: 80 }}>
-      <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 16 }}>Price Details</h3>
+    <div className="card" style={{ 
+      padding: isMobile ? 18 : 24, 
+      position: isMobile ? 'static' : 'sticky', 
+      top: 80,
+      marginTop: isMobile ? 20 : 0
+    }}>
+      <h3 style={{ fontSize: isMobile ? 14 : 16, fontWeight: 700, marginBottom: 16 }}>Price Details</h3>
       {[
         { label: `Items (${cart.items?.length})`, value: `Rs.${subtotal.toLocaleString()}` },
         { label: 'Delivery', value: shippingPrice === 0 ? 'FREE 🎉' : `Rs.${shippingPrice}`, color: shippingPrice === 0 ? 'var(--success)' : undefined },
         { label: 'Tax (18% GST)', value: `Rs.${taxPrice.toFixed(2)}` },
         ...(discount > 0 ? [{ label: 'Coupon Discount', value: `-Rs.${discount.toFixed(2)}`, color: 'var(--success)' }] : []),
       ].map(row => (
-        <div key={row.label} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12, fontSize: 14 }}>
+        <div key={row.label} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12, fontSize: isMobile ? 13 : 14 }}>
           <span style={{ color: '#666' }}>{row.label}</span>
           <span style={{ fontWeight: 600, color: row.color }}>{row.value}</span>
         </div>
@@ -119,13 +131,13 @@ const Checkout = () => {
         <div style={{ display: 'flex', gap: 8 }}>
           <input type="text" placeholder="Coupon code" value={couponCode}
             onChange={e => setCouponCode(e.target.value.toUpperCase())}
-            className="form-control" style={{ fontSize: 13 }} />
+            className="form-control" style={{ fontSize: isMobile ? 12 : 13 }} />
           <button onClick={applyCoupon} disabled={couponLoading} className="btn btn-outline btn-sm" style={{ whiteSpace: 'nowrap' }}>Apply</button>
         </div>
         {couponData && <div style={{ color: 'var(--success)', fontSize: 12, marginTop: 6, fontWeight: 600 }}>✓ "{couponData.code}" applied!</div>}
       </div>
       <div style={{ borderTop: '2px solid #f0f0f0', paddingTop: 14 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 17, fontWeight: 800 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: isMobile ? 15 : 17, fontWeight: 800 }}>
           <span>Total</span>
           <span style={{ color: 'var(--primary)' }}>Rs.{total.toFixed(2)}</span>
         </div>
@@ -134,62 +146,62 @@ const Checkout = () => {
   );
 
   return (
-    <div className="container" style={{ paddingTop: 30, paddingBottom: 60 }}>
-      <h1 style={{ fontSize: 26, fontWeight: 800, marginBottom: 28 }}>Checkout</h1>
+    <div className="container" style={{ paddingTop: isMobile ? 20 : 30, paddingBottom: 60 }}>
+      <h1 style={{ fontSize: isMobile ? 22 : 26, fontWeight: 800, marginBottom: isMobile ? 20 : 28 }}>Checkout</h1>
 
       {/* Steps */}
-      <div style={{ display: 'flex', alignItems: 'center', marginBottom: 36 }}>
+      <div style={{ display: 'flex', alignItems: 'center', marginBottom: isMobile ? 24 : 36, overflowX: 'auto', paddingBottom: isMobile ? 8 : 0 }}>
         {steps.map((s, i) => (
           <React.Fragment key={s}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <div style={{ width: 34, height: 34, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: i <= step ? 'var(--primary)' : '#e0e0e0', color: i <= step ? '#fff' : '#999', fontWeight: 700, fontSize: 14 }}>
-                {i < step ? <FiCheck size={16} /> : i + 1}
+            <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? 6 : 8, flexShrink: 0 }}>
+              <div style={{ width: isMobile ? 30 : 34, height: isMobile ? 30 : 34, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: i <= step ? 'var(--primary)' : '#e0e0e0', color: i <= step ? '#fff' : '#999', fontWeight: 700, fontSize: isMobile ? 12 : 14 }}>
+                {i < step ? <FiCheck size={isMobile ? 14 : 16} /> : i + 1}
               </div>
-              <span style={{ fontSize: 14, fontWeight: i === step ? 700 : 400, color: i <= step ? 'var(--dark)' : '#999' }}>{s}</span>
+              <span style={{ fontSize: isMobile ? 12 : 14, fontWeight: i === step ? 700 : 400, color: i <= step ? 'var(--dark)' : '#999', whiteSpace: 'nowrap' }}>{s}</span>
             </div>
-            {i < 2 && <div style={{ flex: 1, height: 2, background: i < step ? 'var(--primary)' : '#e0e0e0', margin: '0 12px' }} />}
+            {i < 2 && <div style={{ flex: 1, height: 2, background: i < step ? 'var(--primary)' : '#e0e0e0', margin: '0 6px', minWidth: isMobile ? 8 : 12 }} />}
           </React.Fragment>
         ))}
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: 28 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 340px', gap: isMobile ? 18 : 28 }}>
         <div>
           {/* STEP 0: Address */}
           {step === 0 && (
-            <div className="card" style={{ padding: 28 }}>
-              <h3 style={{ fontSize: 18, fontWeight: 700, marginBottom: 22, display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div className="card" style={{ padding: isMobile ? 18 : 28 }}>
+              <h3 style={{ fontSize: isMobile ? 16 : 18, fontWeight: 700, marginBottom: isMobile ? 16 : 22, display: 'flex', alignItems: 'center', gap: 10 }}>
                 <FiMapPin color="var(--primary)" /> Delivery Address
               </h3>
               {user?.addresses?.length > 0 && (
                 <div style={{ marginBottom: 20 }}>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: '#888', marginBottom: 10 }}>SAVED ADDRESSES</div>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: '#888', marginBottom: 10 }}>SAVED ADDRESSES</div>
                   {user.addresses.map(addr => (
-                    <div key={addr._id} onClick={() => setAddress(addr)} style={{ padding: '14px 16px', borderRadius: 10, marginBottom: 8, cursor: 'pointer', border: `2px solid ${address._id === addr._id ? 'var(--primary)' : '#e0e0e0'}`, background: address._id === addr._id ? 'rgba(233,69,96,0.04)' : '#fff' }}>
-                      <div style={{ fontWeight: 600, fontSize: 14 }}>{addr.fullName} — {addr.phone}</div>
-                      <div style={{ color: '#666', fontSize: 13, marginTop: 3 }}>{addr.addressLine1}, {addr.city}, {addr.state} - {addr.pincode}</div>
+                    <div key={addr._id} onClick={() => setAddress(addr)} style={{ padding: isMobile ? '12px 14px' : '14px 16px', borderRadius: 10, marginBottom: 8, cursor: 'pointer', border: `2px solid ${address._id === addr._id ? 'var(--primary)' : '#e0e0e0'}`, background: address._id === addr._id ? 'rgba(233,69,96,0.04)' : '#fff' }}>
+                      <div style={{ fontWeight: 600, fontSize: isMobile ? 13 : 14 }}>{addr.fullName} — {addr.phone}</div>
+                      <div style={{ color: '#666', fontSize: isMobile ? 12 : 13, marginTop: 3 }}>{addr.addressLine1}, {addr.city}, {addr.state} - {addr.pincode}</div>
                     </div>
                   ))}
-                  <div style={{ fontSize: 13, fontWeight: 600, margin: '16px 0 10px', color: '#666' }}>Or enter new address:</div>
+                  <div style={{ fontSize: 12, fontWeight: 600, margin: '16px 0 10px', color: '#666' }}>Or enter new address:</div>
                 </div>
               )}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? 12 : 14 }}>
                 {[
-                  { key: 'fullName', label: 'Full Name', span: 1 },
-                  { key: 'phone', label: 'Phone Number', span: 1 },
-                  { key: 'addressLine1', label: 'Address Line 1', span: 2 },
-                  { key: 'addressLine2', label: 'Address Line 2 (optional)', span: 2 },
-                  { key: 'city', label: 'City', span: 1 },
-                  { key: 'state', label: 'State', span: 1 },
-                  { key: 'pincode', label: 'Pincode', span: 1 },
-                  { key: 'country', label: 'Country', span: 1 },
+                  { key: 'fullName', label: 'Full Name', span: isMobile ? 1 : 1 },
+                  { key: 'phone', label: 'Phone Number', span: isMobile ? 1 : 1 },
+                  { key: 'addressLine1', label: 'Address Line 1', span: isMobile ? 1 : 2 },
+                  { key: 'addressLine2', label: 'Address Line 2 (optional)', span: isMobile ? 1 : 2 },
+                  { key: 'city', label: 'City', span: isMobile ? 1 : 1 },
+                  { key: 'state', label: 'State', span: isMobile ? 1 : 1 },
+                  { key: 'pincode', label: 'Pincode', span: isMobile ? 1 : 1 },
+                  { key: 'country', label: 'Country', span: isMobile ? 1 : 1 },
                 ].map(f => (
                   <div key={f.key} style={{ gridColumn: `span ${f.span}` }}>
-                    <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: '#555' }}>{f.label}</label>
+                    <label style={{ fontSize: isMobile ? 12 : 13, fontWeight: 600, marginBottom: 6, display: 'block', color: '#555' }}>{f.label}</label>
                     <input type="text" value={address[f.key] || ''} onChange={e => setAddress(a => ({ ...a, [f.key]: e.target.value }))} className="form-control" required={!f.label.includes('optional')} />
                   </div>
                 ))}
               </div>
-              <button onClick={() => setStep(1)} className="btn btn-primary btn-lg" style={{ marginTop: 24, borderRadius: 10 }}
+              <button onClick={() => setStep(1)} className="btn btn-primary btn-lg" style={{ marginTop: isMobile ? 18 : 24, borderRadius: 10, width: '100%' }}
                 disabled={!address.fullName || !address.phone || !address.addressLine1 || !address.city || !address.pincode}>
                 Continue to Payment
               </button>
@@ -198,69 +210,69 @@ const Checkout = () => {
 
           {/* STEP 1: Payment */}
           {step === 1 && (
-            <div className="card" style={{ padding: 28 }}>
-              <h3 style={{ fontSize: 18, fontWeight: 700, marginBottom: 22, display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div className="card" style={{ padding: isMobile ? 18 : 28 }}>
+              <h3 style={{ fontSize: isMobile ? 16 : 18, fontWeight: 700, marginBottom: isMobile ? 16 : 22, display: 'flex', alignItems: 'center', gap: 10 }}>
                 <FiCreditCard color="var(--primary)" /> Payment Method
               </h3>
 
               {availableMethods.length === 0 ? (
-                <div style={{ padding: 30, textAlign: 'center', color: '#dc3545', background: '#fff5f5', borderRadius: 10, fontSize: 14 }}>
+                <div style={{ padding: isMobile ? 20 : 30, textAlign: 'center', color: '#dc3545', background: '#fff5f5', borderRadius: 10, fontSize: isMobile ? 13 : 14 }}>
                   ⚠️ No payment methods configured. Please contact the store admin.
                 </div>
               ) : (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                   {availableMethods.map(opt => (
-                    <label key={opt.value} style={{ display: 'flex', alignItems: 'flex-start', gap: 14, padding: 18, border: `2px solid ${paymentMethod === opt.value ? 'var(--primary)' : '#e0e0e0'}`, borderRadius: 12, cursor: 'pointer', background: paymentMethod === opt.value ? 'rgba(233,69,96,0.04)' : '#fff', transition: 'all 0.2s' }}>
+                    <label key={opt.value} style={{ display: 'flex', alignItems: 'flex-start', gap: isMobile ? 12 : 14, padding: isMobile ? 14 : 18, border: `2px solid ${paymentMethod === opt.value ? 'var(--primary)' : '#e0e0e0'}`, borderRadius: 12, cursor: 'pointer', background: paymentMethod === opt.value ? 'rgba(233,69,96,0.04)' : '#fff', transition: 'all 0.2s' }}>
                       <input type="radio" name="payment" value={opt.value} checked={paymentMethod === opt.value} onChange={() => setPaymentMethod(opt.value)} style={{ accentColor: 'var(--primary)', marginTop: 3 }} />
-                      <span style={{ fontSize: 24, flexShrink: 0 }}>{opt.icon}</span>
-                      <div style={{ flex: 1 }}>
-                        <div style={{ fontWeight: 700, fontSize: 15 }}>{opt.label}</div>
-                        <div style={{ fontSize: 13, color: '#888', marginTop: 2 }}>{opt.desc}</div>
+                      <span style={{ fontSize: isMobile ? 20 : 24, flexShrink: 0 }}>{opt.icon}</span>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ fontWeight: 700, fontSize: isMobile ? 14 : 15 }}>{opt.label}</div>
+                        <div style={{ fontSize: isMobile ? 12 : 13, color: '#888', marginTop: 2, wordBreak: 'break-word' }}>{opt.desc}</div>
 
                         {/* Bank Transfer details + receipt upload */}
                         {opt.value === 'receipt' && paymentMethod === 'receipt' && (
-                          <div style={{ marginTop: 16, paddingTop: 16, borderTop: '1px solid #f0f0f0' }}>
+                          <div style={{ marginTop: 14, paddingTop: 14, borderTop: '1px solid #f0f0f0' }}>
                             {(paySet.bankHolder || paySet.bankName || paySet.bankAcc) && (
-                              <div style={{ background: '#f9f9f9', borderRadius: 10, padding: '14px 16px', marginBottom: 16, fontSize: 13 }}>
-                                <div style={{ fontWeight: 700, marginBottom: 10, fontSize: 14 }}>Transfer to this account:</div>
-                                <div style={{ display: 'grid', gridTemplateColumns: '110px 1fr', gap: '6px 10px', lineHeight: 1.8 }}>
-                                  {paySet.bankHolder && <><span style={{ color: '#888' }}>Name</span><strong>{paySet.bankHolder}</strong></>}
-                                  {paySet.bankName && <><span style={{ color: '#888' }}>Bank</span><span>{paySet.bankName}</span></>}
-                                  {paySet.bankAcc && <><span style={{ color: '#888' }}>Account</span><span style={{ fontFamily: 'monospace', fontWeight: 700, letterSpacing: 1 }}>{paySet.bankAcc}</span></>}
-                                  {paySet.bankIfsc && <><span style={{ color: '#888' }}>IFSC</span><span style={{ fontFamily: 'monospace' }}>{paySet.bankIfsc}</span></>}
-                                  {paySet.bankUpi && <><span style={{ color: '#888' }}>UPI</span><span style={{ color: '#3b82f6', fontWeight: 600 }}>{paySet.bankUpi}</span></>}
+                              <div style={{ background: '#f9f9f9', borderRadius: 10, padding: isMobile ? '12px 14px' : '14px 16px', marginBottom: 14, fontSize: isMobile ? 12 : 13 }}>
+                                <div style={{ fontWeight: 700, marginBottom: 8, fontSize: isMobile ? 13 : 14 }}>Transfer to this account:</div>
+                                <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '90px 1fr' : '110px 1fr', gap: '5px 10px', lineHeight: 1.8 }}>
+                                  {paySet.bankHolder && <><span style={{ color: '#888' }}>Name</span><strong style={{ wordBreak: 'break-word' }}>{paySet.bankHolder}</strong></>}
+                                  {paySet.bankName && <><span style={{ color: '#888' }}>Bank</span><span style={{ wordBreak: 'break-word' }}>{paySet.bankName}</span></>}
+                                  {paySet.bankAcc && <><span style={{ color: '#888' }}>Account</span><span style={{ fontFamily: 'monospace', fontWeight: 700, letterSpacing: 0.5, wordBreak: 'break-all' }}>{paySet.bankAcc}</span></>}
+                                  {paySet.bankIfsc && <><span style={{ color: '#888' }}>IFSC</span><span style={{ fontFamily: 'monospace', wordBreak: 'break-all' }}>{paySet.bankIfsc}</span></>}
+                                  {paySet.bankUpi && <><span style={{ color: '#888' }}>UPI</span><span style={{ color: '#3b82f6', fontWeight: 600, wordBreak: 'break-all' }}>{paySet.bankUpi}</span></>}
                                 </div>
                                 {paySet.bankNote && (
-                                  <div style={{ marginTop: 10, fontSize: 12, background: '#fff8e1', padding: '8px 12px', borderRadius: 8, color: '#666' }}>
+                                  <div style={{ marginTop: 8, fontSize: isMobile ? 11 : 12, background: '#fff8e1', padding: '6px 10px', borderRadius: 6, color: '#666' }}>
                                     ℹ️ {paySet.bankNote}
                                   </div>
                                 )}
                               </div>
                             )}
 
-                            <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 8 }}>
+                            <div style={{ fontSize: isMobile ? 12 : 13, fontWeight: 700, marginBottom: 8 }}>
                               Upload Payment Receipt <span style={{ color: '#dc3545' }}>*</span>
                             </div>
                             <input ref={fileRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={handleFileChange} />
 
                             {!receiptFile ? (
                               <div onClick={() => fileRef.current.click()}
-                                style={{ border: '2px dashed #d1d5db', borderRadius: 10, padding: '20px', textAlign: 'center', cursor: 'pointer', transition: 'all 0.2s' }}
+                                style={{ border: '2px dashed #d1d5db', borderRadius: 10, padding: isMobile ? '16px' : '20px', textAlign: 'center', cursor: 'pointer', transition: 'all 0.2s' }}
                                 onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--primary)'; e.currentTarget.style.background = 'rgba(233,69,96,0.03)'; }}
                                 onMouseLeave={e => { e.currentTarget.style.borderColor = '#d1d5db'; e.currentTarget.style.background = '#fff'; }}>
-                                <FiUpload size={26} color="#aaa" style={{ marginBottom: 8 }} />
-                                <div style={{ fontWeight: 600, color: '#555', fontSize: 13 }}>Click to upload screenshot</div>
-                                <div style={{ fontSize: 11, color: '#aaa', marginTop: 3 }}>JPG, PNG up to 5MB</div>
+                                <FiUpload size={isMobile ? 22 : 26} color="#aaa" style={{ marginBottom: 6 }} />
+                                <div style={{ fontWeight: 600, color: '#555', fontSize: isMobile ? 12 : 13 }}>Click to upload screenshot</div>
+                                <div style={{ fontSize: isMobile ? 10 : 11, color: '#aaa', marginTop: 3 }}>JPG, PNG up to 5MB</div>
                               </div>
                             ) : (
-                              <div style={{ border: '2px solid #22c55e', borderRadius: 10, padding: 14, display: 'flex', alignItems: 'center', gap: 14, background: 'rgba(34,197,94,0.04)' }}>
-                                <img src={receiptPreview} alt="Receipt" style={{ width: 60, height: 60, objectFit: 'cover', borderRadius: 8 }} />
-                                <div style={{ flex: 1 }}>
-                                  <div style={{ fontWeight: 700, fontSize: 13, color: '#166534' }}>✓ Receipt uploaded!</div>
-                                  <div style={{ fontSize: 12, color: '#888', marginTop: 2 }}>{receiptFile.name}</div>
+                              <div style={{ border: '2px solid #22c55e', borderRadius: 10, padding: isMobile ? 10 : 14, display: 'flex', alignItems: 'center', gap: isMobile ? 10 : 14, background: 'rgba(34,197,94,0.04)' }}>
+                                <img src={receiptPreview} alt="Receipt" style={{ width: isMobile ? 48 : 60, height: isMobile ? 48 : 60, objectFit: 'cover', borderRadius: 6, flexShrink: 0 }} />
+                                <div style={{ flex: 1, minWidth: 0 }}>
+                                  <div style={{ fontWeight: 700, fontSize: isMobile ? 12 : 13, color: '#166534' }}>✓ Receipt uploaded!</div>
+                                  <div style={{ fontSize: isMobile ? 11 : 12, color: '#888', marginTop: 2, wordBreak: 'break-word' }}>{receiptFile.name}</div>
                                 </div>
                                 <button onClick={e => { e.stopPropagation(); e.preventDefault(); setReceiptFile(null); setReceiptPreview(null); }}
-                                  style={{ background: '#fff', border: '1px solid #fca5a5', borderRadius: 6, padding: '5px 8px', cursor: 'pointer', color: '#dc3545' }}>
+                                  style={{ background: '#fff', border: '1px solid #fca5a5', borderRadius: 6, padding: '5px 8px', cursor: 'pointer', color: '#dc3545', flexShrink: 0 }}>
                                   <FiX size={14} />
                                 </button>
                               </div>
@@ -273,48 +285,48 @@ const Checkout = () => {
                 </div>
               )}
 
-              <div style={{ display: 'flex', gap: 12, marginTop: 24 }}>
-                <button onClick={() => setStep(0)} className="btn btn-outline btn-lg" style={{ borderRadius: 10 }}>Back</button>
-                <button onClick={() => setStep(2)} disabled={!paymentMethod} className="btn btn-primary btn-lg" style={{ borderRadius: 10 }}>Review Order</button>
+              <div style={{ display: 'flex', gap: isMobile ? 10 : 12, marginTop: isMobile ? 18 : 24, flexDirection: isMobile ? 'column' : 'row' }}>
+                <button onClick={() => setStep(0)} className="btn btn-outline btn-lg" style={{ borderRadius: 10, flex: isMobile ? 1 : undefined }}>Back</button>
+                <button onClick={() => setStep(2)} disabled={!paymentMethod} className="btn btn-primary btn-lg" style={{ borderRadius: 10, flex: 1 }}>Review Order</button>
               </div>
             </div>
           )}
 
           {/* STEP 2: Review */}
           {step === 2 && (
-            <div className="card" style={{ padding: 28 }}>
-              <h3 style={{ fontSize: 18, fontWeight: 700, marginBottom: 22, display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div className="card" style={{ padding: isMobile ? 18 : 28 }}>
+              <h3 style={{ fontSize: isMobile ? 16 : 18, fontWeight: 700, marginBottom: isMobile ? 16 : 22, display: 'flex', alignItems: 'center', gap: 10 }}>
                 <FiTruck color="var(--primary)" /> Order Review
               </h3>
-              <div style={{ background: '#f9f9f9', borderRadius: 10, padding: '14px 18px', marginBottom: 16 }}>
-                <div style={{ fontSize: 11, fontWeight: 700, color: '#aaa', letterSpacing: 0.8, marginBottom: 6 }}>DELIVERY ADDRESS</div>
-                <div style={{ fontWeight: 600 }}>{address.fullName} — {address.phone}</div>
-                <div style={{ color: '#666', fontSize: 13, marginTop: 2 }}>{address.addressLine1}, {address.city}, {address.state} {address.pincode}</div>
+              <div style={{ background: '#f9f9f9', borderRadius: 10, padding: isMobile ? '12px 14px' : '14px 18px', marginBottom: 14 }}>
+                <div style={{ fontSize: 10, fontWeight: 700, color: '#aaa', letterSpacing: 0.8, marginBottom: 6 }}>DELIVERY ADDRESS</div>
+                <div style={{ fontWeight: 600, fontSize: isMobile ? 13 : 14 }}>{address.fullName} — {address.phone}</div>
+                <div style={{ color: '#666', fontSize: isMobile ? 12 : 13, marginTop: 2, wordBreak: 'break-word' }}>{address.addressLine1}, {address.city}, {address.state} {address.pincode}</div>
               </div>
-              <div style={{ background: '#f9f9f9', borderRadius: 10, padding: '14px 18px', marginBottom: 16 }}>
-                <div style={{ fontSize: 11, fontWeight: 700, color: '#aaa', letterSpacing: 0.8, marginBottom: 6 }}>PAYMENT METHOD</div>
-                <div style={{ fontWeight: 600 }}>{paymentMethod === 'cod' ? '💵 Cash on Delivery' : '🧾 Bank Transfer'}</div>
+              <div style={{ background: '#f9f9f9', borderRadius: 10, padding: isMobile ? '12px 14px' : '14px 18px', marginBottom: 14 }}>
+                <div style={{ fontSize: 10, fontWeight: 700, color: '#aaa', letterSpacing: 0.8, marginBottom: 6 }}>PAYMENT METHOD</div>
+                <div style={{ fontWeight: 600, fontSize: isMobile ? 13 : 14 }}>{paymentMethod === 'cod' ? '💵 Cash on Delivery' : '🧾 Bank Transfer'}</div>
                 {paymentMethod === 'receipt' && receiptFile && (
-                  <div style={{ fontSize: 13, color: '#22c55e', marginTop: 4, display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <div style={{ fontSize: isMobile ? 12 : 13, color: '#22c55e', marginTop: 4, display: 'flex', alignItems: 'center', gap: 6 }}>
                     <FiCheck size={14} /> Receipt ready: {receiptFile.name}
                   </div>
                 )}
               </div>
-              <div style={{ marginBottom: 16 }}>
+              <div style={{ marginBottom: 14 }}>
                 {cart.items?.map(item => item.product && (
-                  <div key={item._id} style={{ display: 'flex', gap: 14, padding: '12px 0', borderBottom: '1px solid #f5f5f5' }}>
-                    <img src={item.product.images?.[0]?.url} alt={item.product.name} style={{ width: 56, height: 56, objectFit: 'cover', borderRadius: 8 }} />
-                    <div style={{ flex: 1 }}>
-                      <div style={{ fontWeight: 600, fontSize: 14 }}>{item.product.name}</div>
-                      <div style={{ fontSize: 12, color: '#888' }}>Qty: {item.quantity} × Rs.{item.price}</div>
+                  <div key={item._id} style={{ display: 'flex', gap: isMobile ? 10 : 14, padding: '10px 0', borderBottom: '1px solid #f5f5f5', alignItems: 'flex-start' }}>
+                    <img src={item.product.images?.[0]?.url} alt={item.product.name} style={{ width: isMobile ? 48 : 56, height: isMobile ? 48 : 56, objectFit: 'cover', borderRadius: 6, flexShrink: 0 }} />
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontWeight: 600, fontSize: isMobile ? 13 : 14, wordBreak: 'break-word' }}>{item.product.name}</div>
+                      <div style={{ fontSize: isMobile ? 11 : 12, color: '#888' }}>Qty: {item.quantity} × Rs.{item.price}</div>
                     </div>
-                    <div style={{ fontWeight: 700 }}>Rs.{(item.price * item.quantity).toLocaleString()}</div>
+                    <div style={{ fontWeight: 700, fontSize: isMobile ? 13 : 14, flexShrink: 0 }}>Rs.{(item.price * item.quantity).toLocaleString()}</div>
                   </div>
                 ))}
               </div>
-              <div style={{ display: 'flex', gap: 12, marginTop: 24 }}>
-                <button onClick={() => setStep(1)} className="btn btn-outline btn-lg" style={{ borderRadius: 10 }}>Back</button>
-                <button onClick={handlePlaceOrder} disabled={loading} className="btn btn-primary btn-lg" style={{ flex: 1, borderRadius: 10, justifyContent: 'center' }}>
+              <div style={{ display: 'flex', gap: isMobile ? 10 : 12, marginTop: isMobile ? 18 : 24, flexDirection: isMobile ? 'column' : 'row' }}>
+                <button onClick={() => setStep(1)} className="btn btn-outline btn-lg" style={{ borderRadius: 10, flex: isMobile ? 1 : undefined }}>Back</button>
+                <button onClick={handlePlaceOrder} disabled={loading} className="btn btn-primary btn-lg" style={{ flex: 1, borderRadius: 10, justifyContent: 'center', fontSize: isMobile ? 13 : 14 }}>
                   {loading ? 'Placing Order...' : `Place Order • Rs.${total.toFixed(2)}`}
                 </button>
               </div>

@@ -419,6 +419,13 @@ const ProductDetail = () => {
   const [submitting, setSubmitting] = useState(false);
   const [zoom, setZoom] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -478,7 +485,7 @@ const ProductDetail = () => {
   const savings = product.discountPrice > 0 ? product.price - product.discountPrice : 0;
 
   return (
-    <div className="container" style={{ paddingTop: 30, paddingBottom: 60 }}>
+    <div className="container" style={{ paddingTop: isMobile ? 20 : 30, paddingBottom: 60 }}>
       {/* Lightbox */}
       {lightboxOpen && images.length > 0 && (
         <Lightbox
@@ -491,16 +498,16 @@ const ProductDetail = () => {
       )}
 
       {/* Breadcrumb */}
-      <div className="breadcrumb">
+      <div className="breadcrumb" style={{ fontSize: isMobile ? 12 : 14, marginBottom: isMobile ? 16 : 20 }}>
         <Link to="/">Home</Link>
         <span>/</span>
         <Link to="/products">Products</Link>
         <span>/</span>
-        <span style={{ color: '#333', maxWidth: 220, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{product.name}</span>
+        <span style={{ color: '#333', maxWidth: isMobile ? '120px' : '220px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{product.name}</span>
       </div>
 
       {/* ── Main Product Section ── */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 50, marginBottom: 50 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? 24 : 50, marginBottom: isMobile ? 30 : 50 }}>
 
         {/* ── IMAGE GALLERY ── */}
         <div>
@@ -511,31 +518,31 @@ const ProductDetail = () => {
             onMouseMove={handleMouseMove}
             onClick={() => setLightboxOpen(true)}
             style={{
-              borderRadius: 16, overflow: 'hidden',
+              borderRadius: isMobile ? 12 : 16, overflow: 'hidden',
               aspectRatio: '1', background: '#f8f8f8',
               border: '1px solid #e8e8e8',
-              marginBottom: 14, position: 'relative', cursor: 'zoom-in'
+              marginBottom: isMobile ? 10 : 14, position: 'relative', cursor: 'zoom-in'
             }}>
             {/* Main image */}
             <img
               src={images[activeImage]?.url || 'https://via.placeholder.com/600?text=No+Image'}
               alt={product.name}
               style={{
-                width: '100%', height: '100%', objectFit: 'contain', padding: 16,
+                width: '100%', height: '100%', objectFit: 'contain', padding: isMobile ? 12 : 16,
                 transition: zoom ? 'none' : 'transform 0.3s',
                 transform: zoom ? `scale(1.8)` : 'scale(1)',
                 transformOrigin: zoom ? `${mousePos.x}% ${mousePos.y}%` : 'center center',
               }}
             />
             {/* Zoom hint */}
-            {!zoom && images.length > 0 && (
+            {!zoom && images.length > 0 && !isMobile && (
               <div style={{ position: 'absolute', bottom: 12, right: 12, background: 'rgba(0,0,0,0.5)', color: '#fff', padding: '6px 10px', borderRadius: 8, fontSize: 12, display: 'flex', alignItems: 'center', gap: 5 }}>
                 <FiZoomIn size={13} /> Hover to zoom
               </div>
             )}
             {/* Discount badge */}
             {product.discountPercent > 0 && (
-              <div style={{ position: 'absolute', top: 14, left: 14, background: 'var(--primary)', color: '#fff', padding: '4px 10px', borderRadius: 6, fontSize: 13, fontWeight: 700 }}>
+              <div style={{ position: 'absolute', top: isMobile ? 10 : 14, left: isMobile ? 10 : 14, background: 'var(--primary)', color: '#fff', padding: '4px 10px', borderRadius: 6, fontSize: isMobile ? 12 : 13, fontWeight: 700 }}>
                 -{product.discountPercent}%
               </div>
             )}
@@ -543,12 +550,12 @@ const ProductDetail = () => {
             {images.length > 1 && (
               <>
                 <button onClick={e => { e.stopPropagation(); prevImage(); }}
-                  style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', background: 'rgba(255,255,255,0.9)', border: 'none', borderRadius: '50%', width: 34, height: 34, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
-                  <FiChevronLeft size={18} />
+                  style={{ position: 'absolute', left: isMobile ? 6 : 10, top: '50%', transform: 'translateY(-50%)', background: 'rgba(255,255,255,0.9)', border: 'none', borderRadius: '50%', width: isMobile ? 30 : 34, height: isMobile ? 30 : 34, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
+                  <FiChevronLeft size={isMobile ? 16 : 18} />
                 </button>
                 <button onClick={e => { e.stopPropagation(); nextImage(); }}
-                  style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)', background: 'rgba(255,255,255,0.9)', border: 'none', borderRadius: '50%', width: 34, height: 34, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
-                  <FiChevronRight size={18} />
+                  style={{ position: 'absolute', right: isMobile ? 6 : 10, top: '50%', transform: 'translateY(-50%)', background: 'rgba(255,255,255,0.9)', border: 'none', borderRadius: '50%', width: isMobile ? 30 : 34, height: isMobile ? 30 : 34, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
+                  <FiChevronRight size={isMobile ? 16 : 18} />
                 </button>
               </>
             )}
@@ -556,11 +563,11 @@ const ProductDetail = () => {
 
           {/* Thumbnail strip */}
           {images.length > 1 && (
-            <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', gap: isMobile ? 8 : 10, flexWrap: 'wrap' }}>
               {images.map((img, i) => (
                 <div key={i} onClick={() => setActiveImage(i)}
                   style={{
-                    width: 68, height: 68, borderRadius: 10, overflow: 'hidden', cursor: 'pointer', flexShrink: 0,
+                    width: isMobile ? 56 : 68, height: isMobile ? 56 : 68, borderRadius: 10, overflow: 'hidden', cursor: 'pointer', flexShrink: 0,
                     border: `2px solid ${activeImage === i ? 'var(--primary)' : '#e0e0e0'}`,
                     transition: 'border-color 0.2s', position: 'relative'
                   }}>
@@ -573,60 +580,60 @@ const ProductDetail = () => {
               {/* Fullscreen button */}
               <div onClick={() => setLightboxOpen(true)}
                 style={{
-                  width: 68, height: 68, borderRadius: 10, border: '2px dashed #d1d5db',
+                  width: isMobile ? 56 : 68, height: isMobile ? 56 : 68, borderRadius: 10, border: '2px dashed #d1d5db',
                   display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
                   cursor: 'pointer', color: '#aaa', gap: 4, flexShrink: 0,
                   background: '#fafafa'
                 }}>
-                <FiZoomIn size={18} />
-                <span style={{ fontSize: 10, fontWeight: 600 }}>View All</span>
+                <FiZoomIn size={isMobile ? 16 : 18} />
+                <span style={{ fontSize: 9, fontWeight: 600 }}>View All</span>
               </div>
             </div>
           )}
 
           {/* No image placeholder */}
           {images.length === 0 && (
-            <div style={{ textAlign: 'center', color: '#ccc', paddingTop: 10, fontSize: 13 }}>No images uploaded</div>
+            <div style={{ textAlign: 'center', color: '#ccc', paddingTop: 10, fontSize: isMobile ? 12 : 13 }}>No images uploaded</div>
           )}
         </div>
 
         {/* ── PRODUCT INFO ── */}
         <div>
           {/* Brand */}
-          <div style={{ fontSize: 12, color: 'var(--gray)', textTransform: 'uppercase', letterSpacing: 1.2, fontWeight: 700, marginBottom: 8 }}>
+          <div style={{ fontSize: isMobile ? 11 : 12, color: 'var(--gray)', textTransform: 'uppercase', letterSpacing: isMobile ? 0.5 : 1.2, fontWeight: 700, marginBottom: 8 }}>
             {product.brand}
           </div>
 
-          <h1 style={{ fontSize: 26, fontWeight: 800, lineHeight: 1.3, marginBottom: 14 }}>
+          <h1 style={{ fontSize: isMobile ? 20 : 26, fontWeight: 800, lineHeight: 1.3, marginBottom: isMobile ? 12 : 14 }}>
             {product.name}
           </h1>
 
           {/* Rating */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
-            <StarRating rating={product.ratings} size={18} />
-            <span style={{ fontWeight: 700, fontSize: 15 }}>{product.ratings}</span>
-            <span style={{ color: 'var(--gray)', fontSize: 14 }}>({product.numReviews} reviews)</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? 8 : 10, marginBottom: isMobile ? 16 : 20, flexWrap: 'wrap' }}>
+            <StarRating rating={product.ratings} size={isMobile ? 16 : 18} />
+            <span style={{ fontWeight: 700, fontSize: isMobile ? 14 : 15 }}>{product.ratings}</span>
+            <span style={{ color: 'var(--gray)', fontSize: isMobile ? 12 : 14 }}>({product.numReviews} reviews)</span>
           </div>
 
           {/* Price box */}
-          <div style={{ background: '#f8f8f8', borderRadius: 14, padding: '18px 22px', marginBottom: 24 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap' }}>
-              <span style={{ fontSize: 34, fontWeight: 800, color: 'var(--dark)' }}>
+          <div style={{ background: '#f8f8f8', borderRadius: isMobile ? 12 : 14, padding: isMobile ? '14px 16px' : '18px 22px', marginBottom: isMobile ? 18 : 24 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? 10 : 14, flexWrap: 'wrap' }}>
+              <span style={{ fontSize: isMobile ? 28 : 34, fontWeight: 800, color: 'var(--dark)' }}>
                 Rs.{effectivePrice.toLocaleString()}
               </span>
               {savings > 0 && (
                 <>
-                  <span style={{ fontSize: 18, color: 'var(--gray)', textDecoration: 'line-through' }}>
+                  <span style={{ fontSize: isMobile ? 14 : 18, color: 'var(--gray)', textDecoration: 'line-through' }}>
                     Rs.{product.price.toLocaleString()}
                   </span>
-                  <span style={{ background: 'var(--primary)', color: '#fff', padding: '4px 12px', borderRadius: 8, fontSize: 14, fontWeight: 700 }}>
+                  <span style={{ background: 'var(--primary)', color: '#fff', padding: '4px 10px', borderRadius: 8, fontSize: isMobile ? 12 : 14, fontWeight: 700 }}>
                     {product.discountPercent}% OFF
                   </span>
                 </>
               )}
             </div>
             {savings > 0 && (
-              <div style={{ color: 'var(--success)', fontSize: 14, marginTop: 8, fontWeight: 600 }}>
+              <div style={{ color: 'var(--success)', fontSize: isMobile ? 12 : 14, marginTop: 6, fontWeight: 600 }}>
                 🎉 You save Rs.{savings.toLocaleString()}!
               </div>
             )}
@@ -634,51 +641,51 @@ const ProductDetail = () => {
 
           {/* Short description */}
           {product.shortDescription && (
-            <p style={{ fontSize: 15, color: '#555', lineHeight: 1.7, marginBottom: 18 }}>
+            <p style={{ fontSize: isMobile ? 13 : 15, color: '#555', lineHeight: 1.7, marginBottom: isMobile ? 14 : 18 }}>
               {product.shortDescription}
             </p>
           )}
 
           {/* Stock */}
-          <div style={{ marginBottom: 20 }}>
+          <div style={{ marginBottom: isMobile ? 16 : 20 }}>
             {product.stock > 0 ? (
-              <span style={{ color: 'var(--success)', fontWeight: 600, fontSize: 14, display: 'flex', alignItems: 'center', gap: 6 }}>
-                <FiCheck size={16} /> In Stock ({product.stock} available)
+              <span style={{ color: 'var(--success)', fontWeight: 600, fontSize: isMobile ? 13 : 14, display: 'flex', alignItems: 'center', gap: 6 }}>
+                <FiCheck size={isMobile ? 14 : 16} /> In Stock ({product.stock} available)
               </span>
             ) : (
-              <span style={{ color: 'var(--danger)', fontWeight: 600, fontSize: 14 }}>✗ Out of Stock</span>
+              <span style={{ color: 'var(--danger)', fontWeight: 600, fontSize: isMobile ? 13 : 14 }}>✗ Out of Stock</span>
             )}
           </div>
 
           {/* Quantity */}
           {product.stock > 0 && (
-            <div style={{ marginBottom: 24 }}>
-              <label style={{ fontSize: 14, fontWeight: 600, marginBottom: 10, display: 'block' }}>Quantity</label>
-              <div style={{ display: 'flex', alignItems: 'center', width: 'fit-content', border: '2px solid #e0e0e0', borderRadius: 12, overflow: 'hidden' }}>
+            <div style={{ marginBottom: isMobile ? 18 : 24 }}>
+              <label style={{ fontSize: isMobile ? 13 : 14, fontWeight: 600, marginBottom: 8, display: 'block' }}>Quantity</label>
+              <div style={{ display: 'flex', alignItems: 'center', width: 'fit-content', border: '2px solid #e0e0e0', borderRadius: isMobile ? 10 : 12, overflow: 'hidden' }}>
                 <button onClick={() => setQty(Math.max(1, qty - 1))}
-                  style={{ width: 44, height: 44, background: '#f5f5f5', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <FiMinus size={16} />
+                  style={{ width: isMobile ? 40 : 44, height: isMobile ? 40 : 44, background: '#f5f5f5', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <FiMinus size={isMobile ? 14 : 16} />
                 </button>
-                <span style={{ width: 56, textAlign: 'center', fontWeight: 700, fontSize: 17 }}>{qty}</span>
+                <span style={{ width: isMobile ? 50 : 56, textAlign: 'center', fontWeight: 700, fontSize: isMobile ? 15 : 17 }}>{qty}</span>
                 <button onClick={() => setQty(Math.min(product.stock, qty + 1))}
-                  style={{ width: 44, height: 44, background: '#f5f5f5', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <FiPlus size={16} />
+                  style={{ width: isMobile ? 40 : 44, height: isMobile ? 40 : 44, background: '#f5f5f5', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <FiPlus size={isMobile ? 14 : 16} />
                 </button>
               </div>
             </div>
           )}
 
           {/* Action buttons */}
-          <div style={{ display: 'flex', gap: 12, marginBottom: 24 }}>
+          <div style={{ display: 'flex', gap: isMobile ? 10 : 12, marginBottom: isMobile ? 18 : 24, flexDirection: isMobile ? 'column' : 'row' }}>
             <button onClick={handleAddToCart} disabled={product.stock === 0}
               style={{
-                flex: 1, padding: '14px 0', borderRadius: 12, fontWeight: 700, fontSize: 15,
+                flex: 1, padding: isMobile ? '12px 0' : '14px 0', borderRadius: isMobile ? 10 : 12, fontWeight: 700, fontSize: isMobile ? 14 : 15,
                 background: '#fff', color: 'var(--dark)', border: '2px solid var(--dark)',
                 cursor: product.stock === 0 ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, opacity: product.stock === 0 ? 0.5 : 1, transition: 'all 0.2s'
               }}
               onMouseEnter={e => { if (product.stock > 0) { e.currentTarget.style.background = 'var(--dark)'; e.currentTarget.style.color = '#fff'; } }}
               onMouseLeave={e => { e.currentTarget.style.background = '#fff'; e.currentTarget.style.color = 'var(--dark)'; }}>
-              <FiShoppingCart size={18} /> Add to Cart
+              <FiShoppingCart size={isMobile ? 16 : 18} /> {isMobile ? 'Add' : 'Add to Cart'}
             </button>
 
             <button onClick={handleBuyNow} disabled={product.stock === 0}

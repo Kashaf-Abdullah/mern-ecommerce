@@ -24,7 +24,6 @@ const limiter = rateLimit({
   max: 100,
   message: { success: false, message: 'Too many requests, please try again later.' }
 });
-app.use('/api/', limiter);
 
 // Auth rate limit (stricter)
 const authLimiter = rateLimit({

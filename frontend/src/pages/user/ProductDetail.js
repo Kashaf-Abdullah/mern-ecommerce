@@ -437,7 +437,7 @@ const ProductDetail = () => {
         setProduct(pRes.data.product);
         setReviews(rRes.data.reviews);
       } catch {
-        navigate('/products');
+        navigate('/not-found', { replace: true });
       } finally { setLoading(false); }
     };
     fetchProduct();
@@ -459,8 +459,8 @@ const ProductDetail = () => {
     setMousePos({ x, y });
   };
 
-  const handleAddToCart = () => addToCart(product._id, qty);
-  const handleBuyNow = async () => { await addToCart(product._id, qty); navigate('/checkout'); };
+  const handleAddToCart = () => addToCart(product._id, qty, product);
+  const handleBuyNow = async () => { await addToCart(product._id, qty, product); navigate('/checkout'); };
 
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
@@ -740,7 +740,11 @@ const ProductDetail = () => {
         <div style={{ padding: 28 }}>
           {/* Description */}
           {tab === 'description' && (
-            <p style={{ lineHeight: 1.9, color: '#444', fontSize: 15 }}>{product.description}</p>
+            <div style={{ lineHeight: 1.9, color: '#444', fontSize: 15 }}>
+              {product.description?.split('\n').filter(Boolean).map((paragraph, index) => (
+                <p key={index} style={{ marginBottom: 16 }}>{paragraph}</p>
+              ))}
+            </div>
           )}
 
           {/* Specifications */}

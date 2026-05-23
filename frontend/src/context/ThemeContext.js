@@ -10,7 +10,7 @@ const defaultTheme = {
   card: '#ffffff',
   text: '#1a1a2e',
   radius: '12px',
-  font: "'DM Sans', sans-serif",
+  font: "'Poppins', sans-serif",
   btnStyle: 'filled',
   logoType: 'text', // 'text' or 'image'
   logoText: 'ShopNow',
@@ -54,6 +54,34 @@ const defaultPayment = {
   bankNote: '',
 };
 
+const defaultSocials = {
+  instagram: { enabled: false, url: '' },
+  facebook: { enabled: false, url: '' },
+  twitter: { enabled: false, url: '' },
+  youtube: { enabled: false, url: '' },
+  linkedin: { enabled: false, url: '' },
+  whatsapp: { enabled: false, url: '' },
+};
+
+const normalizeSocials = (value) => {
+  if (!value || typeof value !== 'object') return defaultSocials;
+  const normalized = {};
+  Object.keys(defaultSocials).forEach((key) => {
+    const current = value[key];
+    if (typeof current === 'string') {
+      normalized[key] = { enabled: !!current, url: current || '' };
+    } else if (current && typeof current === 'object') {
+      normalized[key] = {
+        enabled: typeof current.enabled === 'boolean' ? current.enabled : !!current.url,
+        url: current.url || '',
+      };
+    } else {
+      normalized[key] = { ...defaultSocials[key] };
+    }
+  });
+  return normalized;
+};
+
 const ThemeContext = createContext(null);
 
 export const ThemeProvider = ({ children }) => {
@@ -78,6 +106,13 @@ export const ThemeProvider = ({ children }) => {
     } catch { return defaultPayment; }
   });
 
+  const [socials, setSocials] = useState(() => {
+    try {
+      const saved = localStorage.getItem('shopnow_socials');
+      return saved ? normalizeSocials(JSON.parse(saved)) : defaultSocials;
+    } catch { return defaultSocials; }
+  });
+
   // Also try loading from backend (overrides localStorage if available)
   useEffect(() => {
     settingsAPI.getAll().then(({ data }) => {
@@ -85,6 +120,11 @@ export const ThemeProvider = ({ children }) => {
         if (data.settings.theme)   { setTheme(t => ({ ...t, ...data.settings.theme }));   localStorage.setItem('shopnow_theme',   JSON.stringify({ ...theme,   ...data.settings.theme })); }
         if (data.settings.texts)   { setTexts(t => ({ ...t, ...data.settings.texts }));   localStorage.setItem('shopnow_texts',   JSON.stringify({ ...texts,   ...data.settings.texts })); }
         if (data.settings.payment) { setPayment(t => ({ ...t, ...data.settings.payment })); localStorage.setItem('shopnow_payment', JSON.stringify({ ...payment, ...data.settings.payment })); }
+        if (data.settings.socials)  {
+          const normalized = normalizeSocials(data.settings.socials);
+          setSocials(s => ({ ...s, ...normalized }));
+          localStorage.setItem('shopnow_socials', JSON.stringify({ ...socials, ...normalized }));
+        }
       }
     }).catch(() => {}); // Silently fail, use localStorage
   }, []); // eslint-disable-line
@@ -129,10 +169,17 @@ export const ThemeProvider = ({ children }) => {
     settingsAPI.save('payment', merged).catch(() => {});
   };
 
+  const saveSocials = (newSocials) => {
+    const merged = { ...socials, ...newSocials };
+    setSocials(merged);
+    localStorage.setItem('shopnow_socials', JSON.stringify(merged));
+    settingsAPI.save('socials', merged).catch(() => {});
+  };
+
   const t = (key) => texts[key] || defaultTexts[key] || key;
 
   return (
-    <ThemeContext.Provider value={{ theme, texts, payment, saveTheme, saveTexts, savePayment, t }}>
+    <ThemeContext.Provider value={{ theme, texts, payment, socials, saveTheme, saveTexts, savePayment, saveSocials, t }}>
       {children}
     </ThemeContext.Provider>
   );

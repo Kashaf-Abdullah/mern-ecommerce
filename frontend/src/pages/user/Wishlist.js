@@ -46,7 +46,7 @@ const Wishlist = () => {
                 )}
               </div>
               <div style={{ display: 'flex', gap: 8, marginTop: 'auto' }}>
-                <button onClick={() => addToCart(product._id)}
+                <button onClick={() => addToCart(product._id, 1, product)}
                   disabled={product.stock === 0}
                   className="btn btn-primary btn-sm" style={{ flex: 1, justifyContent: 'center' }}>
                   <FiShoppingCart size={14} /> Add to Cart

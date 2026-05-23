@@ -108,7 +108,7 @@ const ProductCard = ({ product }) => {
         {/* Actions */}
         <div style={{ display: 'flex', gap: isMobile ? 6 : 8, marginTop: 'auto', paddingTop: isMobile ? 8 : 10 }}>
           <button
-            onClick={() => addToCart(product._id)}
+            onClick={() => addToCart(product._id, 1, product)}
             disabled={product.stock === 0}
             style={{
               flex: 1, padding: isMobile ? '8px 0' : '9px 0', borderRadius: 'var(--radius-sm)', fontSize: isMobile ? 12 : 13, fontWeight: 600,

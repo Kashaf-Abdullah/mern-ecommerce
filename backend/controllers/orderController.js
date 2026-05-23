@@ -248,9 +248,11 @@ exports.updateOrderStatus = asyncHandler(async (req, res) => {
   // Notify user via notification
   try {
     const user = await User.findById(order.user);
+    const statusText = status.charAt(0).toUpperCase() + status.slice(1);
+    const trackingText = status === 'shipped' && trackingNumber ? ` Tracking No: ${trackingNumber}.` : '';
     await Notification.create({
       title: 'Order Status Updated',
-      message: `Your order #${order.orderId} status changed to "${status.charAt(0).toUpperCase() + status.slice(1)}". ${description || ''}`,
+      message: `Your order #${order.orderId} is now ${statusText}.${trackingText}${description ? ` ${description}` : ''}`,
       link: `/orders/${order._id}`,
       createdBy: req.user.id,
       targetAll: false,

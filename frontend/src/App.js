@@ -32,6 +32,7 @@ const AdminNotifications = lazy(() => import('./pages/admin/Notifications'));
 const AdminWishlistActivity = lazy(() => import('./pages/admin/WishlistActivity'));
 const Notifications = lazy(() => import('./pages/user/Notifications'));
 const NotificationDetail = lazy(() => import('./pages/user/NotificationDetail'));
+const NotFound = lazy(() => import('./pages/user/NotFound'));
 
 const Navbar      = lazy(() => import('./components/common/Navbar'));
 const Footer      = lazy(() => import('./components/common/Footer'));
@@ -89,6 +90,7 @@ function AppRoutes() {
           <Route path="/profile"       element={<ProtectedRoute><UserLayout><Profile /></UserLayout></ProtectedRoute>} />
           <Route path="/notifications" element={<ProtectedRoute><UserLayout><Notifications /></UserLayout></ProtectedRoute>} />
           <Route path="/notifications/:id" element={<ProtectedRoute><UserLayout><NotificationDetail /></UserLayout></ProtectedRoute>} />
+          <Route path="/not-found" element={<UserLayout><NotFound /></UserLayout>} />
 
           <Route path="/admin" element={<ProtectedRoute adminOnly><AdminLayout /></ProtectedRoute>}>
             <Route index             element={<AdminDashboard />} />
@@ -102,7 +104,7 @@ function AppRoutes() {
             <Route path="settings"   element={<AdminSettings />} />
           </Route>
 
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="*" element={<UserLayout><NotFound /></UserLayout>} />
         </Routes>
       </Suspense>
     </BrowserRouter>

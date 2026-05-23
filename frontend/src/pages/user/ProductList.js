@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { FiFilter, FiX, FiChevronDown, FiChevronUp, FiGrid, FiList } from 'react-icons/fi';
+import { FiSearch, FiFilter, FiX, FiChevronDown, FiChevronUp, FiGrid, FiList } from 'react-icons/fi';
 import { productAPI, categoryAPI } from '../../utils/api';
 import ProductCard from '../../components/user/ProductCard';
 
@@ -45,6 +45,19 @@ const ProductList = () => {
     search: searchParams.get('search') || '',
     page: parseInt(searchParams.get('page')) || 1,
   });
+  const [viewMode, setViewMode] = useState('grid');
+  const [searchTerm, setSearchTerm] = useState(filters.search);
+
+  useEffect(() => {
+    setSearchTerm(filters.search);
+  }, [filters.search]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (searchTerm !== filters.search) updateFilter('search', searchTerm);
+    }, 450);
+    return () => clearTimeout(timer);
+  }, [searchTerm]);
 
   useEffect(() => {
     categoryAPI.getAll().then(({ data }) => setCategories(data.categories)).catch(() => {});
@@ -79,7 +92,7 @@ const ProductList = () => {
     setSearchParams({});
   };
 
-  const activeFilterCount = [filters.category, filters.minPrice, filters.maxPrice, filters.minRating, filters.brand]
+  const activeFilterCount = [filters.category, filters.minPrice, filters.maxPrice, filters.minRating, filters.brand, filters.search]
     .filter(Boolean).length;
 
   const SidebarFilters = () => (
@@ -139,7 +152,7 @@ const ProductList = () => {
   return (
     <div className="container" style={{ paddingTop: 30, paddingBottom: 50 }}>
       {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24, gap: 16 }}>
         <div>
           <h1 style={{ fontSize: 24, fontWeight: 800 }}>
             {filters.search ? `Results for "${filters.search}"` : 'All Products'}
@@ -148,12 +161,51 @@ const ProductList = () => {
             {pagination.total || 0} products found
           </p>
         </div>
-        <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, alignItems: 'center', flex: 1, minWidth: 280, justifyContent: 'flex-end' }}>
+          <div style={{ flex: 1, minWidth: 220, display: 'flex', alignItems: 'center', gap: 8, background: '#fff', border: '1px solid #e0e0e0', borderRadius: 10, padding: '10px 14px' }}>
+            <FiSearch size={18} color="#888" />
+            <input
+              type="text"
+              placeholder="Search products..."
+              value={searchTerm}
+              onChange={e => setSearchTerm(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && updateFilter('search', searchTerm)}
+              className="form-control"
+              style={{ border: 'none', outline: 'none', boxShadow: 'none', minWidth: 0, fontSize: 14 }}
+            />
+            <button
+              type="button"
+              onClick={() => updateFilter('search', searchTerm)}
+              style={{ border: 'none', background: 'transparent', cursor: 'pointer', color: 'var(--primary)', padding: 4, fontWeight: 700 }}
+            >
+              Search
+            </button>
+          </div>
+
+          <div style={{ display: 'flex', gap: 8 }}>
+            <button
+              type="button"
+              onClick={() => setViewMode('grid')}
+              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 42, height: 42, borderRadius: 12, border: `1px solid ${viewMode === 'grid' ? 'var(--primary)' : '#e0e0e0'}`, background: viewMode === 'grid' ? 'var(--primary)' : '#fff', color: viewMode === 'grid' ? '#fff' : '#555', cursor: 'pointer' }}
+            >
+              <FiGrid size={18} />
+            </button>
+            <button
+              type="button"
+              onClick={() => setViewMode('list')}
+              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 42, height: 42, borderRadius: 12, border: `1px solid ${viewMode === 'list' ? 'var(--primary)' : '#e0e0e0'}`, background: viewMode === 'list' ? 'var(--primary)' : '#fff', color: viewMode === 'list' ? '#fff' : '#555', cursor: 'pointer' }}
+            >
+              <FiList size={18} />
+            </button>
+          </div>
+
           <button onClick={() => setShowFilters(!showFilters)}
             style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '9px 16px', border: '2px solid #e0e0e0', borderRadius: 8, background: '#fff', fontWeight: 600, fontSize: 14 }}>
             <FiFilter size={16} />
             Filters {activeFilterCount > 0 && <span style={{ background: 'var(--primary)', color: '#fff', borderRadius: '50%', width: 18, height: 18, fontSize: 11, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{activeFilterCount}</span>}
           </button>
+
           <select value={filters.sort} onChange={e => updateFilter('sort', e.target.value)}
             className="form-control" style={{ width: 180, padding: '9px 12px', fontSize: 14 }}>
             {SORT_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
@@ -180,7 +232,7 @@ const ProductList = () => {
             </div>
           ) : (
             <>
-              <div className="products-grid">
+              <div className={`products-grid${viewMode === 'list' ? ' list' : ''}`}>
                 {products.map(p => <ProductCard key={p._id} product={p} />)}
               </div>
 

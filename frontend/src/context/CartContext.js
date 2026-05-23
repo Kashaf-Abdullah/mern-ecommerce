@@ -6,10 +6,29 @@ import toast from 'react-hot-toast';
 // ==================== CART CONTEXT ====================
 const CartContext = createContext(null);
 
+const LOCAL_CART_KEY = 'shopnow_cart';
+const DEFAULT_CART = { items: [], discountAmount: 0 };
+
+const loadLocalCart = () => {
+  try {
+    const raw = localStorage.getItem(LOCAL_CART_KEY);
+    return raw ? JSON.parse(raw) : DEFAULT_CART;
+  } catch {
+    return DEFAULT_CART;
+  }
+};
+
+const getEffectivePrice = (product) => (product.discountPrice > 0 ? product.discountPrice : product.price);
+const matchesCartItem = (item, itemId) => item._id === itemId || item.product?._id === itemId;
+
 export const CartProvider = ({ children }) => {
-  const [cart, setCart] = useState({ items: [], discountAmount: 0 });
+  const [cart, setCart] = useState(() => loadLocalCart());
   const [loading, setLoading] = useState(false);
   const { isAuthenticated } = useAuth();
+
+  useEffect(() => {
+    localStorage.setItem(LOCAL_CART_KEY, JSON.stringify(cart));
+  }, [cart]);
 
   const fetchCart = async () => {
     if (!isAuthenticated) return;
@@ -23,8 +42,37 @@ export const CartProvider = ({ children }) => {
 
   useEffect(() => { fetchCart(); }, [isAuthenticated]);
 
-  const addToCart = async (productId, quantity = 1) => {
-    if (!isAuthenticated) { toast.error('Please login to add to cart'); return; }
+  const addToCart = async (productId, quantity = 1, product = null) => {
+    const qty = Math.max(1, Number(quantity) || 1);
+
+    if (!isAuthenticated) {
+      if (!product) { toast.error('Unable to add item to cart'); return; }
+      const available = product.stock ?? Infinity;
+      if (available <= 0) { toast.error('Product is out of stock'); return; }
+
+      const existingItem = cart.items.find(item => matchesCartItem(item, productId));
+      const nextItems = existingItem
+        ? cart.items.map(item => matchesCartItem(item, productId)
+            ? {
+                ...item,
+                product,
+                quantity: Math.min(available, item.quantity + qty),
+                price: getEffectivePrice(product)
+              }
+            : item
+          )
+        : [...cart.items, {
+            _id: productId,
+            product,
+            quantity: Math.min(qty, available),
+            price: getEffectivePrice(product)
+          }];
+
+      setCart({ ...cart, items: nextItems });
+      toast.success('Added to cart!');
+      return;
+    }
+
     setLoading(true);
     try {
       const { data } = await cartAPI.add(productId, quantity);
@@ -36,16 +84,39 @@ export const CartProvider = ({ children }) => {
   };
 
   const updateItem = async (itemId, quantity) => {
+    const qty = Math.max(1, Number(quantity) || 1);
+
+    if (!isAuthenticated) {
+      const nextItems = cart.items.map(item => {
+        if (!matchesCartItem(item, itemId)) return item;
+        const available = item.product?.stock ?? Infinity;
+        return {
+          ...item,
+          quantity: Math.min(qty, available)
+        };
+      });
+      setCart({ ...cart, items: nextItems });
+      toast.success('Cart updated');
+      return;
+    }
+
     setLoading(true);
     try {
-      const { data } = await cartAPI.update(itemId, quantity);
+      const { data } = await cartAPI.update(itemId, qty);
       setCart(data.cart);
+      toast.success('Cart updated');
     } catch (err) {
       toast.error(err.response?.data?.message || 'Failed to update cart');
     } finally { setLoading(false); }
   };
 
   const removeItem = async (productId) => {
+    if (!isAuthenticated) {
+      setCart({ ...cart, items: cart.items.filter(item => !matchesCartItem(item, productId)) });
+      toast.success('Item removed');
+      return;
+    }
+
     setLoading(true);
     try {
       const { data } = await cartAPI.remove(productId);
@@ -57,9 +128,14 @@ export const CartProvider = ({ children }) => {
   };
 
   const clearCart = async () => {
+    if (!isAuthenticated) {
+      setCart(DEFAULT_CART);
+      return;
+    }
+
     try {
       await cartAPI.clear();
-      setCart({ items: [], discountAmount: 0 });
+      setCart(DEFAULT_CART);
     } catch (err) {
       console.error('Clear cart error:', err);
     }

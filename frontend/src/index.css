@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
 :root {
   --primary: #e94560;
@@ -22,15 +22,16 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
+
 body {
-  font-family: 'DM Sans', sans-serif;
-  background: #f8f9fa;
-  color: #1a1a2e;
+  font-family: 'Poppins', sans-serif;
+  background: var(--bg, #f8f9fa);
+  color: var(--text-color, #1a1a2e);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 
-h1,h2,h3,h4,h5,h6 { font-family: 'Syne', sans-serif; font-weight: 700; }
+h1,h2,h3,h4,h5,h6 { font-family: 'Poppins', sans-serif; font-weight: 700; }
 
 a { text-decoration: none; color: inherit; }
 img { max-width: 100%; }
@@ -67,10 +68,13 @@ input, select, textarea { font-family: inherit; }
 
 /* Cards */
 .card {
-  background: #fff; border-radius: var(--radius);
+  background: var(--card-bg, #fff);
+  color: var(--dark, #1a1a2e) !important;
+  border-radius: var(--radius);
   box-shadow: var(--shadow); overflow: hidden;
   transition: var(--transition);
 }
+
 .card:hover { box-shadow: var(--shadow-hover); }
 
 /* Badge */
@@ -119,6 +123,9 @@ input, select, textarea { font-family: inherit; }
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 24px;
+}
+.products-grid.list {
+  grid-template-columns: 1fr;
 }
 
 /* Breadcrumb */

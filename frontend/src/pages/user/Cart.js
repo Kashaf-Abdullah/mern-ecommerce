@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FiTrash2, FiMinus, FiPlus, FiShoppingBag, FiArrowRight } from 'react-icons/fi';
+import toast from 'react-hot-toast';
 import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
 
@@ -16,11 +17,11 @@ const Cart = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const shippingPrice = subtotal >= 500 ? 0 : 50;
-  const taxPrice = Math.round(subtotal * 0.18 * 100) / 100;
-  const total = subtotal + shippingPrice + taxPrice;
+  const shippingPrice = Number(subtotal) >= 500 ? 0 : 50;
+  const taxPrice = Math.round(Number(subtotal) * 0.18 * 100) / 100;
+  const total = Number(subtotal) + shippingPrice + taxPrice;
 
-  if (!isAuthenticated) {
+  if (!isAuthenticated && !cart?.items?.length) {
     return (
       <div className="container" style={{ paddingTop: 60, textAlign: 'center' }}>
         <div style={{ fontSize: isMobile ? 48 : 64, marginBottom: 16 }}>🛒</div>
@@ -43,6 +44,11 @@ const Cart = () => {
 
   return (
     <div className="container" style={{ paddingTop: isMobile ? 20 : 30, paddingBottom: 60 }}>
+      { !isAuthenticated && (
+        <div style={{ marginBottom: isMobile ? 16 : 24, padding: '14px 18px', background: '#fff8e1', border: '1px solid #ffe8a1', borderRadius: 12, color: '#856404', fontSize: isMobile ? 13 : 14 }}>
+          Your cart is stored locally. Login before checkout to save it to your account.
+        </div>
+      ) }
       <h1 style={{ fontSize: isMobile ? 20 : 26, fontWeight: 800, marginBottom: isMobile ? 20 : 28 }}>
         Shopping Cart <span style={{ color: 'var(--gray)', fontWeight: 400, fontSize: isMobile ? 14 : 18 }}>({cart.items.length} items)</span>
       </h1>
@@ -68,7 +74,8 @@ const Cart = () => {
                     {/* Qty control */}
                     <div style={{ display: 'flex', alignItems: 'center', border: '2px solid #e0e0e0', borderRadius: 6, overflow: 'hidden' }}>
                       <button onClick={() => updateItem(item._id, item.quantity - 1)}
-                        style={{ width: isMobile ? 30 : 34, height: isMobile ? 30 : 34, background: '#f5f5f5', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', border: 'none' }}>
+                        disabled={item.quantity <= 1}
+                        style={{ width: isMobile ? 30 : 34, height: isMobile ? 30 : 34, background: '#f5f5f5', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: item.quantity <= 1 ? 'not-allowed' : 'pointer', border: 'none', opacity: item.quantity <= 1 ? 0.6 : 1 }}>
                         <FiMinus size={isMobile ? 12 : 14} />
                       </button>
                       <span style={{ width: isMobile ? 40 : 44, textAlign: 'center', fontWeight: 700, fontSize: isMobile ? 13 : 15 }}>{item.quantity}</span>
@@ -118,11 +125,17 @@ const Cart = () => {
             <div style={{ borderTop: '2px solid #f0f0f0', paddingTop: 12, marginBottom: isMobile ? 16 : 20 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: isMobile ? 16 : 18, fontWeight: 800 }}>
                 <span>Total</span>
-                <span style={{ color: 'var(--primary)' }}>Rs.{(subtotal + Math.round(subtotal * 0.18 * 100) / 100 + (subtotal >= 500 ? 0 : 50)).toFixed(2)}</span>
+                <span style={{ color: 'var(--primary)' }}>Rs.{total.toFixed(2)}</span>
               </div>
             </div>
 
-            <button onClick={() => navigate('/checkout')}
+            <button onClick={() => {
+                if (!isAuthenticated) {
+                  toast.error('Please login to checkout');
+                  return navigate('/login');
+                }
+                navigate('/checkout');
+              }}
               className="btn btn-primary btn-full btn-lg" style={{ borderRadius: 10, justifyContent: 'center', width: '100%' }}>
               Proceed to Checkout <FiArrowRight size={isMobile ? 16 : 18} />
             </button>

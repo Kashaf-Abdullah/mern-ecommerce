@@ -128,6 +128,11 @@ export const OrderDetail = () => {
               {order.shippingAddress?.addressLine2 && <>{order.shippingAddress.addressLine2}<br /></>}
               {order.shippingAddress?.city}, {order.shippingAddress?.state} - {order.shippingAddress?.pincode}<br />
               {order.shippingAddress?.phone}
+              {order.trackingNumber && (
+                <div style={{ marginTop: 8, fontSize: isMobile ? 13 : 14, color: '#111', fontWeight: 600 }}>
+                  Tracking No: {order.trackingNumber}
+                </div>
+              )}
             </div>
           </div>
         </div>

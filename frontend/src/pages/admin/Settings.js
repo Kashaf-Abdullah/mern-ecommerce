@@ -9,7 +9,6 @@ const PRESETS = [
   { name: 'Forest', primary: '#16a34a', secondary: '#14532d', bg: '#f0fdf4', nav: '#ffffff', footer: '#14532d', card: '#ffffff', text: '#14532d' },
   { name: 'Royal', primary: '#7c3aed', secondary: '#1e1b4b', bg: '#faf5ff', nav: '#ffffff', footer: '#1e1b4b', card: '#ffffff', text: '#1e1b4b' },
   { name: 'Sunset', primary: '#f97316', secondary: '#431407', bg: '#fff7ed', nav: '#ffffff', footer: '#431407', card: '#ffffff', text: '#1c1917' },
-  { name: 'Dark Mode', primary: '#f59e0b', secondary: '#111827', bg: '#111827', nav: '#1f2937', footer: '#030712', card: '#1f2937', text: '#f9fafb' },
 ];
 
 const TEXT_SECTIONS = {
@@ -60,7 +59,7 @@ const inputStyle = {
 };
 
 const AdminSettings = () => {
-  const { theme, texts, payment, saveTheme, saveTexts, savePayment, t } = useTheme();
+  const { theme, texts, payment, socials, saveTheme, saveTexts, savePayment, saveSocials, t } = useTheme();
   const [tab, setTab] = useState('theme');
   const [localTheme, setLocalTheme] = useState({
     primary: '#e94560',
@@ -83,9 +82,10 @@ const AdminSettings = () => {
   });
   const [localTexts, setLocalTexts] = useState({ ...texts });
   const [localPayment, setLocalPayment] = useState({ ...payment });
+  const [localSocials, setLocalSocials] = useState({ ...socials });
   const [copied, setCopied] = useState(false);
 
-  // Update local state when theme/texts/payment change
+  // Update local state when theme/texts/payment/socials change
   useEffect(() => {
     setLocalTheme({ ...theme });
   }, [theme]);
@@ -97,6 +97,20 @@ const AdminSettings = () => {
   useEffect(() => {
     setLocalPayment({ ...payment });
   }, [payment]);
+
+  useEffect(() => {
+    setLocalSocials({ ...socials });
+  }, [socials]);
+
+  const updateLocalSocial = (key, url) => setLocalSocials(p => ({
+    ...p,
+    [key]: { ...p[key], url, enabled: p[key]?.enabled ?? !!url }
+  }));
+
+  const updateLocalSocialEnabled = (key, enabled) => setLocalSocials(p => ({
+    ...p,
+    [key]: { ...p[key], enabled, url: p[key]?.url || '' }
+  }));
 
   const updateLocalTheme = (key, val) => setLocalTheme(p => ({ ...p, [key]: val }));
   const updateLocalText = (key, val) => setLocalTexts(p => ({ ...p, [key]: val }));
@@ -124,6 +138,11 @@ const AdminSettings = () => {
     }
     savePayment(localPayment);
     toast.success('Payment settings saved!');
+  };
+
+  const handleSaveSocials = () => {
+    saveSocials(localSocials);
+    toast.success('Social links saved!');
   };
 
   const copyCSS = () => {
@@ -171,6 +190,7 @@ const AdminSettings = () => {
   const tabs = [
     { id: 'theme', label: '🎨 Theme Colors' },
     { id: 'logo', label: '🏷️ Logo & Branding' },
+    { id: 'social', label: '🌐 Social Links' },
     { id: 'text', label: '✏️ Text & Content' },
     { id: 'payment', label: '💳 Payment Methods' },
   ];
@@ -457,6 +477,53 @@ const AdminSettings = () => {
           <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <button onClick={handleSaveTheme} className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
               <FiSave size={15} /> Save Logo Settings
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* ===== SOCIAL TAB ===== */}
+      {tab === 'social' && (
+        <div>
+          <p style={{ fontSize: 14, color: '#666', marginBottom: 20 }}>
+            Tick the social icons you want to show, then add the corresponding URL.
+          </p>
+          <SectionCard title="Social Media Links">
+            {[
+              { key: 'instagram', label: 'Instagram' },
+              { key: 'facebook', label: 'Facebook' },
+              { key: 'twitter', label: 'Twitter' },
+              { key: 'youtube', label: 'YouTube' },
+              { key: 'linkedin', label: 'LinkedIn' },
+              { key: 'whatsapp', label: 'WhatsApp' },
+            ].map(field => (
+              <FieldRow key={field.key} label={field.label}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12, width: '100%' }}>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 13, color: '#444' }}>
+                    <input type="checkbox"
+                      checked={localSocials[field.key]?.enabled || false}
+                      onChange={e => updateLocalSocialEnabled(field.key, e.target.checked)} />
+                    Enable
+                  </label>
+                  <input type="url"
+                    value={localSocials[field.key]?.url || ''}
+                    onChange={e => updateLocalSocial(field.key, e.target.value)}
+                    placeholder={`https://www.${field.key}.com/yourpage`}
+                    disabled={!localSocials[field.key]?.enabled}
+                    style={{
+                      ...inputStyle,
+                      flex: 1,
+                      opacity: localSocials[field.key]?.enabled ? 1 : 0.6,
+                      background: localSocials[field.key]?.enabled ? '#fff' : '#f7f7f7',
+                    }} />
+                </div>
+              </FieldRow>
+            ))}
+          </SectionCard>
+
+          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <button onClick={handleSaveSocials} className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <FiSave size={15} /> Save Social Links
             </button>
           </div>
         </div>

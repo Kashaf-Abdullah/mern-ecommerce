@@ -49,8 +49,8 @@ const Checkout = () => {
 
   const shippingPrice = subtotal >= 500 ? 0 : 50;
   const taxPrice = Math.round(subtotal * 0.18 * 100) / 100;
-  const discount = couponData?.discount || 0;
-  const total = subtotal + shippingPrice + taxPrice - discount;
+  const discount = Number(couponData?.discount || 0);
+  const total = Number(subtotal) + shippingPrice + taxPrice - discount;
 
   const applyCoupon = async () => {
     if (!couponCode.trim()) return;

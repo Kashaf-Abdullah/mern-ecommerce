@@ -51,8 +51,9 @@ const AdminOrders = () => {
     setUpdating(true);
     try {
       const { data } = await orderAPI.updateStatus(selectedOrder._id, statusForm);
-      setOrders(prev => prev.map(o => o._id === selectedOrder._id ? data.order : o));
-      setSelectedOrder(null);
+      const updatedOrder = { ...selectedOrder, ...data.order, user: selectedOrder.user || data.order.user };
+      setOrders(prev => prev.map(o => o._id === selectedOrder._id ? updatedOrder : o));
+      setSelectedOrder(updatedOrder);
       toast.success(`Order updated to "${statusForm.status}"`);
     } catch (err) {
       toast.error(err.response?.data?.message || 'Failed to update status');
@@ -147,8 +148,8 @@ const AdminOrders = () => {
 
       {/* Status Update Modal */}
       {selectedOrder && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
-          <div style={{ background: '#fff', borderRadius: 16, width: '100%', maxWidth: 560 }}>
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20, overflowY: 'auto' }}>
+          <div style={{ background: '#fff', borderRadius: 16, width: '100%', maxWidth: 860, minWidth: 540, maxHeight: '90vh', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
             <div style={{ padding: '22px 28px', borderBottom: '1px solid #f0f0f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <h2 style={{ fontSize: 18, fontWeight: 700 }}>Order Details</h2>
               <button onClick={() => setSelectedOrder(null)} style={{ background: '#f5f5f5', border: 'none', width: 34, height: 34, borderRadius: 8, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -156,12 +157,18 @@ const AdminOrders = () => {
               </button>
             </div>
 
-            <div style={{ padding: '22px 28px' }}>
+            <div style={{ padding: '22px 28px', overflowY: 'auto', flex: 1 }}>
               {/* Order Info */}
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 20, padding: 16, background: '#f9f9f9', borderRadius: 10 }}>
                 {[
                   { label: 'Order ID', value: selectedOrder.orderId },
                   { label: 'Customer', value: selectedOrder.user?.name },
+                  { label: 'Phone', value: selectedOrder.shippingAddress?.phone },
+                  { label: 'City', value: selectedOrder.shippingAddress?.city },
+                  { label: 'State', value: selectedOrder.shippingAddress?.state },
+                  { label: 'Pincode', value: selectedOrder.shippingAddress?.pincode },
+                  { label: 'Address', value: `${selectedOrder.shippingAddress?.addressLine1 || ''}${selectedOrder.shippingAddress?.addressLine2 ? ', ' + selectedOrder.shippingAddress.addressLine2 : ''}` },
+                  { label: 'Tracking Number', value: selectedOrder.trackingNumber || 'Not assigned' },
                   { label: 'Total', value: `Rs.${selectedOrder.totalPrice?.toFixed(2)}` },
                   { label: 'Payment', value: selectedOrder.paymentMethod?.toUpperCase() },
                   { label: 'Current Status', value: selectedOrder.orderStatus },
@@ -169,7 +176,7 @@ const AdminOrders = () => {
                 ].map(item => (
                   <div key={item.label}>
                     <div style={{ fontSize: 11, color: '#888', fontWeight: 600, textTransform: 'uppercase', marginBottom: 3 }}>{item.label}</div>
-                    <div style={{ fontSize: 14, fontWeight: 600, textTransform: 'capitalize' }}>{item.value}</div>
+                    <div style={{ fontSize: 14, fontWeight: 600, textTransform: item.label === 'Address' ? 'none' : 'capitalize' }}>{item.value}</div>
                   </div>
                 ))}
               </div>

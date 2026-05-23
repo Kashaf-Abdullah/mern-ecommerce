@@ -1,10 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FiInstagram, FiTwitter, FiFacebook, FiYoutube, FiMail, FiPhone, FiMapPin } from 'react-icons/fi';
+import { FaLinkedin, FaWhatsapp } from 'react-icons/fa';
 import { useTheme } from '../../context/ThemeContext';
 
 const Footer = () => {
-  const { theme, t } = useTheme();
+  const { theme, socials, t } = useTheme();
   const footerBg  = theme.footer  || '#1a1a2e';
   const primary   = theme.primary  || '#e94560';
   const isMobile = window.innerWidth <= 768;
@@ -31,9 +32,18 @@ const Footer = () => {
             <p style={{ fontSize: isMobile ? 13 : 14, lineHeight: 1.8, marginBottom: 16 }}>
               {t('footerTagline') || 'Your one-stop shop for everything you need.'}
             </p>
-            <div style={{ display: 'flex', gap: 10 }}>
-              {[FiInstagram, FiTwitter, FiFacebook, FiYoutube].map((Icon, i) => (
-                <a key={i} href="#"
+            <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+              {[
+                { key: 'instagram', Icon: FiInstagram },
+                { key: 'twitter', Icon: FiTwitter },
+                { key: 'facebook', Icon: FiFacebook },
+                { key: 'youtube', Icon: FiYoutube },
+                { key: 'linkedin', Icon: FaLinkedin },
+                { key: 'whatsapp', Icon: FaWhatsapp },
+              ].filter(item => socials?.[item.key]?.enabled && socials[item.key]?.url).map(({ key, Icon }) => (
+                <a key={key} href={socials[key].url}
+                  target="_blank"
+                  rel="noreferrer"
                   style={{ width: isMobile ? 32 : 36, height: isMobile ? 32 : 36, borderRadius: '50%', background: 'rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', transition: 'background 0.2s' }}
                   onMouseEnter={e => e.currentTarget.style.background = primary}
                   onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.08)'}>

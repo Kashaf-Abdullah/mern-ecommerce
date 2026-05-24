@@ -1,90 +1,35 @@
 [
   {
-    "name": "Electronics",
-    "slug": "electronics",
-    "description": "Smartphones, laptops, audio, gadgets and accessories",
+    "name": "Men",
+    "slug": "men",
+    "description": "Men's fashion, footwear and essentials for everyday style.",
     "order": 1,
     "isActive": true,
     "image": {
-      "public_id": "cat_electronics",
-      "url": "https://images.unsplash.com/photo-1468495244123-6c6c332eeece?w=500&q=80"
+      "public_id": "cat_men",
+      "url": "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=500&q=80"
     }
   },
   {
-    "name": "Beauty",
-    "slug": "beauty",
-    "description": "Skincare, makeup, haircare and personal care products",
+    "name": "Women",
+    "slug": "women",
+    "description": "Women's apparel, accessories and beauty essentials for every occasion.",
     "order": 2,
     "isActive": true,
     "image": {
-      "public_id": "cat_beauty",
-      "url": "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=500&q=80"
+      "public_id": "cat_women",
+      "url": "https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?w=500&q=80"
     }
   },
   {
-    "name": "Clothes",
-    "slug": "clothes",
-    "description": "Men, women and kids fashion — shirts, jeans, kurtas and more",
+    "name": "Kids",
+    "slug": "kids",
+    "description": "Kids' clothing, toys and playful accessories for infants and children.",
     "order": 3,
     "isActive": true,
     "image": {
-      "public_id": "cat_clothes",
-      "url": "https://images.unsplash.com/photo-1445205170230-053b83016050?w=500&q=80"
-    }
-  },
-  {
-    "name": "Sports",
-    "slug": "sports",
-    "description": "Sports equipment, fitness gear and outdoor accessories",
-    "order": 4,
-    "isActive": true,
-    "image": {
-      "public_id": "cat_sports",
-      "url": "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=500&q=80"
-    }
-  },
-  {
-    "name": "Books",
-    "slug": "books",
-    "description": "Bestsellers, fiction, self-help, finance and academic books",
-    "order": 5,
-    "isActive": true,
-    "image": {
-      "public_id": "cat_books",
-      "url": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=500&q=80"
-    }
-  },
-  {
-    "name": "Home & Kitchen",
-    "slug": "home-kitchen",
-    "description": "Kitchen appliances, cookware, home decor and furniture",
-    "order": 6,
-    "isActive": true,
-    "image": {
-      "public_id": "cat_home_kitchen",
-      "url": "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=500&q=80"
-    }
-  },
-  {
-    "name": "Footwear",
-    "slug": "footwear",
-    "description": "Sneakers, formal shoes, sandals, boots for men and women",
-    "order": 7,
-    "isActive": true,
-    "image": {
-      "public_id": "cat_footwear",
-      "url": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&q=80"
-    }
-  },
-  {
-    "name": "Toys & Games",
-    "slug": "toys-games",
-    "description": "Board games, action figures, puzzles and toys for all ages",
-    "order": 8,
-    "isActive": true,
-    "image": {
-      "public_id": "cat_toys",
-      "url": "https://images.unsplash.com/photo-1558060370-d644479cb6f7?w=500&q=80"
+      "public_id": "cat_kids",
+      "url": "https://images.unsplash.com/photo-1511988617509-a57c8a288659?w=500&q=80"
     }
   }
 ]

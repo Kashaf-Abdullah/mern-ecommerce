@@ -31,10 +31,17 @@ const Checkout = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  const pakistanCities = [
+    'Karachi', 'Lahore', 'Islamabad', 'Rawalpindi', 'Faisalabad',
+    'Multan', 'Peshawar', 'Quetta', 'Gujranwala', 'Sialkot',
+    'Hyderabad', 'Sukkur', 'Bahawalpur', 'Sargodha', 'Sahiwal',
+    'Gujrat', 'Abbottabad', 'Mardan', 'Kasur'
+  ];
+
   const [address, setAddress] = useState({
     fullName: user?.name || '', phone: '',
     addressLine1: '', addressLine2: '',
-    city: '', state: '', pincode: '', country: 'India',
+    city: '', state: '', pincode: '', country: 'Pakistan',
   });
 
   useEffect(() => {
@@ -44,7 +51,7 @@ const Checkout = () => {
 
   useEffect(() => {
     const def = user?.addresses?.find(a => a.isDefault) || user?.addresses?.[0];
-    if (def) setAddress(def);
+    if (def) setAddress({ ...def, country: 'Pakistan' });
   }, [user]);
 
   const shippingPrice = subtotal >= 500 ? 0 : 50;
@@ -176,7 +183,7 @@ const Checkout = () => {
                 <div style={{ marginBottom: 20 }}>
                   <div style={{ fontSize: 12, fontWeight: 700, color: '#888', marginBottom: 10 }}>SAVED ADDRESSES</div>
                   {user.addresses.map(addr => (
-                    <div key={addr._id} onClick={() => setAddress(addr)} style={{ padding: isMobile ? '12px 14px' : '14px 16px', borderRadius: 10, marginBottom: 8, cursor: 'pointer', border: `2px solid ${address._id === addr._id ? 'var(--primary)' : '#e0e0e0'}`, background: address._id === addr._id ? 'rgba(233,69,96,0.04)' : '#fff' }}>
+                    <div key={addr._id} onClick={() => setAddress({ ...addr, country: 'Pakistan' })} style={{ padding: isMobile ? '12px 14px' : '14px 16px', borderRadius: 10, marginBottom: 8, cursor: 'pointer', border: `2px solid ${address._id === addr._id ? 'var(--primary)' : '#e0e0e0'}`, background: address._id === addr._id ? 'rgba(233,69,96,0.04)' : '#fff' }}>
                       <div style={{ fontWeight: 600, fontSize: isMobile ? 13 : 14 }}>{addr.fullName} — {addr.phone}</div>
                       <div style={{ color: '#666', fontSize: isMobile ? 12 : 13, marginTop: 3 }}>{addr.addressLine1}, {addr.city}, {addr.state} - {addr.pincode}</div>
                     </div>
@@ -193,11 +200,20 @@ const Checkout = () => {
                   { key: 'city', label: 'City', span: isMobile ? 1 : 1 },
                   { key: 'state', label: 'State', span: isMobile ? 1 : 1 },
                   { key: 'pincode', label: 'Pincode', span: isMobile ? 1 : 1 },
-                  { key: 'country', label: 'Country', span: isMobile ? 1 : 1 },
                 ].map(f => (
                   <div key={f.key} style={{ gridColumn: `span ${f.span}` }}>
                     <label style={{ fontSize: isMobile ? 12 : 13, fontWeight: 600, marginBottom: 6, display: 'block', color: '#555' }}>{f.label}</label>
-                    <input type="text" value={address[f.key] || ''} onChange={e => setAddress(a => ({ ...a, [f.key]: e.target.value }))} className="form-control" required={!f.label.includes('optional')} />
+                    {f.key === 'city' ? (
+                      <select value={address.city || ''} onChange={e => setAddress(a => ({ ...a, city: e.target.value }))}
+                        className="form-control" required>
+                        <option value="" disabled>Select city</option>
+                        {pakistanCities.map(city => (
+                          <option key={city} value={city}>{city}</option>
+                        ))}
+                      </select>
+                    ) : (
+                      <input type="text" value={address[f.key] || ''} onChange={e => setAddress(a => ({ ...a, [f.key]: e.target.value }))} className="form-control" required={!f.label.includes('optional')} />
+                    )}
                   </div>
                 ))}
               </div>

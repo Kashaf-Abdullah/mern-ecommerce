@@ -69,13 +69,16 @@ const Home = () => {
       {/* Hero Banner */}
       <div style={{
         background: `linear-gradient(135deg, ${secondary} 0%, ${secondary}cc 100%)`,
-        color:'#fff', borderRadius: isMobile ? 12 : 16, padding: isMobile ? '30px 20px' : '60px 50px', marginBottom: isMobile ? 30 : 50,
+        color:'#fff', borderRadius: isMobile ? 12 : 16, padding: isMobile ? '30px 20px 100px' : '60px 50px', marginBottom: isMobile ? 30 : 50,
         display:'flex', flexDirection: isMobile ? 'column' : 'row', alignItems:'center', justifyContent:'space-between',
-        overflow:'hidden', position:'relative'
+        overflow:'hidden', position:'relative',
+        minHeight: isMobile ? 340 : 'auto'
       }}>
         <div style={{ position:'absolute', top: isMobile ? -40 : -60, right: isMobile ? -40 : -60, width: isMobile ? 150 : 300, height: isMobile ? 150 : 300, borderRadius:'50%', background:`${primary}25` }} />
         <div style={{ position:'absolute', bottom: isMobile ? -20 : -40, right: isMobile ? 50 : 200, width: isMobile ? 100 : 200, height: isMobile ? 100 : 200, borderRadius:'50%', background:'rgba(255,255,255,0.04)' }} />
-        <div style={{ zIndex:1, maxWidth: isMobile ? '100%' : 550, marginBottom: isMobile ? 20 : 0 }}>
+        <div style={{ zIndex:1, maxWidth: isMobile ? '100%' : 550, marginBottom: isMobile ? 20 : 0,
+          display: isMobile ? 'flex' : 'block', flexDirection: isMobile ? 'column' : 'initial', justifyContent: isMobile ? 'space-between' : 'initial', height: isMobile ? '100%' : 'auto'
+        }}>
           <div style={{ background:`${primary}33`, display:'inline-block', padding:'6px 16px', borderRadius:20, fontSize: isMobile ? 12 : 13, fontWeight:600, marginBottom:12, color:'#fda4af' }}>
             🔥 New Season Sale
           </div>
@@ -85,13 +88,15 @@ const Home = () => {
           <p style={{ fontSize: isMobile ? 14 : 17, opacity:0.8, marginBottom: isMobile ? 20 : 30, lineHeight:1.7 }}>
             {t('heroSubtitle') || 'Shop the latest trends with unbeatable prices.'}
           </p>
-          <div style={{ display:'flex', flexDirection: isMobile ? 'column' : 'row', gap: isMobile ? 10 : 14 }}>
+          <div style={{ display:'flex', flexDirection: isMobile ? 'column' : 'row', gap: isMobile ? 10 : 14,
+            position: isMobile ? 'absolute' : 'static', left: isMobile ? 20 : undefined, right: isMobile ? 20 : undefined, bottom: isMobile ? 20 : undefined
+          }}>
             <Link to="/products"
-              style={{ display:'inline-flex', alignItems:'center', justifyContent:'center', gap:8, padding: isMobile ? '12px 20px' : '14px 28px', borderRadius:10, background:primary, color:'#fff', fontWeight:700, fontSize: isMobile ? 14 : 15, textDecoration:'none' }}>
+              style={{ display:'inline-flex', alignItems:'center', justifyContent:'center', gap:8, padding: isMobile ? '12px 20px' : '14px 28px', borderRadius:10, background:primary, color:'#fff', fontWeight:700, fontSize: isMobile ? 14 : 15, textDecoration:'none', width: isMobile ? '100%' : 'auto' }}>
               {t('heroBtn1') || 'Shop Now'} <FiArrowRight size={18} />
             </Link>
             <Link to="/products?featured=true"
-              style={{ display:'inline-flex', alignItems:'center', justifyContent:'center', gap:8, padding: isMobile ? '12px 20px' : '14px 28px', borderRadius:10, background:'rgba(255,255,255,0.14)', color:'#fff', fontWeight:600, fontSize: isMobile ? 14 : 15, textDecoration:'none' }}>
+              style={{ display:'inline-flex', alignItems:'center', justifyContent:'center', gap:8, padding: isMobile ? '12px 20px' : '14px 28px', borderRadius:10, background:'rgba(255,255,255,0.14)', color:'#fff', fontWeight:600, fontSize: isMobile ? 14 : 15, textDecoration:'none', width: isMobile ? '100%' : 'auto', marginTop: isMobile ? 10 : 0 }}>
               {t('heroBtn2') || 'View Deals'}
             </Link>
           </div>

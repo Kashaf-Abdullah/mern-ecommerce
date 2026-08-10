@@ -18,6 +18,11 @@ const ProductCard = ({ product }) => {
   const wished = isWishlisted(product._id);
   const isMobile = window.innerWidth <= 768;
 
+  const formatAmount = amount => Number(amount).toLocaleString(undefined, {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2,
+  });
+
   const effectivePrice = product.discountPrice > 0 ? product.discountPrice : product.price;
   const savings = product.discountPrice > 0 ? product.price - product.discountPrice : 0;
 
@@ -89,11 +94,11 @@ const ProductCard = ({ product }) => {
 
         {/* Price */}
         <div style={{ display: 'flex', alignItems: 'flex-start', gap: isMobile ? 6 : 8, marginTop: 2, flexWrap: 'wrap' }}>
-          <span style={{ fontSize: isMobile ? 16 : 18, fontWeight: 700, color: 'var(--dark)' }}>Rs.{effectivePrice.toLocaleString()}</span>
+          <span style={{ fontSize: isMobile ? 16 : 18, fontWeight: 700, color: 'var(--dark)' }}>Rs.{formatAmount(effectivePrice)}</span>
           {savings > 0 && (
             <>
-              <span style={{ fontSize: isMobile ? 11 : 13, color: 'var(--gray)', textDecoration: 'line-through' }}>Rs.{product.price.toLocaleString()}</span>
-              <span style={{ fontSize: isMobile ? 11 : 12, color: 'var(--success)', fontWeight: 600 }}>Save Rs.{savings}</span>
+              <span style={{ fontSize: isMobile ? 11 : 13, color: 'var(--gray)', textDecoration: 'line-through' }}>Rs.{formatAmount(product.price)}</span>
+              <span style={{ fontSize: isMobile ? 11 : 12, color: 'var(--success)', fontWeight: 600 }}>Save Rs.{formatAmount(savings)}</span>
             </>
           )}
         </div>

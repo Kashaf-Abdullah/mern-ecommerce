@@ -170,7 +170,12 @@ const ProductList = () => {
               placeholder="Search products..."
               value={searchTerm}
               onChange={e => setSearchTerm(e.target.value)}
-              onKeyDown={e => e.key === 'Enter' && updateFilter('search', searchTerm)}
+              onKeyDown={e => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  updateFilter('search', searchTerm);
+                }
+              }}
               className="form-control"
               style={{ border: 'none', outline: 'none', boxShadow: 'none', minWidth: 0, fontSize: 14 }}
             />

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Outlet, NavLink, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Outlet, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { FiGrid, FiPackage, FiShoppingBag, FiUsers, FiTag, FiPercent, FiSettings, FiBell, FiHeart, FiMenu, FiX, FiLogOut, FiEye } from 'react-icons/fi';
 import { useAuth } from '../../context/AuthContext';
 
@@ -18,11 +18,50 @@ const navItems = [
 const AdminLayout = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  const [open, setOpen] = useState(true);
+  const location = useLocation();
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [open, setOpen] = useState(window.innerWidth > 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const mobile = window.innerWidth <= 768;
+      setIsMobile(mobile);
+      if (!mobile) {
+        setOpen(true);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    if (isMobile && open) {
+      setOpen(false);
+    }
+  }, [location.pathname]);
+
+  const sidebarWidth = isMobile ? 280 : open ? 240 : 64;
+  const sidebarLeft = isMobile ? (open ? 0 : '-100%') : 0;
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', background: '#f4f6f9' }}>
-      <aside style={{ width: open ? 240 : 64, background: '#1a1a2e', color: '#fff', transition: 'width 0.28s', flexShrink: 0, display: 'flex', flexDirection: 'column', position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', zIndex: 200 }}>
+      <aside style={{
+        width: sidebarWidth,
+        background: '#1a1a2e',
+        color: '#fff',
+        transition: 'all 0.28s ease',
+        flexShrink: 0,
+        display: 'flex',
+        flexDirection: 'column',
+        position: isMobile ? 'fixed' : 'sticky',
+        top: 0,
+        left: sidebarLeft,
+        height: '100vh',
+        overflow: 'hidden',
+        zIndex: 200,
+        boxShadow: isMobile && open ? '0 18px 40px rgba(0,0,0,0.2)' : 'none',
+      }}>
         <div style={{ padding: '18px 14px', display: 'flex', alignItems: 'center', justifyContent: open ? 'space-between' : 'center', borderBottom: '1px solid rgba(255,255,255,0.08)', minHeight: 62 }}>
           {open && <span style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 20, color: 'var(--primary, #e94560)' }}>Shop<span style={{ color: '#fff' }}>Admin</span></span>}
           <button onClick={() => setOpen(!open)} style={{ background: 'rgba(255,255,255,0.07)', border: 'none', color: '#fff', width: 32, height: 32, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
@@ -57,8 +96,17 @@ const AdminLayout = () => {
         </div>
       </aside>
 
+      {isMobile && open && (
+        <div onClick={() => setOpen(false)} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.35)', zIndex: 150 }} />
+      )}
+
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
-        <header style={{ background: '#fff', padding: '0 28px', height: 60, display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid #e5e7eb', position: 'sticky', top: 0, zIndex: 100, boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}>
+        <header style={{ background: '#fff', padding: isMobile ? '0 16px' : '0 28px', height: 60, display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid #e5e7eb', position: 'sticky', top: 0, zIndex: 100, boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}>
+          {isMobile && (
+            <button onClick={() => setOpen(true)} style={{ background: 'none', border: 'none', color: '#6b7280', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: 10, marginRight: 8 }}>
+              <FiMenu size={22} />
+            </button>
+          )}
           <div style={{ fontSize: 14, color: '#6b7280' }}>
             Welcome back, <strong style={{ color: '#1a1a2e' }}>{user?.name}</strong>
           </div>

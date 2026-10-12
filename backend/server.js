@@ -36,6 +36,19 @@ const authLimiter = rateLimit({
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
+if (process.env.VERCEL) {
+  const connectDB = require('./config/db');
+  app.use(async (req, res, next) => {
+    try {
+      await connectDB();
+      next();
+    } catch (error) {
+      console.error(`❌ MongoDB unavailable for API request: ${error.message}`);
+      res.status(503).json({ success: false, message: 'Database unavailable' });
+    }
+  });
+}
+
 // Logger
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
@@ -88,14 +101,20 @@ app.use('*', (req, res) => {
   res.status(404).json({ success: false, message: `Route ${req.originalUrl} not found` });
 });
 
-// Connect to MongoDB and Start Server
-const connectDB = require('./config/db');
-connectDB().then(() => {
-  const PORT = process.env.PORT || 5000;
-  app.listen(PORT, () => {
-    console.log(`\n🚀 Server running on port ${PORT} in ${process.env.NODE_ENV} mode`);
-    console.log(`📡 API: http://localhost:${PORT}/api`);
-  });
-});
+// Start the standalone server locally; Vercel connects to MongoDB in its function handler.
+if (require.main === module) {
+  const connectDB = require('./config/db');
+  connectDB()
+    .then(() => {
+      const PORT = process.env.PORT || 5000;
+      app.listen(PORT, () => {
+        console.log(`\n🚀 Server running on port ${PORT} in ${process.env.NODE_ENV} mode`);
+        console.log(`📡 API: http://localhost:${PORT}/api`);
+      });
+    })
+    .catch(() => {
+      process.exitCode = 1;
+    });
+}
 
 module.exports = app;

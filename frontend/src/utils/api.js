@@ -1,7 +1,14 @@
 import axios from 'axios';
 
+const configuredApiBaseUrl = process.env.REACT_APP_API_BASE_URL || process.env.REACT_APP_API_URL;
+const normalizedApiBaseUrl = configuredApiBaseUrl
+  ? configuredApiBaseUrl.replace(/\/+$/, '')
+  : '';
+
 const API = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || '/api',
+  baseURL: normalizedApiBaseUrl
+    ? (normalizedApiBaseUrl.endsWith('/api') ? normalizedApiBaseUrl : `${normalizedApiBaseUrl}/api`)
+    : '/api',
   headers: { 'Content-Type': 'application/json' },
   withCredentials: true,
 });

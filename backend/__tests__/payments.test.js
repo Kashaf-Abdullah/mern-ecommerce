@@ -1,6 +1,7 @@
 delete process.env.STRIPE_SECRET_KEY;
 delete process.env.RAZORPAY_KEY_ID;
 delete process.env.RAZORPAY_KEY_SECRET;
+delete process.env.RAZORPAY_ENABLED;
 
 const paymentController = require('../controllers/paymentController');
 
@@ -28,6 +29,41 @@ describe('Payment Tests', () => {
       };
 
       paymentController.createRazorpayOrder({ body: {} }, res, jest.fn());
+
+      expect(res.status).toHaveBeenCalledWith(503);
+      expect(res.json).toHaveBeenCalledWith({
+        success: false,
+        message: 'Razorpay payments are not configured',
+      });
+    });
+
+    it('keeps Razorpay disabled unless explicitly enabled', () => {
+      const originalEnv = {
+        RAZORPAY_ENABLED: process.env.RAZORPAY_ENABLED,
+        RAZORPAY_KEY_ID: process.env.RAZORPAY_KEY_ID,
+        RAZORPAY_KEY_SECRET: process.env.RAZORPAY_KEY_SECRET,
+      };
+      process.env.RAZORPAY_KEY_ID = 'test_key';
+      process.env.RAZORPAY_KEY_SECRET = 'test_secret';
+      delete process.env.RAZORPAY_ENABLED;
+
+      let isolatedController;
+      try {
+        jest.isolateModules(() => {
+          isolatedController = require('../controllers/paymentController');
+        });
+      } finally {
+        for (const [key, value] of Object.entries(originalEnv)) {
+          if (value === undefined) delete process.env[key];
+          else process.env[key] = value;
+        }
+      }
+
+      const res = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      };
+      isolatedController.createRazorpayOrder({ body: {} }, res, jest.fn());
 
       expect(res.status).toHaveBeenCalledWith(503);
       expect(res.json).toHaveBeenCalledWith({

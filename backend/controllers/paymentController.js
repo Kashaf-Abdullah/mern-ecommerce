@@ -1,19 +1,35 @@
 const asyncHandler = require('express-async-handler');
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const stripe = process.env.STRIPE_SECRET_KEY
+  ? require('stripe')(process.env.STRIPE_SECRET_KEY)
+  : null;
 const Razorpay = require('razorpay');
 const crypto = require('crypto');
 const Order = require('../models/Order');
 
-const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID,
-  key_secret: process.env.RAZORPAY_KEY_SECRET,
-});
+const razorpay = process.env.RAZORPAY_KEY_ID && process.env.RAZORPAY_KEY_SECRET
+  ? new Razorpay({
+    key_id: process.env.RAZORPAY_KEY_ID,
+    key_secret: process.env.RAZORPAY_KEY_SECRET,
+  })
+  : null;
+
+const requireProvider = (res, provider, name) => {
+  if (provider) return true;
+
+  res.status(503).json({
+    success: false,
+    message: `${name} payments are not configured`,
+  });
+  return false;
+};
 
 // ==================== STRIPE ====================
 
 // @desc    Create Stripe payment intent
 // @route   POST /api/payment/stripe/create-intent
 exports.createStripeIntent = asyncHandler(async (req, res) => {
+  if (!requireProvider(res, stripe, 'Stripe')) return;
+
   const { amount, currency = 'inr' } = req.body;
 
   const paymentIntent = await stripe.paymentIntents.create({
@@ -32,6 +48,8 @@ exports.createStripeIntent = asyncHandler(async (req, res) => {
 // @desc    Confirm Stripe payment & update order
 // @route   POST /api/payment/stripe/confirm
 exports.confirmStripePayment = asyncHandler(async (req, res) => {
+  if (!requireProvider(res, stripe, 'Stripe')) return;
+
   const { orderId, paymentIntentId } = req.body;
 
   const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
@@ -63,6 +81,8 @@ exports.confirmStripePayment = asyncHandler(async (req, res) => {
 // @desc    Create Razorpay order
 // @route   POST /api/payment/razorpay/create-order
 exports.createRazorpayOrder = asyncHandler(async (req, res) => {
+  if (!requireProvider(res, razorpay, 'Razorpay')) return;
+
   const { amount, currency = 'INR', orderId } = req.body;
 
   const options = {
@@ -86,6 +106,8 @@ exports.createRazorpayOrder = asyncHandler(async (req, res) => {
 // @desc    Verify Razorpay payment
 // @route   POST /api/payment/razorpay/verify
 exports.verifyRazorpayPayment = asyncHandler(async (req, res) => {
+  if (!requireProvider(res, razorpay, 'Razorpay')) return;
+
   const { razorpay_order_id, razorpay_payment_id, razorpay_signature, orderId } = req.body;
 
   const sign = razorpay_order_id + '|' + razorpay_payment_id;
@@ -115,6 +137,8 @@ exports.verifyRazorpayPayment = asyncHandler(async (req, res) => {
 // @desc    Stripe Webhook
 // @route   POST /api/payment/stripe/webhook
 exports.stripeWebhook = asyncHandler(async (req, res) => {
+  if (!requireProvider(res, stripe, 'Stripe')) return;
+
   const sig = req.headers['stripe-signature'];
   let event;
 

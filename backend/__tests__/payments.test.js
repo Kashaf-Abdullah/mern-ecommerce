@@ -1,4 +1,42 @@
+delete process.env.STRIPE_SECRET_KEY;
+delete process.env.RAZORPAY_KEY_ID;
+delete process.env.RAZORPAY_KEY_SECRET;
+
+const paymentController = require('../controllers/paymentController');
+
 describe('Payment Tests', () => {
+  describe('Payment provider configuration', () => {
+    it('keeps the API available and returns 503 when Stripe is not configured', () => {
+      const res = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      };
+
+      paymentController.createStripeIntent({ body: {} }, res, jest.fn());
+
+      expect(res.status).toHaveBeenCalledWith(503);
+      expect(res.json).toHaveBeenCalledWith({
+        success: false,
+        message: 'Stripe payments are not configured',
+      });
+    });
+
+    it('returns 503 when Razorpay is not configured', () => {
+      const res = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      };
+
+      paymentController.createRazorpayOrder({ body: {} }, res, jest.fn());
+
+      expect(res.status).toHaveBeenCalledWith(503);
+      expect(res.json).toHaveBeenCalledWith({
+        success: false,
+        message: 'Razorpay payments are not configured',
+      });
+    });
+  });
+
   describe('Payment Processing', () => {
     it('should validate card number', () => {
       const validCard = '4532123456789010';

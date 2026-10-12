@@ -108,7 +108,7 @@ if (require.main === module) {
     .then(() => {
       const PORT = process.env.PORT || 5000;
       app.listen(PORT, () => {
-        console.log(`\n🚀 Server running on port ${PORT} in ${process.env.NODE_ENV} mode`);
+        console.log(`\n🚀 Server running on portt ${PORT} in ${process.env.NODE_ENV} mode`);
         console.log(`📡 API: http://localhost:${PORT}/api`);
       });
     })

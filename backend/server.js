@@ -38,9 +38,27 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 if (process.env.VERCEL) {
   const connectDB = require('./config/db');
-  app.use(async (req, res, next) => {
+
+  const ensureDatabaseConnection = async () => {
+    if (mongoose.connection.readyState === 1) {
+      return;
+    }
+
+    if (mongoose.connection.readyState === 2) {
+      await new Promise((resolve) => mongoose.connection.once('connected', resolve));
+      return;
+    }
+
+    await connectDB();
+  };
+
+  app.use('/api', async (req, res, next) => {
+    if (req.path === '/health' || req.method === 'OPTIONS') {
+      return next();
+    }
+
     try {
-      await connectDB();
+      await ensureDatabaseConnection();
       next();
     } catch (error) {
       console.error(`❌ MongoDB unavailable for API request: ${error.message}`);
@@ -108,7 +126,7 @@ if (require.main === module) {
     .then(() => {
       const PORT = process.env.PORT || 5000;
       app.listen(PORT, () => {
-        console.log(`\n🚀 Server running on portt ${PORT} in ${process.env.NODE_ENV} mode`);
+        console.log(`\n🚀 Server running on port ${PORT} in ${process.env.NODE_ENV} mode`);
         console.log(`📡 API: http://localhost:${PORT}/api`);
       });
     })

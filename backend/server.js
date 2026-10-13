@@ -11,15 +11,25 @@ const app = express();
 
 // Security Middleware
 app.use(helmet());
+
+const normalizeOrigin = (origin = '') => origin.trim().replace(/\/+$/, '');
 const allowedOrigins = [
   process.env.FRONTEND_URL,
   'http://localhost:3000',
   'https://kashaf-ecommerce.netlify.app',
   'https://kashaf-ecommerce-website.netlify.app',
-].filter(Boolean);
+].map(normalizeOrigin).filter(Boolean);
 
 app.use(cors({
-  origin: allowedOrigins,
+  origin: (origin, callback) => {
+    const normalizedOrigin = normalizeOrigin(origin);
+    if (!origin || allowedOrigins.includes(normalizedOrigin)) {
+      callback(null, true);
+      return;
+    }
+
+    callback(new Error('Origin not allowed by CORS'));
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization']

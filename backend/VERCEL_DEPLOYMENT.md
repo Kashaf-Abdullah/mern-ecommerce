@@ -5,7 +5,7 @@
    - Required: `MONGO_URI`, `JWT_SECRET`
    - For Stripe payments, set `STRIPE_SECRET_KEY` and `STRIPE_WEBHOOK_SECRET`.
    - Razorpay is disabled by default. To enable it later, set `RAZORPAY_ENABLED=true` along with `RAZORPAY_KEY_ID` and `RAZORPAY_KEY_SECRET`.
-   - Set `FRONTEND_URL` to the deployed frontend's origin so CORS and email links use the right domain.
+   - Set `FRONTEND_URL` to the deployed frontend's origin so CORS and email links use the right domain. Do not include a trailing slash, for example `https://kashaf-ecommerce.netlify.app`.
    - For image uploads, set `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, and `CLOUDINARY_API_SECRET`.
    - For email, set `SMTP_HOST`, `SMTP_PORT`, `SMTP_EMAIL`, `SMTP_PASSWORD`, `FROM_NAME`, and `FROM_EMAIL`.
    Payment providers, image uploads, and email are unavailable until their respective settings are configured. Razorpay additionally requires explicit opt-in.

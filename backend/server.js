@@ -141,7 +141,7 @@ if (require.main === module) {
   const connectDB = require('./config/db');
   connectDB()
     .then(() => {
-      const PORT = process.env.PORT || 5000;
+      const PORT = process.env.PORT || 8000;
       app.listen(PORT, () => {
         console.log(`\n🚀 Server running on port ${PORT} in ${process.env.NODE_ENV} mode`);
         console.log(`📡 API: http://localhost:${PORT}/api`);

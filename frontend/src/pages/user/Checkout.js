@@ -11,7 +11,7 @@ const steps = ['Address', 'Payment', 'Review'];
 
 const Checkout = () => {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, isAuthenticated } = useAuth();
   const { cart, subtotal, clearCart } = useCart();
   const { payment: paySet, t } = useTheme();
   const [step, setStep] = useState(0);
@@ -20,6 +20,7 @@ const Checkout = () => {
   const [couponData, setCouponData] = useState(null);
   const [couponLoading, setCouponLoading] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState('');
+  const [guestEmail, setGuestEmail] = useState('');
   const [receiptFile, setReceiptFile] = useState(null);
   const [receiptPreview, setReceiptPreview] = useState(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -100,11 +101,18 @@ const Checkout = () => {
         shippingAddress: address,
         paymentMethod,
         couponCode: couponData?.code,
+        ...(!isAuthenticated && {
+          guestEmail,
+          items: cart.items.map(item => ({
+            productId: item.product?._id || item._id,
+            quantity: item.quantity,
+          })),
+        }),
         notes: receiptData ? `Receipt uploaded by customer. Verify before shipping.` : undefined,
       });
 
       await clearCart();
-      navigate(`/order-success/${data.order._id}`);
+      navigate(`/order-success/${data.order._id}`, { state: { order: data.order } });
     } catch (err) {
       toast.error(err.response?.data?.message || 'Failed to place order');
     } finally { setLoading(false); }
@@ -191,6 +199,14 @@ const Checkout = () => {
                   <div style={{ fontSize: 12, fontWeight: 600, margin: '16px 0 10px', color: '#666' }}>Or enter new address:</div>
                 </div>
               )}
+              {!isAuthenticated && (
+                <div style={{ marginBottom: 14 }}>
+                  <label htmlFor="guest-email" style={{ fontSize: isMobile ? 12 : 13, fontWeight: 600, marginBottom: 6, display: 'block', color: '#555' }}>Email Address</label>
+                  <input id="guest-email" type="email" value={guestEmail} onChange={e => setGuestEmail(e.target.value)}
+                    className="form-control" required autoComplete="email" />
+                  <small style={{ color: '#888' }}>We’ll send your order confirmation to this email.</small>
+                </div>
+              )}
               <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? 12 : 14 }}>
                 {[
                   { key: 'fullName', label: 'Full Name', span: isMobile ? 1 : 1 },
@@ -218,7 +234,7 @@ const Checkout = () => {
                 ))}
               </div>
               <button onClick={() => setStep(1)} className="btn btn-primary btn-lg" style={{ marginTop: isMobile ? 18 : 24, borderRadius: 10, width: '100%' }}
-                disabled={!address.fullName || !address.phone || !address.addressLine1 || !address.city || !address.pincode}>
+                disabled={!address.fullName || !address.phone || !address.addressLine1 || !address.city || !address.pincode || (!isAuthenticated && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(guestEmail))}>
                 Continue to Payment
               </button>
             </div>

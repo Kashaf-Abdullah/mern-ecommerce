@@ -138,8 +138,8 @@ const Dashboard = () => {
                 <tr key={order._id}>
                   <td><Link to={`/orders/${order._id}`} style={{ color: 'var(--primary)', fontWeight: 600 }}>{order.orderId}</Link></td>
                   <td>
-                    <div style={{ fontWeight: 500 }}>{order.user?.name}</div>
-                    <div style={{ fontSize: 12, color: '#888' }}>{order.user?.email}</div>
+                    <div style={{ fontWeight: 500 }}>{order.user?.name || order.shippingAddress?.fullName}</div>
+                    <div style={{ fontSize: 12, color: '#888' }}>{order.user?.email || order.guestEmail}</div>
                   </td>
                   <td style={{ fontWeight: 700 }}>Rs.{order.totalPrice?.toFixed(2)}</td>
                   <td>

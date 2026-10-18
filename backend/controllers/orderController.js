@@ -5,20 +5,69 @@ const User = require('../models/User');
 const Notification = require('../models/Notification');
 const { Cart, Coupon } = require('../models/index');
 const sendEmail = require('../utils/sendEmail');
+const mongoose = require('mongoose');
 
 // @desc    Create order
 // @route   POST /api/orders
 exports.createOrder = asyncHandler(async (req, res) => {
   const { shippingAddress, paymentMethod, couponCode } = req.body;
+  let items;
 
-  const cart = await Cart.findOne({ user: req.user.id }).populate('items.product');
-  if (!cart || cart.items.length === 0) {
+  if (req.user) {
+    const cart = await Cart.findOne({ user: req.user.id }).populate('items.product');
+    items = cart?.items || [];
+  } else {
+    const { guestEmail, items: requestedItems } = req.body;
+    if (typeof guestEmail !== 'string' || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(guestEmail.trim())) {
+      res.status(400);
+      throw new Error('A valid email address is required for guest checkout');
+    }
+    if (!Array.isArray(requestedItems) || requestedItems.length === 0) {
+      res.status(400);
+      throw new Error('Cart is empty');
+    }
+
+    if (requestedItems.some(item => !item || typeof item !== 'object')) {
+      res.status(400);
+      throw new Error('Invalid product in cart');
+    }
+    const requestedProductIds = requestedItems.map(item => item.productId);
+    if (requestedProductIds.some(id => !mongoose.Types.ObjectId.isValid(id))) {
+      res.status(400);
+      throw new Error('Invalid product in cart');
+    }
+    const requestedQuantities = new Map();
+    for (const item of requestedItems) {
+      if (!Number.isInteger(item.quantity) || item.quantity < 1) {
+        res.status(400);
+        throw new Error('Invalid product quantity');
+      }
+      const productId = item.productId.toString();
+      requestedQuantities.set(productId, (requestedQuantities.get(productId) || 0) + item.quantity);
+    }
+    const products = await Product.find({ _id: { $in: [...requestedQuantities.keys()] } });
+    const productsById = new Map(products.map(product => [product._id.toString(), product]));
+    items = [...requestedQuantities].map(([productId, quantity]) => {
+      const product = productsById.get(productId);
+      if (!product || !product.isActive) {
+        res.status(400);
+        throw new Error('A product in your cart is no longer available');
+      }
+      return {
+        product,
+        quantity,
+        price: product.discountPrice > 0 ? product.discountPrice : product.price,
+      };
+    });
+  }
+
+  if (items.length === 0) {
     res.status(400);
     throw new Error('Cart is empty');
   }
 
   // Check stock availability
-  for (const item of cart.items) {
+  for (const item of items) {
     if (!item.product || !item.product.isActive) {
       res.status(400);
       throw new Error(`Product ${item.product?.name || 'unknown'} is no longer available`);
@@ -29,8 +78,8 @@ exports.createOrder = asyncHandler(async (req, res) => {
     }
   }
 
-  const itemsPrice = cart.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const shippingPrice = itemsPrice > 500 ? 0 : 50;
+  const itemsPrice = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const shippingPrice = itemsPrice >= 500 ? 0 : 50;
   const taxPrice = Math.round(itemsPrice * 0.18 * 100) / 100;
   let discountAmount = 0;
   let couponApplied = null;
@@ -48,7 +97,7 @@ exports.createOrder = asyncHandler(async (req, res) => {
           discountAmount = Math.min(coupon.discountValue, itemsPrice);
         }
         coupon.usedCount += 1;
-        coupon.usedBy.push(req.user.id);
+        if (req.user) coupon.usedBy.push(req.user.id);
         await coupon.save();
       }
     }
@@ -56,7 +105,7 @@ exports.createOrder = asyncHandler(async (req, res) => {
 
   const totalPrice = itemsPrice + shippingPrice + taxPrice - discountAmount;
 
-  const orderItems = cart.items.map(item => ({
+  const orderItems = items.map(item => ({
     product: item.product._id,
     name: item.product.name,
     image: item.product.images[0]?.url || '',
@@ -65,7 +114,7 @@ exports.createOrder = asyncHandler(async (req, res) => {
   }));
 
   const order = await Order.create({
-    user: req.user.id,
+    ...(req.user ? { user: req.user.id } : { guestEmail: req.body.guestEmail.trim().toLowerCase() }),
     items: orderItems,
     shippingAddress,
     paymentMethod,
@@ -81,14 +130,16 @@ exports.createOrder = asyncHandler(async (req, res) => {
   });
 
   // Reduce stock
-  for (const item of cart.items) {
+  for (const item of items) {
     await Product.findByIdAndUpdate(item.product._id, {
       $inc: { stock: -item.quantity }
     });
   }
 
   // Clear cart
-  await Cart.findOneAndUpdate({ user: req.user.id }, { items: [], couponApplied: null, discountAmount: 0 });
+  if (req.user) {
+    await Cart.findOneAndUpdate({ user: req.user.id }, { items: [], couponApplied: null, discountAmount: 0 });
+  }
 
   // Notify admins about new order
   try {
@@ -98,9 +149,9 @@ exports.createOrder = asyncHandler(async (req, res) => {
     if (adminIds.length > 0) {
       await Notification.create({
         title: 'New Order Received',
-        message: `New order #${order.orderId} received from ${req.user.name}. Total: ₹${order.totalPrice}`,
+        message: `New order #${order.orderId} received from ${req.user?.name || shippingAddress.fullName}. Total: ₹${order.totalPrice}`,
         link: `/admin/orders/${order._id}`,
-        createdBy: req.user.id,
+        createdBy: req.user?.id || admins[0]._id,
         targetAll: false,
         users: adminIds,
       });
@@ -112,10 +163,10 @@ exports.createOrder = asyncHandler(async (req, res) => {
   // Send confirmation email
   try {
     await sendEmail({
-      email: req.user.email,
+      email: req.user?.email || order.guestEmail || req.body.guestEmail.trim().toLowerCase(),
       subject: `Order Confirmed #${order.orderId}`,
       template: 'orderConfirmation',
-      data: { name: req.user.name, order }
+      data: { name: req.user?.name || shippingAddress.fullName, order }
     });
   } catch (err) {
     console.log('Order email error:', err.message);
@@ -148,7 +199,7 @@ exports.getOrder = asyncHandler(async (req, res) => {
   if (!order) { res.status(404); throw new Error('Order not found'); }
 
   // Only admin or the order owner can view
-  if (order.user._id.toString() !== req.user.id && req.user.role !== 'admin') {
+  if ((!order.user || order.user._id.toString() !== req.user.id) && req.user.role !== 'admin') {
     res.status(403);
     throw new Error('Not authorized to view this order');
   }
@@ -162,7 +213,7 @@ exports.cancelOrder = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id);
   if (!order) { res.status(404); throw new Error('Order not found'); }
 
-  if (order.user.toString() !== req.user.id) {
+  if (!order.user || order.user.toString() !== req.user.id) {
     res.status(403);
     throw new Error('Not authorized');
   }
@@ -247,29 +298,33 @@ exports.updateOrderStatus = asyncHandler(async (req, res) => {
 
   // Notify user via notification
   try {
-    const user = await User.findById(order.user);
+    const user = order.user ? await User.findById(order.user) : null;
     const statusText = status.charAt(0).toUpperCase() + status.slice(1);
     const trackingText = status === 'shipped' && trackingNumber ? ` Tracking No: ${trackingNumber}.` : '';
-    await Notification.create({
-      title: 'Order Status Updated',
-      message: `Your order #${order.orderId} is now ${statusText}.${trackingText}${description ? ` ${description}` : ''}`,
-      link: `/orders/${order._id}`,
-      createdBy: req.user.id,
-      targetAll: false,
-      users: [order.user],
-    });
+    if (user) {
+      await Notification.create({
+        title: 'Order Status Updated',
+        message: `Your order #${order.orderId} is now ${statusText}.${trackingText}${description ? ` ${description}` : ''}`,
+        link: `/orders/${order._id}`,
+        createdBy: req.user.id,
+        targetAll: false,
+        users: [order.user],
+      });
+    }
   } catch (err) {
     console.log('Notification error:', err.message);
   }
 
   // Notify user via email
   try {
-    const user = await User.findById(order.user);
+    const user = order.user ? await User.findById(order.user) : null;
+    const email = user?.email || order.guestEmail;
+    if (!email) throw new Error('No customer email available for order status notification');
     await sendEmail({
-      email: user.email,
+      email,
       subject: `Order ${status.charAt(0).toUpperCase() + status.slice(1)} - #${order.orderId}`,
       template: 'orderStatus',
-      data: { name: user.name, order, status }
+      data: { name: user?.name || order.shippingAddress.fullName, order, status }
     });
   } catch (err) {
     console.log('Status email error:', err.message);

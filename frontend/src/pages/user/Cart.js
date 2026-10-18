@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FiTrash2, FiMinus, FiPlus, FiShoppingBag, FiArrowRight } from 'react-icons/fi';
-import toast from 'react-hot-toast';
 import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
 
@@ -21,16 +20,6 @@ const Cart = () => {
   const taxPrice = Math.round(Number(subtotal) * 0.18 * 100) / 100;
   const total = Number(subtotal) + shippingPrice + taxPrice;
 
-  if (!isAuthenticated && !cart?.items?.length) {
-    return (
-      <div className="container" style={{ paddingTop: 60, textAlign: 'center' }}>
-        <div style={{ fontSize: isMobile ? 48 : 64, marginBottom: 16 }}>🛒</div>
-        <h2 style={{ marginBottom: 10, fontSize: isMobile ? 20 : 24 }}>Please login to view your cart</h2>
-        <Link to="/login" className="btn btn-primary btn-lg" style={{ marginTop: 16 }}>Login Now</Link>
-      </div>
-    );
-  }
-
   if (!cart?.items?.length) {
     return (
       <div className="container" style={{ paddingTop: 60, textAlign: 'center' }}>
@@ -46,7 +35,7 @@ const Cart = () => {
     <div className="container" style={{ paddingTop: isMobile ? 20 : 30, paddingBottom: 60 }}>
       { !isAuthenticated && (
         <div style={{ marginBottom: isMobile ? 16 : 24, padding: '14px 18px', background: '#fff8e1', border: '1px solid #ffe8a1', borderRadius: 12, color: '#856404', fontSize: isMobile ? 13 : 14 }}>
-          Your cart is stored locally. Login before checkout to save it to your account.
+          Your cart is stored locally on this device and can be checked out without an account.
         </div>
       ) }
       <h1 style={{ fontSize: isMobile ? 20 : 26, fontWeight: 800, marginBottom: isMobile ? 20 : 28 }}>
@@ -129,13 +118,7 @@ const Cart = () => {
               </div>
             </div>
 
-            <button onClick={() => {
-                if (!isAuthenticated) {
-                  toast.error('Please login to checkout');
-                  return navigate('/login');
-                }
-                navigate('/checkout');
-              }}
+            <button onClick={() => navigate('/checkout')}
               className="btn btn-primary btn-full btn-lg" style={{ borderRadius: 10, justifyContent: 'center', width: '100%' }}>
               Proceed to Checkout <FiArrowRight size={isMobile ? 16 : 18} />
             </button>

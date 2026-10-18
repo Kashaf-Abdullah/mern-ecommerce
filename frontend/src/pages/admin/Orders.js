@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FiEye, FiChevronDown, FiX } from 'react-icons/fi';
+import { useNavigate, useParams } from 'react-router-dom';
 import { orderAPI } from '../../utils/api';
 import toast from 'react-hot-toast';
 
@@ -19,6 +20,8 @@ const STATUS_FLOW = {
 };
 
 const AdminOrders = () => {
+  const { id: orderId } = useParams();
+  const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
@@ -29,6 +32,22 @@ const AdminOrders = () => {
   const [updating, setUpdating] = useState(false);
 
   useEffect(() => { fetchOrders(); }, [page, statusFilter]);
+
+  useEffect(() => {
+    if (!orderId) return;
+
+    const fetchOrder = async () => {
+      try {
+        const { data } = await orderAPI.getOne(orderId);
+        setSelectedOrder(data.order);
+        setStatusForm({ status: '', description: '', trackingNumber: data.order.trackingNumber || '' });
+      } catch (err) {
+        toast.error(err.response?.data?.message || 'Failed to load order');
+      }
+    };
+
+    fetchOrder();
+  }, [orderId]);
 
   const fetchOrders = async () => {
     setLoading(true);
@@ -43,6 +62,11 @@ const AdminOrders = () => {
   const openUpdateModal = (order) => {
     setSelectedOrder(order);
     setStatusForm({ status: '', description: '', trackingNumber: order.trackingNumber || '' });
+  };
+
+  const closeOrderModal = () => {
+    setSelectedOrder(null);
+    if (orderId) navigate('/admin/orders', { replace: true });
   };
 
   const handleStatusUpdate = async (e) => {
@@ -102,8 +126,8 @@ const AdminOrders = () => {
                 <tr key={order._id}>
                   <td style={{ fontWeight: 700, fontSize: 13, color: 'var(--primary)' }}>{order.orderId}</td>
                   <td>
-                    <div style={{ fontWeight: 500, fontSize: 14 }}>{order.user?.name}</div>
-                    <div style={{ fontSize: 12, color: '#888' }}>{order.user?.email}</div>
+                    <div style={{ fontWeight: 500, fontSize: 14 }}>{order.user?.name || order.shippingAddress?.fullName}</div>
+                    <div style={{ fontSize: 12, color: '#888' }}>{order.user?.email || order.guestEmail}</div>
                   </td>
                   <td style={{ fontSize: 13 }}>{order.items?.length} item(s)</td>
                   <td style={{ fontWeight: 700 }}>Rs.{order.totalPrice?.toFixed(2)}</td>
@@ -152,7 +176,7 @@ const AdminOrders = () => {
           <div style={{ background: '#fff', borderRadius: 16, width: '100%', maxWidth: 860, minWidth: 540, maxHeight: '90vh', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
             <div style={{ padding: '22px 28px', borderBottom: '1px solid #f0f0f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <h2 style={{ fontSize: 18, fontWeight: 700 }}>Order Details</h2>
-              <button onClick={() => setSelectedOrder(null)} style={{ background: '#f5f5f5', border: 'none', width: 34, height: 34, borderRadius: 8, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <button onClick={closeOrderModal} style={{ background: '#f5f5f5', border: 'none', width: 34, height: 34, borderRadius: 8, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <FiX size={18} />
               </button>
             </div>
@@ -162,7 +186,8 @@ const AdminOrders = () => {
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 20, padding: 16, background: '#f9f9f9', borderRadius: 10 }}>
                 {[
                   { label: 'Order ID', value: selectedOrder.orderId },
-                  { label: 'Customer', value: selectedOrder.user?.name },
+                  { label: 'Customer', value: selectedOrder.user?.name || selectedOrder.shippingAddress?.fullName },
+                  { label: 'Email', value: selectedOrder.user?.email || selectedOrder.guestEmail },
                   { label: 'Phone', value: selectedOrder.shippingAddress?.phone },
                   { label: 'City', value: selectedOrder.shippingAddress?.city },
                   { label: 'State', value: selectedOrder.shippingAddress?.state },
@@ -235,7 +260,7 @@ const AdminOrders = () => {
                   </div>
 
                   <div style={{ display: 'flex', gap: 12, justifyContent: 'flex-end' }}>
-                    <button type="button" onClick={() => setSelectedOrder(null)} className="btn btn-outline">Cancel</button>
+                    <button type="button" onClick={closeOrderModal} className="btn btn-outline">Cancel</button>
                     <button type="submit" disabled={updating || !statusForm.status} className="btn btn-primary">
                       {updating ? 'Updating...' : 'Update Status'}
                     </button>

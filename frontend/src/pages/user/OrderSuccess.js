@@ -3,17 +3,22 @@
 
 // ============ OrderSuccess.js ============
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useLocation, useParams, Link } from 'react-router-dom';
 import { FiCheckCircle, FiPackage, FiArrowRight } from 'react-icons/fi';
+import { useAuth } from '../../context/AuthContext';
 import { orderAPI } from '../../utils/api';
 
 const OrderSuccess = () => {
   const { orderId } = useParams();
-  const [order, setOrder] = useState(null);
+  const { state } = useLocation();
+  const { isAuthenticated } = useAuth();
+  const [order, setOrder] = useState(state?.order || null);
 
   useEffect(() => {
-    orderAPI.getOne(orderId).then(({ data }) => setOrder(data.order)).catch(() => {});
-  }, [orderId]);
+    if (isAuthenticated && !state?.order) {
+      orderAPI.getOne(orderId).then(({ data }) => setOrder(data.order)).catch(() => {});
+    }
+  }, [isAuthenticated, orderId, state]);
 
   return (
     <div className="container" style={{ paddingTop: 60, paddingBottom: 60, maxWidth: 600, margin: '0 auto', textAlign: 'center' }}>
@@ -29,7 +34,7 @@ const OrderSuccess = () => {
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
             <div>
               <div style={{ fontSize: 12, color: '#888', fontWeight: 600 }}>ORDER ID</div>
-              <div style={{ fontSize: 16, fontWeight: 700 }}>{order.orderId}</div>
+              <div style={{ fontSize: 16, fontWeight: 700 }}>{order.orderId || orderId}</div>
             </div>
             <div style={{ textAlign: 'right' }}>
               <div style={{ fontSize: 12, color: '#888', fontWeight: 600 }}>TOTAL</div>
@@ -48,9 +53,11 @@ const OrderSuccess = () => {
       )}
 
       <div style={{ display: 'flex', gap: 14, justifyContent: 'center' }}>
-        <Link to="/orders" className="btn btn-outline btn-lg" style={{ borderRadius: 10 }}>
-          <FiPackage size={18} /> View Orders
-        </Link>
+        {isAuthenticated && (
+          <Link to="/orders" className="btn btn-outline btn-lg" style={{ borderRadius: 10 }}>
+            <FiPackage size={18} /> View Orders
+          </Link>
+        )}
         <Link to="/products" className="btn btn-primary btn-lg" style={{ borderRadius: 10 }}>
           Continue Shopping <FiArrowRight size={18} />
         </Link>

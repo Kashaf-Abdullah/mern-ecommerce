@@ -228,7 +228,7 @@ exports.validateCoupon = asyncHandler(async (req, res) => {
     throw new Error(`Minimum order amount of Rs.${coupon.minOrderAmount} required`);
   }
 
-  if (coupon.usedBy.includes(req.user.id)) {
+  if (req.user && coupon.usedBy.includes(req.user.id)) {
     res.status(400);
     throw new Error('You have already used this coupon');
   }

@@ -28,7 +28,14 @@ const orderStatusSchema = new mongoose.Schema({
 
 const orderSchema = new mongoose.Schema({
   orderId: { type: String, unique: true },
-  user: { type: mongoose.Schema.ObjectId, ref: 'User', required: true },
+  user: { type: mongoose.Schema.ObjectId, ref: 'User' },
+  guestEmail: {
+    type: String,
+    lowercase: true,
+    trim: true,
+    required: function () { return !this.user; },
+    match: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Please provide a valid guest email'],
+  },
   items: [orderItemSchema],
   shippingAddress: shippingAddressSchema,
   paymentMethod: {

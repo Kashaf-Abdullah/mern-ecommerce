@@ -2,9 +2,9 @@
 const express = require('express');
 const orderRouter = express.Router();
 const { createOrder, getMyOrders, getOrder, cancelOrder, getAllOrders, updateOrderStatus } = require('../controllers/orderController');
-const { protect, authorize } = require('../middleware/auth');
+const { protect, authorize, optionalAuth } = require('../middleware/auth');
 
-orderRouter.post('/', protect, createOrder);
+orderRouter.post('/', optionalAuth, createOrder);
 orderRouter.get('/my', protect, getMyOrders);
 orderRouter.get('/:id', protect, getOrder);
 orderRouter.put('/:id/cancel', protect, cancelOrder);

@@ -1,5 +1,5 @@
 const express = require('express');
-const { protect, authorize } = require('../middleware/auth');
+const { protect, authorize, optionalAuth } = require('../middleware/auth');
 const ctrl = require('../controllers/controllers');
 
 // CART
@@ -25,7 +25,7 @@ reviewRouter.delete('/:id', protect, ctrl.deleteReview);
 
 // COUPONS
 const couponRouter = express.Router();
-couponRouter.post('/validate', protect, ctrl.validateCoupon);
+couponRouter.post('/validate', optionalAuth, ctrl.validateCoupon);
 couponRouter.get('/', protect, authorize('admin'), ctrl.getCoupons);
 couponRouter.post('/', protect, authorize('admin'), ctrl.createCoupon);
 couponRouter.put('/:id', protect, authorize('admin'), ctrl.updateCoupon);

@@ -83,8 +83,8 @@ function AppRoutes() {
           <Route path="/reset-password/:token" element={<PublicRoute><UserLayout><ResetPassword /></UserLayout></PublicRoute>} />
 
           <Route path="/wishlist"      element={<ProtectedRoute><UserLayout><Wishlist /></UserLayout></ProtectedRoute>} />
-          <Route path="/checkout"      element={<ProtectedRoute><UserLayout><Checkout /></UserLayout></ProtectedRoute>} />
-          <Route path="/order-success/:orderId" element={<ProtectedRoute><UserLayout><OrderSuccess /></UserLayout></ProtectedRoute>} />
+          <Route path="/checkout"      element={<UserLayout><Checkout /></UserLayout>} />
+          <Route path="/order-success/:orderId" element={<UserLayout><OrderSuccess /></UserLayout>} />
           <Route path="/orders"        element={<ProtectedRoute><UserLayout><Orders /></UserLayout></ProtectedRoute>} />
           <Route path="/orders/:id"    element={<ProtectedRoute><UserLayout><OrderDetail /></UserLayout></ProtectedRoute>} />
           <Route path="/profile"       element={<ProtectedRoute><UserLayout><Profile /></UserLayout></ProtectedRoute>} />
@@ -96,6 +96,7 @@ function AppRoutes() {
             <Route index             element={<AdminDashboard />} />
             <Route path="products"   element={<AdminProducts />} />
             <Route path="orders"     element={<AdminOrders />} />
+            <Route path="orders/:id" element={<AdminOrders />} />
             <Route path="users"      element={<AdminUsers />} />
             <Route path="categories" element={<AdminCategories />} />
             <Route path="coupons"    element={<AdminCoupons />} />

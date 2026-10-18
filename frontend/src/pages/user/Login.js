@@ -4,8 +4,8 @@ import { FiMail, FiLock, FiEye, FiEyeOff } from 'react-icons/fi';
 import { useAuth } from '../../context/AuthContext';
 
 const AuthCard = ({ title, subtitle, children }) => (
-  <div style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 20px' }}>
-    <div className="card" style={{ padding: '40px', width: '100%', maxWidth: 440 }}>
+  <div className="auth-card" style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 20px' }}>
+    <div className="card auth-card-panel" style={{ padding: '40px', width: '100%', maxWidth: 440 }}>
       <div style={{ textAlign: 'center', marginBottom: 32 }}>
         <Link to="/" style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 28, color: 'var(--primary)' }}>
           Shop<span style={{ color: 'var(--dark)' }}>Now</span>
@@ -71,11 +71,7 @@ export const Login = () => {
         <p style={{ textAlign: 'center', fontSize: 14, color: '#666' }}>
           Don't have an account? <Link to="/register" style={{ color: 'var(--primary)', fontWeight: 600 }}>Sign Up</Link>
         </p>
-        <div style={{ marginTop: 20, padding: '12px', background: '#f9f9f9', borderRadius: 8, fontSize: 13, color: '#666' }}>
-          <strong>Demo Credentials:</strong><br />
-          Admin: admin@shopnow.com / admin123<br />
-          User: user@shopnow.com / user123
-        </div>
+
       </form>
     </AuthCard>
   );

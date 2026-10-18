@@ -117,7 +117,7 @@ const AdminLayout = () => {
             <img src={user?.avatar?.url} alt={user?.name} style={{ width: 36, height: 36, borderRadius: '50%', objectFit: 'cover', border: '2px solid #e5e7eb' }} />
           </div>
         </header>
-        <main style={{ flex: 1, padding: '28px', overflowY: 'auto' }}>
+        <main className="admin-main" style={{ flex: 1, padding: isMobile ? 16 : 28, overflowY: 'auto' }}>
           <Outlet />
         </main>
       </div>

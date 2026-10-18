@@ -4,8 +4,8 @@ import { authAPI } from '../../utils/api';
 import toast from 'react-hot-toast';
 
 const AuthCard = ({ title, subtitle, children }) => (
-  <div style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 20px' }}>
-    <div className="card" style={{ padding: '40px', width: '100%', maxWidth: 440 }}>
+  <div className="auth-card" style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 20px' }}>
+    <div className="card auth-card-panel" style={{ padding: '40px', width: '100%', maxWidth: 440 }}>
       <div style={{ textAlign: 'center', marginBottom: 32 }}>
         <Link to="/" style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 28, color: 'var(--primary)' }}>
           Shop<span style={{ color: 'var(--dark)' }}>Now</span>

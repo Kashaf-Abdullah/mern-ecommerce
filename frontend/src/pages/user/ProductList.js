@@ -96,7 +96,7 @@ const ProductList = () => {
     .filter(Boolean).length;
 
   const SidebarFilters = () => (
-    <div style={{ width: 260, flexShrink: 0 }}>
+    <div className="product-list-sidebar" style={{ width: 260, flexShrink: 0 }}>
       <div className="card" style={{ padding: 20, position: 'sticky', top: 80 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
           <h3 style={{ fontSize: 16, fontWeight: 700 }}>Filters</h3>
@@ -150,7 +150,7 @@ const ProductList = () => {
   );
 
   return (
-    <div className="container" style={{ paddingTop: 30, paddingBottom: 50 }}>
+    <div className="container product-list-page" style={{ paddingTop: 30, paddingBottom: 50 }}>
       {/* Header */}
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24, gap: 16 }}>
         <div>
@@ -162,7 +162,7 @@ const ProductList = () => {
           </p>
         </div>
 
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, alignItems: 'center', flex: 1, minWidth: 280, justifyContent: 'flex-end' }}>
+        <div className="product-list-toolbar" style={{ display: 'flex', flexWrap: 'wrap', gap: 12, alignItems: 'center', flex: 1, minWidth: 280, justifyContent: 'flex-end' }}>
           <div style={{ flex: 1, minWidth: 220, display: 'flex', alignItems: 'center', gap: 8, background: '#fff', border: '1px solid #e0e0e0', borderRadius: 10, padding: '10px 14px' }}>
             <FiSearch size={18} color="#888" />
             <input
@@ -218,7 +218,7 @@ const ProductList = () => {
         </div>
       </div>
 
-      <div style={{ display: 'flex', gap: 28 }}>
+      <div className="product-list-layout" style={{ display: 'flex', gap: 28 }}>
         {/* Sidebar */}
         <div style={{ display: showFilters ? 'block' : 'none' }}>
           <SidebarFilters />

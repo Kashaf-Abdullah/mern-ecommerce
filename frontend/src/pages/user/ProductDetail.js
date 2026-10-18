@@ -746,9 +746,9 @@ const ProductDetail = () => {
 
           {/* Specifications */}
           {tab === 'specifications' && (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0 40px' }}>
+            <div className="product-spec-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0 40px' }}>
               {product.specifications?.length > 0 ? product.specifications.map((spec, i) => (
-                <div key={i} style={{ display: 'flex', gap: 16, padding: '12px 0', borderBottom: '1px solid #f5f5f5' }}>
+                <div key={i} className="product-spec-row" style={{ display: 'flex', gap: 16, padding: '12px 0', borderBottom: '1px solid #f5f5f5' }}>
                   <span style={{ fontWeight: 600, minWidth: 130, fontSize: 14, color: '#888' }}>{spec.key}</span>
                   <span style={{ fontSize: 14, color: '#333' }}>{spec.value}</span>
                 </div>

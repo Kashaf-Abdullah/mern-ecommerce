@@ -322,11 +322,12 @@ const Navbar = () => {
     count > 0 ? (
       <span style={{
         position: 'absolute', top: -7, right: -7, background: primary, color: '#fff',
-        fontSize: 9, fontWeight: 700, lineHeight: 1, borderRadius: '50%',
-        width: 17, height: 17, display: 'flex', alignItems: 'center', justifyContent: 'center',
+        fontSize: 9, fontWeight: 700, lineHeight: 1, borderRadius: 999,
+        minWidth: 17, height: 17, padding: '0 3px', boxSizing: 'border-box',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
         border: '2px solid #fff'
       }}>
-        {count > 9 ? '9+' : count}
+        {count}
       </span>
     ) : null;
 

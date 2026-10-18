@@ -65,7 +65,7 @@ const Dashboard = () => {
       </div>
 
       {/* Charts Row */}
-      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 24, marginBottom: 28 }}>
+      <div className="admin-chart-grid" style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 24, marginBottom: 28 }}>
         {/* Revenue Chart */}
         <div className="card" style={{ padding: 24 }}>
           <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 20 }}>Revenue Overview (Last 6 Months)</h3>

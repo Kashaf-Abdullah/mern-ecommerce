@@ -173,7 +173,7 @@ const AdminOrders = () => {
       {/* Status Update Modal */}
       {selectedOrder && (
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20, overflowY: 'auto' }}>
-          <div style={{ background: '#fff', borderRadius: 16, width: '100%', maxWidth: 860, minWidth: 540, maxHeight: '90vh', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+          <div className="admin-order-modal" style={{ background: '#fff', borderRadius: 16, width: '100%', maxWidth: 860, minWidth: 540, maxHeight: '90vh', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
             <div style={{ padding: '22px 28px', borderBottom: '1px solid #f0f0f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <h2 style={{ fontSize: 18, fontWeight: 700 }}>Order Details</h2>
               <button onClick={closeOrderModal} style={{ background: '#f5f5f5', border: 'none', width: 34, height: 34, borderRadius: 8, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

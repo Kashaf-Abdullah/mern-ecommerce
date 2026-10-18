@@ -46,7 +46,7 @@ const SectionCard = ({ title, children }) => (
 );
 
 const FieldRow = ({ label, children }) => (
-  <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16, padding: '10px 0', borderBottom: '1px solid #f9f9f9' }}>
+  <div className="admin-setting-row" style={{ display: 'flex', alignItems: 'flex-start', gap: 16, padding: '10px 0', borderBottom: '1px solid #f9f9f9' }}>
     <label style={{ fontSize: 13, color: '#666', minWidth: 180, paddingTop: 8 }}>{label}</label>
     <div style={{ flex: 1 }}>{children}</div>
   </div>
@@ -203,7 +203,7 @@ const AdminSettings = () => {
       </div>
 
       {/* Tabs */}
-      <div style={{ display: 'flex', gap: 4, borderBottom: '2px solid #f0f0f0', marginBottom: 24 }}>
+      <div className="admin-setting-tabs" style={{ display: 'flex', gap: 4, borderBottom: '2px solid #f0f0f0', marginBottom: 24 }}>
         {tabs.map(tb => (
           <button key={tb.id} onClick={() => setTab(tb.id)}
             style={{

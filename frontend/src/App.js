@@ -62,7 +62,7 @@ const PublicRoute = ({ children }) => {
 const UserLayout = ({ children }) => (
   <Suspense fallback={<Spinner />}>
     <Navbar />
-    <main style={{ minHeight: '70vh' }}>{children}</main>
+    <main className="user-main" style={{ minHeight: '70vh' }}>{children}</main>
     <Footer />
   </Suspense>
 );

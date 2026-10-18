@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { FiHeart, FiShoppingCart, FiStar, FiEye } from 'react-icons/fi';
 import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/CartContext';
+import { getProductImageUrl } from '../../utils/productImage';
 
 const StarRating = ({ rating, size = 14 }) => (
   <div className="stars">
@@ -25,6 +26,7 @@ const ProductCard = ({ product }) => {
 
   const effectivePrice = product.discountPrice > 0 ? product.discountPrice : product.price;
   const savings = product.discountPrice > 0 ? product.price - product.discountPrice : 0;
+  const productImage = getProductImageUrl(product);
 
   return (
     <div className="card" style={{ position: 'relative', display: 'flex', flexDirection: 'column', height: '100%' }}>
@@ -65,7 +67,7 @@ const ProductCard = ({ product }) => {
       <Link to={`/products/${product._id}`} style={{ textDecoration: 'none' }}>
         <div style={{ overflow: 'hidden', aspectRatio: '1', background: '#f8f8f8', position: 'relative' }}>
           <img
-            src={product.images?.[0]?.url || 'https://via.placeholder.com/400?text=No+Image'}
+            src={productImage}
             alt={product.name}
             style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.4s' }}
             onMouseEnter={e => e.target.style.transform = 'scale(1.08)'}

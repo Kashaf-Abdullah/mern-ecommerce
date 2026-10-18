@@ -535,6 +535,7 @@ const AdminProducts = () => {
   const [form,        setForm]        = useState(initialForm);
   const [saving,      setSaving]      = useState(false);
   const [saveStep,    setSaveStep]    = useState(''); // progress message
+  const submitInProgressRef = useRef(false);
   const [search,      setSearch]      = useState('');
   const [page,        setPage]        = useState(1);
   const [totalPages,  setTotalPages]  = useState(1);
@@ -650,12 +651,15 @@ const AdminProducts = () => {
   /* ── Submit (create or update) ── */
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (submitInProgressRef.current) return;
     if (!form.name.trim())  { toast.error('Product name is required'); return; }
     if (!form.price)        { toast.error('Price is required'); return; }
     if (!form.category)     { toast.error('Please select a category'); return; }
     if (!form.description.trim()) { toast.error('Description is required'); return; }
 
+    submitInProgressRef.current = true;
     setSaving(true);
+    let createdProduct = null;
     try {
       const payload = {
         ...form,
@@ -691,6 +695,10 @@ const AdminProducts = () => {
         setSaveStep('Creating product…');
         const { data } = await productAPI.create(payload);
         savedProduct = data.product;
+        createdProduct = savedProduct;
+        setProducts(prev => [savedProduct, ...prev.filter(p => p._id !== savedProduct._id)].slice(0, 15));
+        setSearch('');
+        setPage(1);
 
         // Upload images for the newly created product
         if (imgNew.length > 0) {
@@ -700,14 +708,20 @@ const AdminProducts = () => {
           savedProduct = refreshed.product;
         }
 
-        setProducts(prev => [savedProduct, ...prev]);
+        setProducts(prev => [savedProduct, ...prev.filter(p => p._id !== savedProduct._id)].slice(0, 15));
         toast.success('✅ Product created!');
       }
 
       closeModal();
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Failed to save product');
+      if (createdProduct) {
+        closeModal();
+        toast.error('Product was created, but its images may not have been fully saved. The product is visible; edit it to check the images.');
+      } else {
+        toast.error(err.response?.data?.message || 'Failed to save product');
+      }
     } finally {
+      submitInProgressRef.current = false;
       setSaving(false);
       setSaveStep('');
     }
@@ -923,7 +937,7 @@ const AdminProducts = () => {
                   </p>
                 )}
               </div>
-              <button onClick={closeModal}
+              <button onClick={closeModal} disabled={saving}
                 style={{ background: '#f0f0f0', border: 'none', width: 36, height: 36, borderRadius: 10, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#666' }}>
                 <FiX size={18} />
               </button>

@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FiTrash2, FiMinus, FiPlus, FiShoppingBag, FiArrowRight } from 'react-icons/fi';
 import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
+import { getProductImageUrl } from '../../utils/productImage';
 
 const Cart = () => {
   const { cart, updateItem, removeItem, subtotal, loading } = useCart();
@@ -48,10 +49,11 @@ const Cart = () => {
           {cart.items.map(item => {
             const product = item.product;
             if (!product) return null;
+            const productImage = getProductImageUrl(product);
             return (
               <div key={item._id} className="card" style={{ padding: isMobile ? '14px 16px' : '20px 24px', display: 'flex', gap: isMobile ? 14 : 20, alignItems: 'flex-start' }}>
                 <Link to={`/products/${product._id}`}>
-                  <img src={product.images?.[0]?.url} alt={product.name}
+                  <img src={productImage} alt={product.name}
                     style={{ width: isMobile ? 70 : 90, height: isMobile ? 70 : 90, objectFit: 'cover', borderRadius: 10, border: '1px solid #f0f0f0', flexShrink: 0 }} />
                 </Link>
                 <div style={{ flex: 1, minWidth: 0 }}>

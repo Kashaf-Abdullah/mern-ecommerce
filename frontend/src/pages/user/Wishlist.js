@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { FiHeart, FiShoppingCart, FiTrash2 } from 'react-icons/fi';
 import { useWishlist } from '../../context/CartContext';
 import { useCart } from '../../context/CartContext';
+import { getProductImageUrl } from '../../utils/productImage';
 
 const Wishlist = () => {
   const { wishlist, toggleWishlist } = useWishlist();
@@ -24,11 +25,13 @@ const Wishlist = () => {
     <div className="container" style={{ paddingTop: 30, paddingBottom: 60 }}>
       <h1 style={{ fontSize: 26, fontWeight: 800, marginBottom: 28 }}>My Wishlist ({products.length})</h1>
       <div className="products-grid">
-        {products.map(product => (
+        {products.map(product => {
+          const productImage = getProductImageUrl(product);
+          return (
           <div key={product._id} className="card" style={{ display: 'flex', flexDirection: 'column' }}>
             <Link to={`/products/${product._id}`}>
               <div style={{ aspectRatio: '1', overflow: 'hidden', background: '#f8f8f8' }}>
-                <img src={product.images?.[0]?.url} alt={product.name}
+                <img src={productImage} alt={product.name}
                   style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.3s' }}
                   onMouseEnter={e => e.target.style.transform = 'scale(1.06)'}
                   onMouseLeave={e => e.target.style.transform = 'scale(1)'}
@@ -58,7 +61,8 @@ const Wishlist = () => {
               </div>
             </div>
           </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

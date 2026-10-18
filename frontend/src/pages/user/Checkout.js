@@ -5,9 +5,50 @@ import { orderAPI, couponAPI } from '../../utils/api';
 import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
+import { getProductImageUrl } from '../../utils/productImage';
 import toast from 'react-hot-toast';
 
 const steps = ['Address', 'Payment', 'Review'];
+
+const SummaryBar = ({
+  isMobile, cart, subtotal, shippingPrice, taxPrice, discount, total,
+  couponCode, setCouponCode, applyCoupon, couponLoading, couponData,
+}) => (
+  <div className="card" style={{
+    padding: isMobile ? 18 : 24,
+    position: isMobile ? 'static' : 'sticky',
+    top: 80,
+    marginTop: isMobile ? 20 : 0
+  }}>
+    <h3 style={{ fontSize: isMobile ? 14 : 16, fontWeight: 700, marginBottom: 16 }}>Price Details</h3>
+    {[
+      { label: `Items (${cart.items?.length})`, value: `Rs.${subtotal.toLocaleString()}` },
+      { label: 'Delivery', value: shippingPrice === 0 ? 'FREE 🎉' : `Rs.${shippingPrice}`, color: shippingPrice === 0 ? 'var(--success)' : undefined },
+      { label: 'Tax (18% GST)', value: `Rs.${taxPrice.toFixed(2)}` },
+      ...(discount > 0 ? [{ label: 'Coupon Discount', value: `-Rs.${discount.toFixed(2)}`, color: 'var(--success)' }] : []),
+    ].map(row => (
+      <div key={row.label} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12, fontSize: isMobile ? 13 : 14 }}>
+        <span style={{ color: '#666' }}>{row.label}</span>
+        <span style={{ fontWeight: 600, color: row.color }}>{row.value}</span>
+      </div>
+    ))}
+    <div style={{ borderTop: '1px dashed #e0e0e0', padding: '12px 0', marginBottom: 12 }}>
+      <div style={{ display: 'flex', gap: 8 }}>
+        <input type="text" placeholder="Coupon code" value={couponCode}
+          onChange={e => setCouponCode(e.target.value.toUpperCase())}
+          className="form-control" style={{ fontSize: isMobile ? 12 : 13 }} />
+        <button onClick={applyCoupon} disabled={couponLoading} className="btn btn-outline btn-sm" style={{ whiteSpace: 'nowrap' }}>Apply</button>
+      </div>
+      {couponData && <div style={{ color: 'var(--success)', fontSize: 12, marginTop: 6, fontWeight: 600 }}>✓ "{couponData.code}" applied!</div>}
+    </div>
+    <div style={{ borderTop: '2px solid #f0f0f0', paddingTop: 14 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: isMobile ? 15 : 17, fontWeight: 800 }}>
+        <span>Total</span>
+        <span style={{ color: 'var(--primary)' }}>Rs.{total.toFixed(2)}</span>
+      </div>
+    </div>
+  </div>
+);
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -123,43 +164,6 @@ const Checkout = () => {
     paySet.receipt && { value: 'receipt', label: 'Bank Transfer', desc: 'Transfer & upload payment screenshot', icon: '🧾' },
   ].filter(Boolean);
 
-  const SummaryBar = () => (
-    <div className="card" style={{ 
-      padding: isMobile ? 18 : 24, 
-      position: isMobile ? 'static' : 'sticky', 
-      top: 80,
-      marginTop: isMobile ? 20 : 0
-    }}>
-      <h3 style={{ fontSize: isMobile ? 14 : 16, fontWeight: 700, marginBottom: 16 }}>Price Details</h3>
-      {[
-        { label: `Items (${cart.items?.length})`, value: `Rs.${subtotal.toLocaleString()}` },
-        { label: 'Delivery', value: shippingPrice === 0 ? 'FREE 🎉' : `Rs.${shippingPrice}`, color: shippingPrice === 0 ? 'var(--success)' : undefined },
-        { label: 'Tax (18% GST)', value: `Rs.${taxPrice.toFixed(2)}` },
-        ...(discount > 0 ? [{ label: 'Coupon Discount', value: `-Rs.${discount.toFixed(2)}`, color: 'var(--success)' }] : []),
-      ].map(row => (
-        <div key={row.label} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12, fontSize: isMobile ? 13 : 14 }}>
-          <span style={{ color: '#666' }}>{row.label}</span>
-          <span style={{ fontWeight: 600, color: row.color }}>{row.value}</span>
-        </div>
-      ))}
-      <div style={{ borderTop: '1px dashed #e0e0e0', padding: '12px 0', marginBottom: 12 }}>
-        <div style={{ display: 'flex', gap: 8 }}>
-          <input type="text" placeholder="Coupon code" value={couponCode}
-            onChange={e => setCouponCode(e.target.value.toUpperCase())}
-            className="form-control" style={{ fontSize: isMobile ? 12 : 13 }} />
-          <button onClick={applyCoupon} disabled={couponLoading} className="btn btn-outline btn-sm" style={{ whiteSpace: 'nowrap' }}>Apply</button>
-        </div>
-        {couponData && <div style={{ color: 'var(--success)', fontSize: 12, marginTop: 6, fontWeight: 600 }}>✓ "{couponData.code}" applied!</div>}
-      </div>
-      <div style={{ borderTop: '2px solid #f0f0f0', paddingTop: 14 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: isMobile ? 15 : 17, fontWeight: 800 }}>
-          <span>Total</span>
-          <span style={{ color: 'var(--primary)' }}>Rs.{total.toFixed(2)}</span>
-        </div>
-      </div>
-    </div>
-  );
-
   return (
     <div className="container" style={{ paddingTop: isMobile ? 20 : 30, paddingBottom: 60 }}>
       <h1 style={{ fontSize: isMobile ? 22 : 26, fontWeight: 800, marginBottom: isMobile ? 20 : 28 }}>Checkout</h1>
@@ -214,8 +218,8 @@ const Checkout = () => {
                   { key: 'addressLine1', label: 'Address Line 1', span: isMobile ? 1 : 2 },
                   { key: 'addressLine2', label: 'Address Line 2 (optional)', span: isMobile ? 1 : 2 },
                   { key: 'city', label: 'City', span: isMobile ? 1 : 1 },
-                  { key: 'state', label: 'State', span: isMobile ? 1 : 1 },
-                  { key: 'pincode', label: 'Pincode', span: isMobile ? 1 : 1 },
+                  { key: 'state', label: 'State (optional)', span: isMobile ? 1 : 1, optional: true },
+                  { key: 'pincode', label: 'Pincode (optional)', span: isMobile ? 1 : 1, optional: true },
                 ].map(f => (
                   <div key={f.key} style={{ gridColumn: `span ${f.span}` }}>
                     <label style={{ fontSize: isMobile ? 12 : 13, fontWeight: 600, marginBottom: 6, display: 'block', color: '#555' }}>{f.label}</label>
@@ -228,13 +232,13 @@ const Checkout = () => {
                         ))}
                       </select>
                     ) : (
-                      <input type="text" value={address[f.key] || ''} onChange={e => setAddress(a => ({ ...a, [f.key]: e.target.value }))} className="form-control" required={!f.label.includes('optional')} />
+                      <input type="text" value={address[f.key] || ''} onChange={e => setAddress(a => ({ ...a, [f.key]: e.target.value }))} className="form-control" required={!f.optional} />
                     )}
                   </div>
                 ))}
               </div>
-              <button onClick={() => setStep(1)} className="btn btn-primary btn-lg" style={{ marginTop: isMobile ? 18 : 24, borderRadius: 10, width: '100%' }}
-                disabled={!address.fullName || !address.phone || !address.addressLine1 || !address.city || !address.pincode || (!isAuthenticated && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(guestEmail))}>
+              <button onClick={() => setStep(1)} className="btn btn-primary btn-lg btn-full" style={{ marginTop: isMobile ? 18 : 24, borderRadius: 10, width: '100%' }}
+                disabled={!address.fullName || !address.phone || !address.addressLine1 || !address.city || (!isAuthenticated && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(guestEmail))}>
                 Continue to Payment
               </button>
             </div>
@@ -319,7 +323,7 @@ const Checkout = () => {
 
               <div style={{ display: 'flex', gap: isMobile ? 10 : 12, marginTop: isMobile ? 18 : 24, flexDirection: isMobile ? 'column' : 'row' }}>
                 <button onClick={() => setStep(0)} className="btn btn-outline btn-lg" style={{ borderRadius: 10, flex: isMobile ? 1 : undefined }}>Back</button>
-                <button onClick={() => setStep(2)} disabled={!paymentMethod} className="btn btn-primary btn-lg" style={{ borderRadius: 10, flex: 1 }}>Review Order</button>
+                <button onClick={() => setStep(2)} disabled={!paymentMethod} className="btn btn-primary btn-lg" style={{ borderRadius: 10, flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', whiteSpace: 'normal' }}>Complete Your Order</button>
               </div>
             </div>
           )}
@@ -347,7 +351,7 @@ const Checkout = () => {
               <div style={{ marginBottom: 14 }}>
                 {cart.items?.map(item => item.product && (
                   <div key={item._id} style={{ display: 'flex', gap: isMobile ? 10 : 14, padding: '10px 0', borderBottom: '1px solid #f5f5f5', alignItems: 'flex-start' }}>
-                    <img src={item.product.images?.[0]?.url} alt={item.product.name} style={{ width: isMobile ? 48 : 56, height: isMobile ? 48 : 56, objectFit: 'cover', borderRadius: 6, flexShrink: 0 }} />
+                    <img src={getProductImageUrl(item.product)} alt={item.product.name} style={{ width: isMobile ? 48 : 56, height: isMobile ? 48 : 56, objectFit: 'cover', borderRadius: 6, flexShrink: 0 }} />
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ fontWeight: 600, fontSize: isMobile ? 13 : 14, wordBreak: 'break-word' }}>{item.product.name}</div>
                       <div style={{ fontSize: isMobile ? 11 : 12, color: '#888' }}>Qty: {item.quantity} × Rs.{item.price}</div>
@@ -365,7 +369,20 @@ const Checkout = () => {
             </div>
           )}
         </div>
-        <SummaryBar />
+        <SummaryBar
+          isMobile={isMobile}
+          cart={cart}
+          subtotal={subtotal}
+          shippingPrice={shippingPrice}
+          taxPrice={taxPrice}
+          discount={discount}
+          total={total}
+          couponCode={couponCode}
+          setCouponCode={setCouponCode}
+          applyCoupon={applyCoupon}
+          couponLoading={couponLoading}
+          couponData={couponData}
+        />
       </div>
     </div>
   );

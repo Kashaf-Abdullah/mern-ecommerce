@@ -310,6 +310,7 @@ import { productAPI, reviewAPI } from '../../utils/api';
 import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
+import { getNormalizedProductImages } from '../../utils/productImage';
 import toast from 'react-hot-toast';
 
 // ─── Star Rating ────────────────────────────────────────────────
@@ -479,7 +480,7 @@ const ProductDetail = () => {
   if (loading) return <div className="page-loading"><div className="spinner" /></div>;
   if (!product) return null;
 
-  const images = product.images || [];
+  const images = getNormalizedProductImages(product);
   const effectivePrice = product.discountPrice > 0 ? product.discountPrice : product.price;
   const wished = isWishlisted(product._id);
   const savings = product.discountPrice > 0 ? product.price - product.discountPrice : 0;
@@ -525,7 +526,7 @@ const ProductDetail = () => {
             }}>
             {/* Main image */}
             <img
-              src={images[activeImage]?.url || 'https://via.placeholder.com/600?text=No+Image'}
+              src={images[activeImage]?.url}
               alt={product.name}
               style={{
                 width: '100%', height: '100%', objectFit: 'contain', padding: isMobile ? 12 : 16,
@@ -591,10 +592,6 @@ const ProductDetail = () => {
             </div>
           )}
 
-          {/* No image placeholder */}
-          {images.length === 0 && (
-            <div style={{ textAlign: 'center', color: '#ccc', paddingTop: 10, fontSize: isMobile ? 12 : 13 }}>No images uploaded</div>
-          )}
         </div>
 
         {/* ── PRODUCT INFO ── */}

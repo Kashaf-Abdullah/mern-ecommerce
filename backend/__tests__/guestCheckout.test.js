@@ -34,6 +34,18 @@ describe('Guest checkout order model', () => {
     expect(order.user).toBeUndefined();
   });
 
+  it('accepts an order without a state or pincode', () => {
+    const shippingAddress = validOrder().shippingAddress;
+    delete shippingAddress.state;
+    delete shippingAddress.pincode;
+    const order = new Order(validOrder({
+      guestEmail: 'guest@example.com',
+      shippingAddress,
+    }));
+
+    expect(order.validateSync()).toBeUndefined();
+  });
+
   it('requires a guest email when no registered user is attached', () => {
     const order = new Order(validOrder());
 

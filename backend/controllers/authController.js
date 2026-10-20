@@ -3,6 +3,10 @@ const crypto = require('crypto');
 const User = require('../models/User');
 const sendEmail = require('../utils/sendEmail');
 
+const getFrontendUrl = () => (
+  process.env.FRONTEND_URL || 'https://kashaf-ecommerce.netlify.app'
+).trim().replace(/\/+$/, '');
+
 // Helper: send token response
 const sendTokenResponse = (user, statusCode, res) => {
   const token = user.getJwtToken();
@@ -40,7 +44,7 @@ exports.register = asyncHandler(async (req, res) => {
     const verifyToken = user.getEmailVerifyToken();
     await user.save({ validateBeforeSave: false });
 
-    const verifyUrl = `${process.env.FRONTEND_URL}/verify-email/${verifyToken}`;
+    const verifyUrl = `${getFrontendUrl()}/verify-email/${verifyToken}`;
     await sendEmail({
       email: user.email,
       subject: 'Verify your email - ShopNow',
@@ -110,7 +114,7 @@ exports.forgotPassword = asyncHandler(async (req, res) => {
   const resetToken = user.getResetPasswordToken();
   await user.save({ validateBeforeSave: false });
 
-  const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
+  const resetUrl = `${getFrontendUrl()}/reset-password/${resetToken}`;
 
   try {
     await sendEmail({

@@ -7,7 +7,7 @@
    - Razorpay is disabled by default. To enable it later, set `RAZORPAY_ENABLED=true` along with `RAZORPAY_KEY_ID` and `RAZORPAY_KEY_SECRET`.
    - Set `FRONTEND_URL` to the deployed frontend's origin so CORS and email links use the right domain. Do not include a trailing slash, for example `https://kashaf-ecommerce.netlify.app`.
    - For image uploads, set `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, and `CLOUDINARY_API_SECRET`.
-   - For email, set `SMTP_HOST`, `SMTP_PORT`, `SMTP_EMAIL`, `SMTP_PASSWORD`, `FROM_NAME`, and `FROM_EMAIL`.
+   - For email, set `SMTP_HOST`, `SMTP_PORT`, `SMTP_EMAIL`, and `SMTP_PASSWORD`; `FROM_NAME` and `FROM_EMAIL` are optional. `EMAIL_USER` and `EMAIL_PASS` are also accepted for existing Gmail configurations (Gmail's host and port are inferred when `SMTP_HOST` and `SMTP_PORT` are omitted). Other providers require their SMTP host.
    Payment providers, image uploads, and email are unavailable until their respective settings are configured. Razorpay additionally requires explicit opt-in.
 3. Deploy. Check `https://<your-vercel-domain>/api/health`; it should return an API health response.
 4. Update `REACT_APP_API_BASE_URL` in the frontend's deployment environment (and `frontend/.env` for local use) to the backend origin, for example `https://<your-vercel-domain>`. The frontend adds `/api` automatically. Rebuild/redeploy the frontend after changing its environment variable.

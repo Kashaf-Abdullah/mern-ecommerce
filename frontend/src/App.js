@@ -1,5 +1,5 @@
-import React, { Suspense, lazy } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import React, { Suspense, lazy, useEffect } from 'react';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { CartProvider, WishlistProvider } from './context/CartContext';
@@ -44,6 +44,16 @@ const Spinner = () => (
   </div>
 );
 
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+};
+
 const ProtectedRoute = ({ children, adminOnly = false }) => {
   const { isAuthenticated, isAdmin, loading } = useAuth();
   if (loading) return <Spinner />;
@@ -70,6 +80,7 @@ const UserLayout = ({ children }) => (
 function AppRoutes() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Suspense fallback={<Spinner />}>
         <Routes>
           <Route path="/"              element={<UserLayout><Home /></UserLayout>} />

@@ -3,11 +3,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FiTrash2, FiMinus, FiPlus, FiShoppingBag, FiArrowRight } from 'react-icons/fi';
 import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
+import { useTheme } from '../../context/ThemeContext';
 import { getProductImageUrl } from '../../utils/productImage';
 
 const Cart = () => {
   const { cart, updateItem, removeItem, subtotal, loading } = useCart();
   const { isAuthenticated } = useAuth();
+  const { shippingFee } = useTheme();
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = React.useState(window.innerWidth <= 768);
 
@@ -17,7 +19,7 @@ const Cart = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const shippingPrice = Number(subtotal) >= 500 ? 0 : 50;
+  const shippingPrice = Number(subtotal) >= 500 ? 0 : shippingFee;
   const taxPrice = Math.round(Number(subtotal) * 0.18 * 100) / 100;
   const total = Number(subtotal) + shippingPrice + taxPrice;
 
@@ -98,7 +100,7 @@ const Cart = () => {
 
             {[
               { label: 'Subtotal', value: `Rs.${subtotal.toLocaleString()}` },
-              { label: 'Shipping', value: (subtotal >= 500 ? 0 : 50) === 0 ? 'FREE 🎉' : `Rs.${subtotal >= 500 ? 0 : 50}`, color: (subtotal >= 500 ? 0 : 50) === 0 ? 'var(--success)' : undefined },
+              { label: 'Shipping', value: shippingPrice === 0 ? 'FREE 🎉' : `Rs.${shippingPrice}`, color: shippingPrice === 0 ? 'var(--success)' : undefined },
               { label: 'Tax (18% GST)', value: `Rs.${Math.round(subtotal * 0.18 * 100) / 100}` },
             ].map(row => (
               <div key={row.label} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12, fontSize: isMobile ? 13 : 14 }}>

@@ -54,6 +54,8 @@ const defaultPayment = {
   bankNote: '',
 };
 
+const DEFAULT_SHIPPING_FEE = 50;
+
 const defaultSocials = {
   instagram: { enabled: false, url: '' },
   facebook: { enabled: false, url: '' },
@@ -106,6 +108,17 @@ export const ThemeProvider = ({ children }) => {
     } catch { return defaultPayment; }
   });
 
+  const [shippingFee, setShippingFee] = useState(() => {
+    try {
+      const saved = localStorage.getItem('shopnow_shipping_fee');
+      if (saved === null) return DEFAULT_SHIPPING_FEE;
+      const fee = Number(saved);
+      return Number.isFinite(fee) && fee >= 0 ? fee : DEFAULT_SHIPPING_FEE;
+    } catch {
+      return DEFAULT_SHIPPING_FEE;
+    }
+  });
+
   const [socials, setSocials] = useState(() => {
     try {
       const saved = localStorage.getItem('shopnow_socials');
@@ -120,6 +133,13 @@ export const ThemeProvider = ({ children }) => {
         if (data.settings.theme)   { setTheme(t => ({ ...t, ...data.settings.theme }));   localStorage.setItem('shopnow_theme',   JSON.stringify({ ...theme,   ...data.settings.theme })); }
         if (data.settings.texts)   { setTexts(t => ({ ...t, ...data.settings.texts }));   localStorage.setItem('shopnow_texts',   JSON.stringify({ ...texts,   ...data.settings.texts })); }
         if (data.settings.payment) { setPayment(t => ({ ...t, ...data.settings.payment })); localStorage.setItem('shopnow_payment', JSON.stringify({ ...payment, ...data.settings.payment })); }
+        const configuredFee = data.settings.shippingFee === undefined
+          ? DEFAULT_SHIPPING_FEE
+          : data.settings.shippingFee;
+        if (typeof configuredFee === 'number' && Number.isFinite(configuredFee) && configuredFee >= 0) {
+          setShippingFee(configuredFee);
+          localStorage.setItem('shopnow_shipping_fee', String(configuredFee));
+        }
         if (data.settings.socials)  {
           const normalized = normalizeSocials(data.settings.socials);
           setSocials(s => ({ ...s, ...normalized }));
@@ -169,6 +189,12 @@ export const ThemeProvider = ({ children }) => {
     settingsAPI.save('payment', merged).catch(() => {});
   };
 
+  const saveShippingFee = async (newShippingFee) => {
+    await settingsAPI.save('shippingFee', newShippingFee);
+    setShippingFee(newShippingFee);
+    localStorage.setItem('shopnow_shipping_fee', String(newShippingFee));
+  };
+
   const saveSocials = (newSocials) => {
     const merged = { ...socials, ...newSocials };
     setSocials(merged);
@@ -179,7 +205,7 @@ export const ThemeProvider = ({ children }) => {
   const t = (key) => texts[key] || defaultTexts[key] || key;
 
   return (
-    <ThemeContext.Provider value={{ theme, texts, payment, socials, saveTheme, saveTexts, savePayment, saveSocials, t }}>
+    <ThemeContext.Provider value={{ theme, texts, payment, socials, shippingFee, saveTheme, saveTexts, savePayment, saveSocials, saveShippingFee, t }}>
       {children}
     </ThemeContext.Provider>
   );

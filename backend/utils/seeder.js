@@ -226,8 +226,89 @@ const seedData = async () => {
     }
   ];
 
+  const sampleProductNames = {
+    men: [
+      'Cotton Crew Neck T-Shirt', 'Slim Fit Chino Trousers', 'Casual Oxford Shirt',
+      'Lightweight Bomber Jacket', 'Classic Denim Jeans', 'Leather Casual Belt',
+      'Everyday Canvas Sneakers', 'Merino Wool Sweater', 'Water-Resistant Windbreaker',
+      'Linen Summer Shirt', 'Relaxed Fit Cargo Pants', 'Minimalist Wristwatch',
+      'Cotton Polo Shirt', 'Formal Leather Loafers', 'Quilted Winter Vest',
+      'Classic Baseball Cap', 'Travel Weekender Duffel', 'Thermal Base Layer Set',
+      'Textured Knit Cardigan', 'Sport Training Shorts', 'Leather Bifold Wallet',
+      'Ribbed Crew Socks Set', 'Casual Check Flannel Shirt', 'All-Weather Hiking Boots',
+      'Everyday Zip Hoodie'
+    ],
+    women: [
+      'Classic Cotton Blouse', 'High-Rise Straight Jeans', 'Soft Knit Cardigan',
+      'Everyday Ballet Flats', 'Lightweight Linen Trousers', 'Quilted Crossbody Bag',
+      'Ribbed Midi Skirt', 'Relaxed Cotton Hoodie', 'Minimal Gold-Tone Earrings',
+      'Tailored Blazer Jacket', 'Canvas Everyday Sneakers', 'Printed Wrap Top',
+      'Soft Lounge Set', 'Structured Shoulder Bag', 'Breathable Running Leggings',
+      'Classic Sunglasses', 'Knit Sweater Dress', 'Leather Everyday Sandals',
+      'Floral Cotton Scarf', 'High-Waist Wide-Leg Pants', 'Compact Travel Pouch',
+      'Textured Button-Down Shirt', 'Lightweight Puffer Coat', 'Simple Pendant Necklace',
+      'Comfort Fit Denim Jacket'
+    ],
+    kids: [
+      'Cotton Star Print T-Shirt', 'Color Block Zip Hoodie', 'Everyday Jogger Pants',
+      'Lightweight Rain Jacket', 'Dinosaur Graphic T-Shirt', 'Comfy Cotton Leggings',
+      'Canvas School Backpack', 'Soft Fleece Pajama Set', 'Striped Long-Sleeve Top',
+      'Easy-On Play Sneakers', 'Printed Summer Dress', 'Cozy Knit Beanie',
+      'Adjustable Baseball Cap', 'Cotton Shorts Set', 'Warm Puffer Vest',
+      'Animal Print Rain Boots', 'Classic Denim Overalls', 'Soft Baby Blanket',
+      'Colorful Crew Socks Set', 'Long-Sleeve Polo Shirt', 'Zip-Up Fleece Jacket',
+      'Everyday School Trousers', 'Lightweight Sun Hat', 'Graphic Playtime Sweatshirt',
+      'Comfy Slip-On Canvas Shoes'
+    ]
+  };
+  const sampleCategoryDetails = {
+    men: { brand: 'UrbanTailor', tag: 'menswear', priceBase: 24, image: 'photo-1512436991641-6745cdb1723f' },
+    women: { brand: 'LunaChic', tag: 'womenswear', priceBase: 19, image: 'photo-1503341455253-b2e723bb3dbb' },
+    kids: { brand: 'PlayNest', tag: 'kidswear', priceBase: 12, image: 'photo-1511988617509-a57c8a288659' }
+  };
+
+  const sampleProducts = Object.entries(sampleProductNames).flatMap(([categorySlug, names]) => {
+    const categoryId = categoryMap[categorySlug];
+    const existingCount = products.filter(product => product.category.equals(categoryId)).length;
+    const details = sampleCategoryDetails[categorySlug];
+
+    return names.slice(existingCount).map((name, index) => {
+      const productNumber = existingCount + index + 1;
+      const price = details.priceBase + productNumber * 3;
+
+      return {
+        name,
+        slug: generateSlug(name),
+        description: `${name}, made for everyday comfort and reliable quality. A versatile ${details.tag} essential with thoughtful details and an easy-to-style finish.`,
+        shortDescription: `${name} with a comfortable fit and quality everyday finish.`,
+        price,
+        discountPrice: Math.round(price * 0.85 * 100) / 100,
+        images: [{
+          public_id: `sample_${categorySlug}_${productNumber}`,
+          url: `https://images.unsplash.com/${details.image}?w=800&q=80`
+        }],
+        category: categoryId,
+        brand: details.brand,
+        stock: 15 + (productNumber * 7) % 60,
+        sku: `${categorySlug.toUpperCase()}-SAMPLE-${String(productNumber).padStart(3, '0')}`,
+        specifications: [
+          { key: 'Collection', value: 'Everyday Essentials' },
+          { key: 'Care', value: 'Follow the product care label' }
+        ],
+        tags: [details.tag, 'everyday', 'sample'],
+        featured: productNumber % 10 === 0,
+        trending: productNumber % 7 === 0,
+        ratings: Number((3.8 + (productNumber % 13) / 10).toFixed(1)),
+        numReviews: productNumber * 3,
+        seller: admin._id,
+        weight: 0.3 + (productNumber % 5) * 0.1
+      };
+    });
+  });
+
+  products.push(...sampleProducts);
   await Product.insertMany(products);
-  console.log('📦 Products created');
+  console.log(`📦 ${products.length} products created (25 each in Men, Women, and Kids)`);
 
   console.log('\n✅ Database seeded successfully!');
   console.log('Admin: admin@shopnow.com / admin123');

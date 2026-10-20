@@ -29,8 +29,12 @@ const buildFilterQuery = (query) => {
 // @desc    Get all products
 // @route   GET /api/products
 exports.getProducts = asyncHandler(async (req, res) => {
-  const page = parseInt(req.query.page) || 1;
-  const limit = parseInt(req.query.limit) || 12;
+  const requestedPage = Number.parseInt(req.query.page, 10);
+  const requestedLimit = Number.parseInt(req.query.limit, 10);
+  const page = Number.isInteger(requestedPage) && requestedPage > 0 ? requestedPage : 1;
+  const limit = Number.isInteger(requestedLimit) && requestedLimit > 0
+    ? Math.min(requestedLimit, 100)
+    : 12;
   const skip = (page - 1) * limit;
 
   const filter = buildFilterQuery(req.query);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { FiSearch, FiFilter, FiX, FiChevronDown, FiChevronUp, FiGrid, FiList } from 'react-icons/fi';
 import { productAPI, categoryAPI } from '../../utils/api';
@@ -33,7 +33,9 @@ const ProductList = () => {
   const [categories, setCategories] = useState([]);
   const [pagination, setPagination] = useState({});
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
+  const appendNextPage = useRef(false);
 
   const [filters, setFilters] = useState({
     category: searchParams.get('category') || '',
@@ -64,22 +66,33 @@ const ProductList = () => {
   }, []);
 
   const fetchProducts = useCallback(async () => {
-    setLoading(true);
+    const shouldAppend = appendNextPage.current;
+    if (shouldAppend) setLoadingMore(true);
+    else setLoading(true);
+
     try {
-      const params = Object.fromEntries(Object.entries(filters).filter(([, v]) => v !== '' && v !== null));
+      const params = {
+        ...Object.fromEntries(Object.entries(filters).filter(([, v]) => v !== '' && v !== null)),
+        limit: 10,
+      };
       const { data } = await productAPI.getAll(params);
-      setProducts(data.products);
+      setProducts(currentProducts => shouldAppend
+        ? [...currentProducts, ...data.products]
+        : data.products);
       setPagination(data.pagination);
     } catch (err) {
       console.error(err);
     } finally {
+      appendNextPage.current = false;
       setLoading(false);
+      setLoadingMore(false);
     }
   }, [filters]);
 
   useEffect(() => { fetchProducts(); }, [fetchProducts]);
 
   const updateFilter = (key, value) => {
+    if (key !== 'page') appendNextPage.current = false;
     setFilters(prev => ({ ...prev, [key]: value, page: key !== 'page' ? 1 : value }));
     const newParams = new URLSearchParams(searchParams);
     if (value) newParams.set(key, value); else newParams.delete(key);
@@ -88,8 +101,15 @@ const ProductList = () => {
   };
 
   const clearFilters = () => {
+    appendNextPage.current = false;
     setFilters({ category: '', minPrice: '', maxPrice: '', minRating: '', brand: '', sort: 'newest', search: '', page: 1 });
     setSearchParams({});
+  };
+
+  const loadMore = () => {
+    if (loadingMore || !pagination.page || pagination.page >= pagination.pages) return;
+    appendNextPage.current = true;
+    updateFilter('page', Number(pagination.page) + 1);
   };
 
   const activeFilterCount = [filters.category, filters.minPrice, filters.maxPrice, filters.minRating, filters.brand, filters.search]
@@ -158,7 +178,9 @@ const ProductList = () => {
             {filters.search ? `Results for "${filters.search}"` : 'All Products'}
           </h1>
           <p style={{ color: 'var(--gray)', fontSize: 14, marginTop: 4 }}>
-            {pagination.total || 0} products found
+            {pagination.total
+              ? `Showing ${products.length} of ${pagination.total} products`
+              : `${pagination.total || 0} products found`}
           </p>
         </div>
 
@@ -243,13 +265,21 @@ const ProductList = () => {
 
               {/* Pagination */}
               {pagination.pages > 1 && (
-                <div className="pagination">
-                  {Array.from({ length: pagination.pages }, (_, i) => i + 1).map(p => (
-                    <button key={p} onClick={() => updateFilter('page', p)}
-                      className={`page-btn${pagination.page === p ? ' active' : ''}`}>
-                      {p}
-                    </button>
-                  ))}
+                <div className="pagination" style={{ flexDirection: 'column', alignItems: 'center', gap: 10 }}>
+                  <button
+                    type="button"
+                    onClick={loadMore}
+                    disabled={loadingMore}
+                    className="btn btn-primary"
+                    style={{ minWidth: 180, opacity: loadingMore ? 0.7 : 1 }}
+                  >
+                    {loadingMore ? 'Loading...' : 'Load More Products'}
+                  </button>
+                  <span style={{ color: 'var(--gray)', fontSize: 13 }}>
+                    {loadingMore
+                      ? 'Loading the next 10 products...'
+                      : `${products.length} of ${pagination.total} products loaded`}
+                  </span>
                 </div>
               )}
             </>

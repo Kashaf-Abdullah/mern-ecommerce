@@ -54,7 +54,7 @@ const Checkout = () => {
   const navigate = useNavigate();
   const { user, isAuthenticated } = useAuth();
   const { cart, subtotal, clearCart } = useCart();
-  const { payment: paySet, t } = useTheme();
+  const { payment: paySet, shippingFee, t } = useTheme();
   const [step, setStep] = useState(0);
   const [loading, setLoading] = useState(false);
   const [couponCode, setCouponCode] = useState('');
@@ -96,7 +96,7 @@ const Checkout = () => {
     if (def) setAddress({ ...def, country: 'Pakistan' });
   }, [user]);
 
-  const shippingPrice = subtotal >= 500 ? 0 : 50;
+  const shippingPrice = subtotal >= 500 ? 0 : shippingFee;
   const taxPrice = Math.round(subtotal * 0.18 * 100) / 100;
   const discount = Number(couponData?.discount || 0);
   const total = Number(subtotal) + shippingPrice + taxPrice - discount;

@@ -23,6 +23,10 @@ exports.getSetting = asyncHandler(async (req, res) => {
 exports.saveSetting = asyncHandler(async (req, res) => {
   const { key, value } = req.body;
   if (!key) { res.status(400); throw new Error('Key is required'); }
+  if (key === 'shippingFee' && (typeof value !== 'number' || !Number.isFinite(value) || value < 0)) {
+    res.status(400);
+    throw new Error('Shipping fee must be a non-negative number in PKR');
+  }
 
   const setting = await StoreSettings.findOneAndUpdate(
     { key },
@@ -37,6 +41,13 @@ exports.saveSetting = asyncHandler(async (req, res) => {
 exports.saveSettings = asyncHandler(async (req, res) => {
   const { settings } = req.body; // { theme: {...}, texts: {...}, payment: {...} }
   if (!settings) { res.status(400); throw new Error('Settings object required'); }
+  if (Object.prototype.hasOwnProperty.call(settings, 'shippingFee')) {
+    const shippingFee = settings.shippingFee;
+    if (typeof shippingFee !== 'number' || !Number.isFinite(shippingFee) || shippingFee < 0) {
+      res.status(400);
+      throw new Error('Shipping fee must be a non-negative number in PKR');
+    }
+  }
 
   const ops = Object.entries(settings).map(([key, value]) =>
     StoreSettings.findOneAndUpdate({ key }, { key, value }, { new: true, upsert: true })

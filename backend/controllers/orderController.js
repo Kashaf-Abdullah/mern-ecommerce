@@ -3,9 +3,12 @@ const Order = require('../models/Order');
 const Product = require('../models/Product');
 const User = require('../models/User');
 const Notification = require('../models/Notification');
+const StoreSettings = require('../models/StoreSettings');
 const { Cart, Coupon } = require('../models/index');
 const sendEmail = require('../utils/sendEmail');
 const mongoose = require('mongoose');
+
+const DEFAULT_SHIPPING_FEE = 50;
 
 // @desc    Create order
 // @route   POST /api/orders
@@ -79,7 +82,12 @@ exports.createOrder = asyncHandler(async (req, res) => {
   }
 
   const itemsPrice = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const shippingPrice = itemsPrice >= 500 ? 0 : 50;
+  const shippingSetting = await StoreSettings.findOne({ key: 'shippingFee' });
+  const configuredShippingFee = shippingSetting ? shippingSetting.value : DEFAULT_SHIPPING_FEE;
+  if (typeof configuredShippingFee !== 'number' || !Number.isFinite(configuredShippingFee) || configuredShippingFee < 0) {
+    throw new Error('Invalid shipping fee configuration');
+  }
+  const shippingPrice = itemsPrice >= 500 ? 0 : configuredShippingFee;
   const taxPrice = Math.round(itemsPrice * 0.18 * 100) / 100;
   let discountAmount = 0;
   let couponApplied = null;

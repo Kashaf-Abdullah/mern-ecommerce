@@ -1,13 +1,36 @@
 const nodemailer = require('nodemailer');
 
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: process.env.SMTP_PORT,
-  auth: {
-    user: process.env.SMTP_EMAIL,
-    pass: process.env.SMTP_PASSWORD,
-  },
-});
+let transporter;
+
+const getTransporter = () => {
+  if (transporter) {
+    return transporter;
+  }
+
+  const user = process.env.SMTP_EMAIL || process.env.EMAIL_USER;
+  const pass = process.env.SMTP_PASSWORD || process.env.EMAIL_PASS;
+  const host = process.env.SMTP_HOST || (user && user.toLowerCase().endsWith('@gmail.com') ? 'smtp.gmail.com' : undefined);
+
+  if (!host || !user || !pass) {
+    throw new Error('Email is not configured. Set SMTP_HOST, SMTP_EMAIL, and SMTP_PASSWORD (or EMAIL_USER and EMAIL_PASS for Gmail).');
+  }
+
+  const port = process.env.SMTP_PORT === undefined
+    ? (host === 'smtp.gmail.com' ? 465 : 587)
+    : Number(process.env.SMTP_PORT);
+  if (!Number.isInteger(port) || port < 1 || port > 65535) {
+    throw new Error('SMTP_PORT must be a valid port number.');
+  }
+
+  transporter = nodemailer.createTransport({
+    host,
+    port,
+    secure: port === 465,
+    auth: { user, pass },
+  });
+
+  return transporter;
+};
 
 const emailTemplates = {
   emailVerify: ({ name, verifyUrl }) => ({
@@ -89,13 +112,13 @@ const sendEmail = async ({ email, subject, template, data, html }) => {
     : { subject, html };
 
   const mailOptions = {
-    from: `"${process.env.FROM_NAME}" <${process.env.FROM_EMAIL}>`,
+    from: `"${process.env.FROM_NAME || 'ShopNow'}" <${process.env.FROM_EMAIL || process.env.SMTP_EMAIL || process.env.EMAIL_USER}>`,
     to: email,
     subject: emailContent.subject || subject,
     html: emailContent.html || html,
   };
 
-  await transporter.sendMail(mailOptions);
+  await getTransporter().sendMail(mailOptions);
 };
 
 module.exports = sendEmail;

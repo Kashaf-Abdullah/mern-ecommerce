@@ -59,7 +59,7 @@ const inputStyle = {
 };
 
 const AdminSettings = () => {
-  const { theme, texts, payment, socials, saveTheme, saveTexts, savePayment, saveSocials, t } = useTheme();
+  const { theme, texts, payment, socials, shippingFee, saveTheme, saveTexts, savePayment, saveSocials, saveShippingFee, t } = useTheme();
   const [tab, setTab] = useState('theme');
   const [localTheme, setLocalTheme] = useState({
     primary: '#e94560',
@@ -83,6 +83,7 @@ const AdminSettings = () => {
   const [localTexts, setLocalTexts] = useState({ ...texts });
   const [localPayment, setLocalPayment] = useState({ ...payment });
   const [localSocials, setLocalSocials] = useState({ ...socials });
+  const [localShippingFee, setLocalShippingFee] = useState(String(shippingFee));
   const [copied, setCopied] = useState(false);
 
   // Update local state when theme/texts/payment/socials change
@@ -101,6 +102,10 @@ const AdminSettings = () => {
   useEffect(() => {
     setLocalSocials({ ...socials });
   }, [socials]);
+
+  useEffect(() => {
+    setLocalShippingFee(String(shippingFee));
+  }, [shippingFee]);
 
   const updateLocalSocial = (key, url) => setLocalSocials(p => ({
     ...p,
@@ -143,6 +148,19 @@ const AdminSettings = () => {
   const handleSaveSocials = () => {
     saveSocials(localSocials);
     toast.success('Social links saved!');
+  };
+
+  const handleSaveShippingFee = async () => {
+    if (localShippingFee.trim() === '' || !Number.isFinite(Number(localShippingFee)) || Number(localShippingFee) < 0) {
+      toast.error('Enter a valid non-negative shipping fee in PKR');
+      return;
+    }
+    try {
+      await saveShippingFee(Number(localShippingFee));
+      toast.success('Shipping fee saved!');
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Failed to save shipping fee');
+    }
   };
 
   const copyCSS = () => {
@@ -192,6 +210,7 @@ const AdminSettings = () => {
     { id: 'logo', label: '🏷️ Logo & Branding' },
     { id: 'social', label: '🌐 Social Links' },
     { id: 'text', label: '✏️ Text & Content' },
+    { id: 'shipping', label: '🚚 Shipping' },
     { id: 'payment', label: '💳 Payment Methods' },
   ];
 
@@ -555,6 +574,36 @@ const AdminSettings = () => {
             </button>
             <button onClick={handleSaveTexts} className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
               <FiSave size={15} /> Save Text
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* ===== SHIPPING TAB ===== */}
+      {tab === 'shipping' && (
+        <div>
+          <SectionCard title="Shipping Charges">
+            <p style={{ fontSize: 14, color: '#666', marginBottom: 12 }}>
+              Set the delivery fee in PKR. Orders of Rs.500 or more continue to qualify for free shipping.
+            </p>
+            <FieldRow label="Shipping fee (PKR)">
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <span style={{ fontSize: 14, fontWeight: 700, color: '#555' }}>Rs.</span>
+                <input
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  value={localShippingFee}
+                  onChange={e => setLocalShippingFee(e.target.value)}
+                  style={{ ...inputStyle, maxWidth: 240 }}
+                  aria-label="Shipping fee in PKR"
+                />
+              </div>
+            </FieldRow>
+          </SectionCard>
+          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <button onClick={handleSaveShippingFee} className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <FiSave size={15} /> Save Shipping Fee
             </button>
           </div>
         </div>

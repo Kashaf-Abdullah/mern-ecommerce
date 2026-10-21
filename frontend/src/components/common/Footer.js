@@ -93,9 +93,9 @@ const Footer = () => {
               {t('contactTitle') || 'Contact Us'}
             </h4>
             {[
-              { Icon: FiMail,   text: 'support@shopnow.com' },
-              { Icon: FiPhone,  text: '+91 98765 43210' },
-              { Icon: FiMapPin, text: 'Mumbai, India' },
+              { Icon: FiMail,   text: 'kashafabdullah06@gmail.com' },
+              { Icon: FiPhone,  text: '+92 3350233511' },
+              { Icon: FiMapPin, text: 'ABC city, Pakistan' },
             ].map(({ Icon, text }) => (
               <div key={text} style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12, fontSize: isMobile ? 13 : 14 }}>
                 <Icon size={isMobile ? 14 : 16} style={{ color: primary, flexShrink: 0 }} />

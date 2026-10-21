@@ -183,7 +183,7 @@ const Checkout = () => {
         ))}
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 340px', gap: isMobile ? 18 : 28 }}>
+      <div className="split-layout" style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 340px', gap: isMobile ? 18 : 28 }}>
         <div>
           {/* STEP 0: Address */}
           {step === 0 && (

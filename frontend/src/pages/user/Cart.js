@@ -37,7 +37,7 @@ const Cart = () => {
   return (
     <div className="container" style={{ paddingTop: isMobile ? 20 : 30, paddingBottom: 60 }}>
       { !isAuthenticated && (
-        <div style={{ marginBottom: isMobile ? 16 : 24, padding: '14px 18px', background: '#fff8e1', border: '1px solid #ffe8a1', borderRadius: 12, color: '#856404', fontSize: isMobile ? 13 : 14 }}>
+        <div style={{ marginBottom: isMobile ? 16 : 24, padding: '14px 18px', background: 'var(--primary-soft)', border: '1px solid var(--border)', borderRadius: 12, color: 'var(--text-color)', fontSize: isMobile ? 13 : 14 }}>
           Your cart is stored locally on this device and can be checked out without an account.
         </div>
       ) }
@@ -45,7 +45,7 @@ const Cart = () => {
         Shopping Cart <span style={{ color: 'var(--gray)', fontWeight: 400, fontSize: isMobile ? 14 : 18 }}>({cart.items.length} items)</span>
       </h1>
 
-      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 340px', gap: isMobile ? 18 : 28 }}>
+      <div className="split-layout" style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 340px', gap: isMobile ? 18 : 28 }}>
         {/* Cart Items */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: isMobile ? 12 : 16 }}>
           {cart.items.map(item => {
@@ -60,7 +60,7 @@ const Cart = () => {
                 </Link>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <Link to={`/products/${product._id}`} style={{ textDecoration: 'none' }}>
-                    <h3 style={{ fontSize: isMobile ? 14 : 15, fontWeight: 600, marginBottom: 4, color: 'var(--dark)', wordBreak: 'break-word' }}>{product.name}</h3>
+                    <h3 style={{ fontSize: isMobile ? 14 : 15, fontWeight: 600, marginBottom: 4, color: 'var(--text-color)', wordBreak: 'break-word' }}>{product.name}</h3>
                   </Link>
                   <div style={{ fontSize: isMobile ? 12 : 13, color: 'var(--gray)', marginBottom: 10 }}>{product.brand}</div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? 12 : 20, flexWrap: 'wrap' }}>
@@ -110,7 +110,7 @@ const Cart = () => {
             ))}
 
             {subtotal < 500 && (
-              <div style={{ background: '#fff8e1', padding: '10px 14px', borderRadius: 8, fontSize: isMobile ? 12 : 13, marginBottom: 14, color: '#856404', border: '1px solid #ffd54f' }}>
+              <div style={{ background: 'var(--primary-soft)', padding: '10px 14px', borderRadius: 8, fontSize: isMobile ? 12 : 13, marginBottom: 14, color: 'var(--text-color)', border: '1px solid var(--border)' }}>
                 Add Rs.{(500 - subtotal).toFixed(0)} more for free shipping!
               </div>
             )}

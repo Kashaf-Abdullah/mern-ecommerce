@@ -508,7 +508,7 @@ const ProductDetail = () => {
       </div>
 
       {/* ── Main Product Section ── */}
-      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? 24 : 50, marginBottom: isMobile ? 30 : 50 }}>
+      <div className="pd-grid" style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? 24 : 50, marginBottom: isMobile ? 30 : 50 }}>
 
         {/* ── IMAGE GALLERY ── */}
         <div>

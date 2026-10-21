@@ -36,6 +36,7 @@ const NotFound = lazy(() => import('./pages/user/NotFound'));
 
 const Navbar      = lazy(() => import('./components/common/Navbar'));
 const Footer      = lazy(() => import('./components/common/Footer'));
+const MobileTabBar = lazy(() => import('./components/common/MobileTabBar'));
 const AdminLayout = lazy(() => import('./components/admin/AdminLayout'));
 
 const Spinner = () => (
@@ -74,6 +75,7 @@ const UserLayout = ({ children }) => (
     <Navbar />
     <main className="user-main" style={{ minHeight: '70vh' }}>{children}</main>
     <Footer />
+    <MobileTabBar />
   </Suspense>
 );
 
@@ -131,11 +133,11 @@ function App() {
           <WishlistProvider>
             <AppRoutes />
             <Toaster
-              position="top-right"
+              position="top-center"
               toastOptions={{
                 duration: 3000,
-                style: { background: '#1a1a2e', color: '#fff', borderRadius: '8px', fontSize: '14px' },
-                success: { style: { background: '#1a1a2e', color: '#fff' } },
+                style: { background: 'var(--card-bg)', color: 'var(--text-color)', border: '1px solid var(--border)', borderRadius: '10px', fontSize: '14px', boxShadow: 'var(--shadow-hover)' },
+                success: { iconTheme: { primary: 'var(--primary)', secondary: 'var(--on-primary)' } },
                 error:   { style: { background: '#dc3545', color: '#fff' } },
               }}
             />

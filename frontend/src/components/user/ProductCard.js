@@ -4,6 +4,7 @@ import { FiHeart, FiShoppingCart, FiStar, FiEye } from 'react-icons/fi';
 import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/CartContext';
 import { getProductImageUrl } from '../../utils/productImage';
+import useBreakpoint from '../../hooks/useBreakpoint';
 
 const StarRating = ({ rating, size = 14 }) => (
   <div className="stars">
@@ -17,7 +18,7 @@ const ProductCard = ({ product }) => {
   const { addToCart } = useCart();
   const { toggleWishlist, isWishlisted } = useWishlist();
   const wished = isWishlisted(product._id);
-  const isMobile = window.innerWidth <= 768;
+  const { isMobile } = useBreakpoint();
 
   const formatAmount = amount => Number(amount).toLocaleString(undefined, {
     minimumFractionDigits: 0,

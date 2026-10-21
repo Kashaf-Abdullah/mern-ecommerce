@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Outlet, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { FiGrid, FiPackage, FiShoppingBag, FiUsers, FiTag, FiPercent, FiSettings, FiBell, FiHeart, FiMenu, FiX, FiLogOut, FiEye } from 'react-icons/fi';
 import { useAuth } from '../../context/AuthContext';
+import useBreakpoint from '../../hooks/useBreakpoint';
 
 const navItems = [
   { to: '/admin',            icon: <FiGrid size={18} />,        label: 'Dashboard',  end: true },
@@ -19,21 +20,11 @@ const AdminLayout = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-  const [open, setOpen] = useState(window.innerWidth > 768);
+  const { isMobile, isDesktop } = useBreakpoint();
+  const [open, setOpen] = useState(window.innerWidth > 1024);
 
-  useEffect(() => {
-    const handleResize = () => {
-      const mobile = window.innerWidth <= 768;
-      setIsMobile(mobile);
-      if (!mobile) {
-        setOpen(true);
-      }
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  // Phones: slide-over drawer. Tablets: icon rail. Desktop: full sidebar.
+  useEffect(() => { setOpen(isDesktop); }, [isDesktop, isMobile]);
 
   useEffect(() => {
     if (isMobile && open) {
@@ -48,7 +39,8 @@ const AdminLayout = () => {
     <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg)' }}>
       <aside style={{
         width: sidebarWidth,
-        background: '#1a1a2e',
+        background: 'var(--secondary)',
+        borderRight: '1px solid rgba(255,255,255,0.08)',
         color: '#fff',
         transition: 'all 0.28s ease',
         flexShrink: 0,
@@ -63,7 +55,7 @@ const AdminLayout = () => {
         boxShadow: isMobile && open ? '0 18px 40px rgba(0,0,0,0.2)' : 'none',
       }}>
         <div style={{ padding: '18px 14px', display: 'flex', alignItems: 'center', justifyContent: open ? 'space-between' : 'center', borderBottom: '1px solid rgba(255,255,255,0.08)', minHeight: 62 }}>
-          {open && <span style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 20, color: 'var(--primary, #e94560)' }}>Shop<span style={{ color: '#fff' }}>Admin</span></span>}
+          {open && <span style={{ fontWeight: 800, fontSize: 20, color: 'var(--primary, #e94560)' }}>Shop<span style={{ color: '#fff' }}>Admin</span></span>}
           <button onClick={() => setOpen(!open)} style={{ background: 'rgba(255,255,255,0.07)', border: 'none', color: '#fff', width: 32, height: 32, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
             {open ? <FiX size={18} /> : <FiMenu size={18} />}
           </button>
@@ -101,20 +93,20 @@ const AdminLayout = () => {
       )}
 
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
-        <header style={{ background: 'var(--card-bg)', padding: isMobile ? '0 16px' : '0 28px', height: 60, display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid #e5e7eb', position: 'sticky', top: 0, zIndex: 100, boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}>
+        <header style={{ background: 'var(--card-bg)', padding: isMobile ? '0 16px' : '0 28px', height: 60, display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid var(--border)', position: 'sticky', top: 0, zIndex: 100 }}>
           {isMobile && (
-            <button onClick={() => setOpen(true)} style={{ background: 'none', border: 'none', color: '#6b7280', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: 10, marginRight: 8 }}>
+            <button onClick={() => setOpen(true)} style={{ background: 'none', border: 'none', color: 'var(--gray)', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: 10, marginRight: 8 }}>
               <FiMenu size={22} />
             </button>
           )}
-          <div style={{ fontSize: 14, color: '#6b7280' }}>
+          <div style={{ fontSize: 14, color: 'var(--gray)' }}>
             Welcome back, <strong style={{ color: 'var(--text-color)' }}>{user?.name}</strong>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-            <NavLink to="/admin/settings" title="Store Settings" style={{ color: '#6b7280', display: 'flex', alignItems: 'center' }}>
+            <NavLink to="/admin/settings" title="Store Settings" style={{ color: 'var(--gray)', display: 'flex', alignItems: 'center' }}>
               <FiSettings size={20} />
             </NavLink>
-            <img src={user?.avatar?.url} alt={user?.name} style={{ width: 36, height: 36, borderRadius: '50%', objectFit: 'cover', border: '2px solid #e5e7eb' }} />
+            <img src={user?.avatar?.url} alt={user?.name} style={{ width: 36, height: 36, borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--border)' }} />
           </div>
         </header>
         <main className="admin-main" style={{ flex: 1, padding: isMobile ? 16 : 28, overflowY: 'auto' }}>

@@ -97,13 +97,13 @@
 //                 {suggestions.map(s => (
 //                   <div key={s._id}
 //                     onClick={() => { navigate(`/products/${s._id}`); setSearch(''); setShowSuggestions(false); }}
-//                     style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 16px', cursor: 'pointer', borderBottom: '1px solid #f5f5f5' }}
-//                     onMouseEnter={e => e.currentTarget.style.background = '#fafafa'}
+//                     style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 16px', cursor: 'pointer', borderBottom: '1px solid var(--border)' }}
+//                     onMouseEnter={e => e.currentTarget.style.background = 'var(--surface-2)'}
 //                     onMouseLeave={e => e.currentTarget.style.background = '#fff'}>
 //                     <img src={s.images?.[0]?.url} alt={s.name} style={{ width: 38, height: 38, objectFit: 'cover', borderRadius: 6 }} />
 //                     <div>
 //                       <div style={{ fontSize: 14, fontWeight: 500 }}>{s.name}</div>
-//                       <div style={{ fontSize: 12, color: '#888' }}>{s.brand}</div>
+//                       <div style={{ fontSize: 12, color: 'var(--gray)' }}>{s.brand}</div>
 //                     </div>
 //                   </div>
 //                 ))}
@@ -138,8 +138,8 @@
 //                       ...(isAdmin ? [{ to: '/admin', icon: <FiSettings size={15} />, label: 'Admin Panel' }] : [])
 //                     ].map(item => (
 //                       <Link key={item.to} to={item.to} onClick={() => setUserMenuOpen(false)}
-//                         style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 16px', fontSize: 14, borderBottom: '1px solid #f5f5f5', color: textColor, textDecoration: 'none' }}
-//                         onMouseEnter={e => e.currentTarget.style.background = '#fafafa'}
+//                         style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 16px', fontSize: 14, borderBottom: '1px solid var(--border)', color: textColor, textDecoration: 'none' }}
+//                         onMouseEnter={e => e.currentTarget.style.background = 'var(--surface-2)'}
 //                         onMouseLeave={e => e.currentTarget.style.background = '#fff'}>
 //                         {item.icon} {item.label}
 //                       </Link>
@@ -305,13 +305,13 @@ const Navbar = () => {
         {suggestions.map(s => (
           <div key={s._id}
             onClick={() => { navigate(`/products/${s._id}`); setSearch(''); setShowSuggestions(false); setMobileSearchOpen(false); }}
-            style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 16px', cursor: 'pointer', borderBottom: '1px solid #f5f5f5' }}
-            onMouseEnter={e => e.currentTarget.style.background = '#fafafa'}
+            style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 16px', cursor: 'pointer', borderBottom: '1px solid var(--border)' }}
+            onMouseEnter={e => e.currentTarget.style.background = 'var(--surface-2)'}
             onMouseLeave={e => e.currentTarget.style.background = 'var(--card-bg)'}>
             <img src={s.images?.[0]?.url} alt={s.name} style={{ width: 38, height: 38, objectFit: 'cover', borderRadius: 6 }} />
             <div>
               <div style={{ fontSize: 14, fontWeight: 500, color: textColor }}>{s.name}</div>
-              <div style={{ fontSize: 12, color: '#888' }}>{s.brand}</div>
+              <div style={{ fontSize: 12, color: 'var(--gray)' }}>{s.brand}</div>
             </div>
           </div>
         ))}
@@ -325,7 +325,7 @@ const Navbar = () => {
         fontSize: 9, fontWeight: 700, lineHeight: 1, borderRadius: 999,
         minWidth: 17, height: 17, padding: '0 3px', boxSizing: 'border-box',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        border: '2px solid #fff'
+        border: '2px solid var(--nav-bg)'
       }}>
         {count}
       </span>
@@ -500,9 +500,9 @@ const Navbar = () => {
                           ].map(item => (
                             <Link key={item.to} to={item.to} onClick={() => setUserMenuOpen(false)} style={{
                               display: 'flex', alignItems: 'center', gap: 10, padding: '11px 16px',
-                              fontSize: 14, color: textColor, textDecoration: 'none', borderBottom: '1px solid #f5f5f5'
+                              fontSize: 14, color: textColor, textDecoration: 'none', borderBottom: '1px solid var(--border)'
                             }}
-                              onMouseEnter={e => e.currentTarget.style.background = '#fafafa'}
+                              onMouseEnter={e => e.currentTarget.style.background = 'var(--surface-2)'}
                               onMouseLeave={e => e.currentTarget.style.background = 'var(--card-bg)'}>
                               {item.icon} {item.label}
                             </Link>
@@ -607,7 +607,7 @@ const Navbar = () => {
                 ].map(item => (
                   <Link key={item.to} to={item.to} onClick={() => setMobileMenuOpen(false)} style={{
                     display: 'flex', alignItems: 'center', gap: 12, padding: '11px 0',
-                    fontSize: 15, color: textColor, textDecoration: 'none', borderBottom: '1px solid #f5f5f5'
+                    fontSize: 15, color: textColor, textDecoration: 'none', borderBottom: '1px solid var(--border)'
                   }}>
                     {item.icon} {item.label}
                   </Link>
@@ -645,7 +645,7 @@ const Navbar = () => {
                   onClick={() => setMobileMenuOpen(false)}
                   style={{
                     display: 'block', padding: '12px 0', fontSize: 15,
-                    color: textColor, textDecoration: 'none', borderBottom: '1px solid #f5f5f5',
+                    color: textColor, textDecoration: 'none', borderBottom: '1px solid var(--border)',
                     transition: 'color 0.2s'
                   }}
                   onMouseEnter={e => e.currentTarget.style.color = primary}

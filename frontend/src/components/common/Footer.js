@@ -3,12 +3,13 @@ import { Link } from 'react-router-dom';
 import { FiInstagram, FiTwitter, FiFacebook, FiYoutube, FiMail, FiPhone, FiMapPin } from 'react-icons/fi';
 import { FaLinkedin, FaWhatsapp } from 'react-icons/fa';
 import { useTheme } from '../../context/ThemeContext';
+import useBreakpoint from '../../hooks/useBreakpoint';
 
 const Footer = () => {
   const { theme, socials, t } = useTheme();
   const footerBg  = theme.footer  || '#1a1a2e';
   const primary   = theme.primary  || '#e94560';
-  const isMobile = window.innerWidth <= 768;
+  const { isMobile, isTablet } = useBreakpoint();
   const fn = parseInt((footerBg).replace('#','').padEnd(6,'0').slice(0,6), 16);
   const footerLight = (0.299*((fn>>16)&255) + 0.587*((fn>>8)&255) + 0.114*(fn&255)) > 150;
   const muted = footerLight ? '#4b5563' : '#9ca3af';
@@ -24,7 +25,7 @@ const Footer = () => {
       <div className="container" style={{ padding: isMobile ? '30px 12px 20px' : '50px 20px 30px' }}>
         <div style={{ 
           display: 'grid', 
-          gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(200px, 1fr))', 
+          gridTemplateColumns: isMobile ? '1fr 1fr' : isTablet ? 'repeat(2, 1fr)' : 'repeat(auto-fit, minmax(200px, 1fr))', 
           gap: isMobile ? 24 : 40, 
           marginBottom: isMobile ? 24 : 40 
         }}>

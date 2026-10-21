@@ -9,14 +9,18 @@ const Footer = () => {
   const footerBg  = theme.footer  || '#1a1a2e';
   const primary   = theme.primary  || '#e94560';
   const isMobile = window.innerWidth <= 768;
+  const fn = parseInt((footerBg).replace('#','').padEnd(6,'0').slice(0,6), 16);
+  const footerLight = (0.299*((fn>>16)&255) + 0.587*((fn>>8)&255) + 0.114*(fn&255)) > 150;
+  const muted = footerLight ? '#4b5563' : '#9ca3af';
+  const strong = footerLight ? '#111827' : '#fff';
 
   const linkStyle = {
     display: 'block', marginBottom: 10, fontSize: isMobile ? 13 : 14,
-    color: '#9ca3af', transition: 'color 0.2s', textDecoration: 'none'
+    color: muted, transition: 'color 0.2s', textDecoration: 'none'
   };
 
   return (
-    <footer style={{ background: footerBg, color: '#9ca3af', marginTop: isMobile ? 40 : 60 }}>
+    <footer style={{ background: footerBg, color: muted, marginTop: isMobile ? 40 : 60 }}>
       <div className="container" style={{ padding: isMobile ? '30px 12px 20px' : '50px 20px 30px' }}>
         <div style={{ 
           display: 'grid', 
@@ -26,7 +30,7 @@ const Footer = () => {
         }}>
           {/* Brand */}
           <div>
-            <div style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: isMobile ? 20 : 26, color: primary, marginBottom: 12 }}>
+            <div style={{ fontWeight: 800, fontSize: isMobile ? 20 : 26, color: primary, marginBottom: 12 }}>
               {t('storeName') || 'ShopNow'}
             </div>
             <p style={{ fontSize: isMobile ? 13 : 14, lineHeight: 1.8, marginBottom: 16 }}>
@@ -44,7 +48,7 @@ const Footer = () => {
                 <a key={key} href={socials[key].url}
                   target="_blank"
                   rel="noreferrer"
-                  style={{ width: isMobile ? 32 : 36, height: isMobile ? 32 : 36, borderRadius: '50%', background: 'rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', transition: 'background 0.2s' }}
+                  style={{ width: isMobile ? 32 : 36, height: isMobile ? 32 : 36, borderRadius: '50%', background: 'rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: strong, transition: 'background 0.2s' }}
                   onMouseEnter={e => e.currentTarget.style.background = primary}
                   onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.08)'}>
                   <Icon size={isMobile ? 14 : 16} />
@@ -55,7 +59,7 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h4 style={{ color: '#fff', marginBottom: 16, fontSize: isMobile ? 13 : 15, fontWeight: 700 }}>
+            <h4 style={{ color: strong, marginBottom: 16, fontSize: isMobile ? 13 : 15, fontWeight: 700 }}>
               {t('quickLinksTitle') || 'Quick Links'}
             </h4>
             {[
@@ -75,7 +79,7 @@ const Footer = () => {
 
           {/* Categories */}
           <div>
-            <h4 style={{ color: '#fff', marginBottom: 16, fontSize: isMobile ? 13 : 15, fontWeight: 700 }}>
+            <h4 style={{ color: strong, marginBottom: 16, fontSize: isMobile ? 13 : 15, fontWeight: 700 }}>
               {t('categoriesTitle') || 'Categories'}
             </h4>
             {['Electronics', 'Fashion', 'Home & Kitchen', 'Sports', 'Books'].map(cat => (
@@ -89,7 +93,7 @@ const Footer = () => {
 
           {/* Contact */}
           <div>
-            <h4 style={{ color: '#fff', marginBottom: 16, fontSize: isMobile ? 13 : 15, fontWeight: 700 }}>
+            <h4 style={{ color: strong, marginBottom: 16, fontSize: isMobile ? 13 : 15, fontWeight: 700 }}>
               {t('contactTitle') || 'Contact Us'}
             </h4>
             {[

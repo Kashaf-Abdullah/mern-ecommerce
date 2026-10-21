@@ -83,10 +83,10 @@ const AdminUsers = () => {
                   <td>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                       <img src={user.avatar?.url} alt={user.name}
-                        style={{ width: 40, height: 40, borderRadius: '50%', objectFit: 'cover', border: '2px solid #f0f0f0' }} />
+                        style={{ width: 40, height: 40, borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--border)' }} />
                       <div>
                         <div style={{ fontWeight: 600, fontSize: 14 }}>{user.name}</div>
-                        <div style={{ fontSize: 12, color: '#888' }}>{user.email}</div>
+                        <div style={{ fontSize: 12, color: 'var(--gray)' }}>{user.email}</div>
                       </div>
                     </div>
                   </td>
@@ -109,10 +109,10 @@ const AdminUsers = () => {
                       padding: '3px 10px', borderRadius: 20, fontSize: 12, fontWeight: 700
                     }}>{user.isActive ? 'Active' : 'Blocked'}</span>
                   </td>
-                  <td style={{ fontSize: 13, color: '#888' }}>
+                  <td style={{ fontSize: 13, color: 'var(--gray)' }}>
                     {user.lastLogin ? new Date(user.lastLogin).toLocaleDateString() : '—'}
                   </td>
-                  <td style={{ fontSize: 13, color: '#888' }}>{new Date(user.createdAt).toLocaleDateString()}</td>
+                  <td style={{ fontSize: 13, color: 'var(--gray)' }}>{new Date(user.createdAt).toLocaleDateString()}</td>
                   <td>
                     {user.role !== 'admin' && (
                       <button
@@ -135,7 +135,7 @@ const AdminUsers = () => {
         </div>
 
         {totalPages > 1 && (
-          <div style={{ padding: '16px 24px', borderTop: '1px solid #f0f0f0' }}>
+          <div style={{ padding: '16px 24px', borderTop: '1px solid var(--border)' }}>
             <div className="pagination" style={{ justifyContent: 'flex-start', marginTop: 0 }}>
               {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
                 <button key={p} onClick={() => setPage(p)} className={`page-btn${page === p ? ' active' : ''}`}>{p}</button>

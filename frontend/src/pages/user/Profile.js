@@ -97,7 +97,7 @@ const Profile = () => {
 
       {/* Tabs */}
       <div className="card" style={{ padding: 0 }}>
-        <div style={{ display: 'flex', borderBottom: '1px solid #f0f0f0', overflowX: 'auto' }}>
+        <div style={{ display: 'flex', borderBottom: '1px solid var(--border)', overflowX: 'auto' }}>
           <TabBtn active={tab === 'profile'} onClick={() => setTab('profile')}>Profile</TabBtn>
           <TabBtn active={tab === 'addresses'} onClick={() => setTab('addresses')}>Addresses</TabBtn>
           <TabBtn active={tab === 'security'} onClick={() => setTab('security')}>Security</TabBtn>
@@ -123,7 +123,7 @@ const Profile = () => {
               </div>
               <div className="form-group">
                 <label>Email Address</label>
-                <input type="email" value={user?.email} className="form-control" disabled style={{ background: '#f9f9f9', color: '#888' }} />
+                <input type="email" value={user?.email} className="form-control" disabled style={{ background: 'var(--surface-2)', color: 'var(--gray)' }} />
               </div>
               <button onClick={handleProfileSave} disabled={saving} className="btn btn-primary">
                 {saving ? 'Saving...' : 'Save Changes'}
@@ -142,7 +142,7 @@ const Profile = () => {
               </div>
 
               {showAddressForm && (
-                <form onSubmit={handleAddAddress} style={{ background: '#f9f9f9', padding: 20, borderRadius: 12, marginBottom: 20 }}>
+                <form onSubmit={handleAddAddress} style={{ background: 'var(--surface-2)', padding: 20, borderRadius: 12, marginBottom: 20 }}>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
                     {[
                       { key: 'fullName', label: 'Full Name', span: 1 },
@@ -179,14 +179,14 @@ const Profile = () => {
               ) : (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
                   {user.addresses.map(addr => (
-                    <div key={addr._id} style={{ padding: '16px 20px', border: `2px solid ${addr.isDefault ? 'var(--primary)' : '#e0e0e0'}`, borderRadius: 10, position: 'relative' }}>
+                    <div key={addr._id} style={{ padding: '16px 20px', border: `2px solid ${addr.isDefault ? 'var(--primary)' : 'var(--border)'}`, borderRadius: 10, position: 'relative' }}>
                       {addr.isDefault && (
                         <span style={{ position: 'absolute', top: 10, right: 10, background: 'rgba(233,69,96,0.1)', color: 'var(--primary)', fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 4 }}>
                           DEFAULT
                         </span>
                       )}
                       <div style={{ fontWeight: 600, fontSize: 15 }}>{addr.fullName}</div>
-                      <div style={{ fontSize: 13, color: '#666', marginTop: 4, lineHeight: 1.7 }}>
+                      <div style={{ fontSize: 13, color: 'var(--gray)', marginTop: 4, lineHeight: 1.7 }}>
                         {addr.addressLine1}, {addr.city}, {addr.state} - {addr.pincode}<br />
                         {addr.phone}
                       </div>

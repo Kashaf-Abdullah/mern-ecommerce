@@ -88,7 +88,7 @@
 //       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 50, marginBottom: 50 }}>
 //         {/* Images */}
 //         <div>
-//           <div style={{ borderRadius: 14, overflow: 'hidden', aspectRatio: '1', background: '#f8f8f8', marginBottom: 16, border: '1px solid #e0e0e0' }}>
+//           <div style={{ borderRadius: 14, overflow: 'hidden', aspectRatio: '1', background: 'var(--surface-2)', marginBottom: 16, border: '1px solid var(--border)' }}>
 //             <img
 //               src={product.images?.[activeImage]?.url || 'https://via.placeholder.com/600'}
 //               alt={product.name}
@@ -101,7 +101,7 @@
 //                 <div key={i} onClick={() => setActiveImage(i)}
 //                   style={{
 //                     width: 72, height: 72, borderRadius: 10, overflow: 'hidden', cursor: 'pointer',
-//                     border: activeImage === i ? '2px solid var(--primary)' : '2px solid #e0e0e0',
+//                     border: activeImage === i ? '2px solid var(--primary)' : '2px solid var(--border)',
 //                     transition: 'border-color 0.2s'
 //                   }}>
 //                   <img src={img.url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -126,7 +126,7 @@
 //           </div>
 
 //           {/* Price */}
-//           <div style={{ background: '#f8f8f8', borderRadius: 12, padding: '16px 20px', marginBottom: 24 }}>
+//           <div style={{ background: 'var(--surface-2)', borderRadius: 12, padding: '16px 20px', marginBottom: 24 }}>
 //             <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
 //               <span style={{ fontSize: 32, fontWeight: 800, color: 'var(--dark)' }}>Rs.{effectivePrice.toLocaleString()}</span>
 //               {product.discountPrice > 0 && (
@@ -160,14 +160,14 @@
 //           {product.stock > 0 && (
 //             <div style={{ marginBottom: 24 }}>
 //               <label style={{ fontSize: 14, fontWeight: 600, marginBottom: 10, display: 'block' }}>Quantity</label>
-//               <div style={{ display: 'flex', alignItems: 'center', gap: 0, width: 'fit-content', border: '2px solid #e0e0e0', borderRadius: 10, overflow: 'hidden' }}>
+//               <div style={{ display: 'flex', alignItems: 'center', gap: 0, width: 'fit-content', border: '2px solid var(--border)', borderRadius: 10, overflow: 'hidden' }}>
 //                 <button onClick={() => setQty(Math.max(1, qty - 1))}
-//                   style={{ width: 42, height: 42, background: '#f5f5f5', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+//                   style={{ width: 42, height: 42, background: 'var(--surface-2)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
 //                   <FiMinus size={16} />
 //                 </button>
 //                 <span style={{ width: 56, textAlign: 'center', fontWeight: 700, fontSize: 16 }}>{qty}</span>
 //                 <button onClick={() => setQty(Math.min(product.stock, qty + 1))}
-//                   style={{ width: 42, height: 42, background: '#f5f5f5', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+//                   style={{ width: 42, height: 42, background: 'var(--surface-2)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
 //                   <FiPlus size={16} />
 //                 </button>
 //               </div>
@@ -186,7 +186,7 @@
 //             </button>
 //             <button onClick={() => toggleWishlist(product._id)}
 //               style={{
-//                 width: 52, height: 52, borderRadius: 10, border: '2px solid #e0e0e0',
+//                 width: 52, height: 52, borderRadius: 10, border: '2px solid var(--border)',
 //                 display: 'flex', alignItems: 'center', justifyContent: 'center',
 //                 color: wished ? 'var(--primary)' : '#888', background: wished ? 'rgba(233,69,96,0.08)' : '#fff',
 //                 cursor: 'pointer', transition: 'all 0.2s'
@@ -212,7 +212,7 @@
 
 //       {/* Tabs */}
 //       <div className="card" style={{ padding: 0, marginBottom: 40 }}>
-//         <div style={{ display: 'flex', borderBottom: '1px solid #f0f0f0' }}>
+//         <div style={{ display: 'flex', borderBottom: '1px solid var(--border)' }}>
 //           {['description', 'specifications', 'reviews'].map(t => (
 //             <button key={t} onClick={() => setTab(t)}
 //               style={{
@@ -228,13 +228,13 @@
 //         </div>
 //         <div style={{ padding: 28 }}>
 //           {tab === 'description' && (
-//             <p style={{ lineHeight: 1.9, color: '#444', fontSize: 15 }}>{product.description}</p>
+//             <p style={{ lineHeight: 1.9, color: 'var(--text-color)', fontSize: 15 }}>{product.description}</p>
 //           )}
 //           {tab === 'specifications' && (
 //             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12 }}>
 //               {product.specifications?.map((spec, i) => (
 //                 <div key={i} style={{ display: 'flex', gap: 16, padding: '10px 0', borderBottom: '1px solid #f5f5f5' }}>
-//                   <span style={{ fontWeight: 600, minWidth: 120, fontSize: 14, color: '#888' }}>{spec.key}</span>
+//                   <span style={{ fontWeight: 600, minWidth: 120, fontSize: 14, color: 'var(--gray)' }}>{spec.key}</span>
 //                   <span style={{ fontSize: 14 }}>{spec.value}</span>
 //                 </div>
 //               )) || <p style={{ color: 'var(--gray)' }}>No specifications available</p>}
@@ -244,7 +244,7 @@
 //             <div>
 //               {/* Review Form */}
 //               {isAuthenticated && (
-//                 <form onSubmit={handleReviewSubmit} style={{ background: '#f9f9f9', padding: 20, borderRadius: 12, marginBottom: 30 }}>
+//                 <form onSubmit={handleReviewSubmit} style={{ background: 'var(--surface-2)', padding: 20, borderRadius: 12, marginBottom: 30 }}>
 //                   <h4 style={{ marginBottom: 16 }}>Write a Review</h4>
 //                   <div style={{ marginBottom: 16 }}>
 //                     <label style={{ fontSize: 14, fontWeight: 600, marginBottom: 8, display: 'block' }}>Rating</label>
@@ -273,7 +273,7 @@
 //                 <p style={{ color: 'var(--gray)', textAlign: 'center', padding: '30px 0' }}>No reviews yet. Be the first to review!</p>
 //               ) : (
 //                 reviews.map(review => (
-//                   <div key={review._id} style={{ padding: '20px 0', borderBottom: '1px solid #f0f0f0' }}>
+//                   <div key={review._id} style={{ padding: '20px 0', borderBottom: '1px solid var(--border)' }}>
 //                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
 //                       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
 //                         <img src={review.user.avatar?.url} alt={review.user.name}
@@ -321,7 +321,7 @@ const StarRating = ({ rating, size = 16, interactive = false, onSet }) => (
         key={s}
         onClick={() => interactive && onSet && onSet(s)}
         style={{
-          color: s <= Math.round(rating) ? '#ffc107' : '#e0e0e0',
+          color: s <= Math.round(rating) ? '#ffc107' : 'var(--border)',
           fontSize: size,
           cursor: interactive ? 'pointer' : 'default',
           transition: 'color 0.15s'
@@ -520,7 +520,7 @@ const ProductDetail = () => {
             onClick={() => setLightboxOpen(true)}
             style={{
               borderRadius: isMobile ? 12 : 16, overflow: 'hidden',
-              aspectRatio: '1', background: '#f8f8f8',
+              aspectRatio: '1', background: 'var(--surface-2)',
               border: '1px solid #e8e8e8',
               marginBottom: isMobile ? 10 : 14, position: 'relative', cursor: 'zoom-in'
             }}>
@@ -569,7 +569,7 @@ const ProductDetail = () => {
                 <div key={i} onClick={() => setActiveImage(i)}
                   style={{
                     width: isMobile ? 56 : 68, height: isMobile ? 56 : 68, borderRadius: 10, overflow: 'hidden', cursor: 'pointer', flexShrink: 0,
-                    border: `2px solid ${activeImage === i ? 'var(--primary)' : '#e0e0e0'}`,
+                    border: `2px solid ${activeImage === i ? 'var(--primary)' : 'var(--border)'}`,
                     transition: 'border-color 0.2s', position: 'relative'
                   }}>
                   <img src={img.url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -584,7 +584,7 @@ const ProductDetail = () => {
                   width: isMobile ? 56 : 68, height: isMobile ? 56 : 68, borderRadius: 10, border: '2px dashed #d1d5db',
                   display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
                   cursor: 'pointer', color: '#aaa', gap: 4, flexShrink: 0,
-                  background: '#fafafa'
+                  background: 'var(--surface-2)'
                 }}>
                 <FiZoomIn size={isMobile ? 16 : 18} />
                 <span style={{ fontSize: 9, fontWeight: 600 }}>View All</span>
@@ -613,7 +613,7 @@ const ProductDetail = () => {
           </div>
 
           {/* Price box */}
-          <div style={{ background: '#f8f8f8', borderRadius: isMobile ? 12 : 14, padding: isMobile ? '14px 16px' : '18px 22px', marginBottom: isMobile ? 18 : 24 }}>
+          <div style={{ background: 'var(--surface-2)', borderRadius: isMobile ? 12 : 14, padding: isMobile ? '14px 16px' : '18px 22px', marginBottom: isMobile ? 18 : 24 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? 10 : 14, flexWrap: 'wrap' }}>
               <span style={{ fontSize: isMobile ? 28 : 34, fontWeight: 800, color: 'var(--dark)' }}>
                 Rs.{effectivePrice.toLocaleString()}
@@ -658,14 +658,14 @@ const ProductDetail = () => {
           {product.stock > 0 && (
             <div style={{ marginBottom: isMobile ? 18 : 24 }}>
               <label style={{ fontSize: isMobile ? 13 : 14, fontWeight: 600, marginBottom: 8, display: 'block' }}>Quantity</label>
-              <div style={{ display: 'flex', alignItems: 'center', width: 'fit-content', border: '2px solid #e0e0e0', borderRadius: isMobile ? 10 : 12, overflow: 'hidden' }}>
+              <div style={{ display: 'flex', alignItems: 'center', width: 'fit-content', border: '2px solid var(--border)', borderRadius: isMobile ? 10 : 12, overflow: 'hidden' }}>
                 <button onClick={() => setQty(Math.max(1, qty - 1))}
-                  style={{ width: isMobile ? 40 : 44, height: isMobile ? 40 : 44, background: '#f5f5f5', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  style={{ width: isMobile ? 40 : 44, height: isMobile ? 40 : 44, background: 'var(--surface-2)', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <FiMinus size={isMobile ? 14 : 16} />
                 </button>
                 <span style={{ width: isMobile ? 50 : 56, textAlign: 'center', fontWeight: 700, fontSize: isMobile ? 15 : 17 }}>{qty}</span>
                 <button onClick={() => setQty(Math.min(product.stock, qty + 1))}
-                  style={{ width: isMobile ? 40 : 44, height: isMobile ? 40 : 44, background: '#f5f5f5', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  style={{ width: isMobile ? 40 : 44, height: isMobile ? 40 : 44, background: 'var(--surface-2)', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <FiPlus size={isMobile ? 14 : 16} />
                 </button>
               </div>
@@ -677,7 +677,7 @@ const ProductDetail = () => {
             <button onClick={handleAddToCart} disabled={product.stock === 0}
               style={{
                 flex: 1, padding: isMobile ? '12px 0' : '14px 0', borderRadius: isMobile ? 10 : 12, fontWeight: 700, fontSize: isMobile ? 14 : 15,
-                background: '#fff', color: 'var(--dark)', border: '2px solid var(--dark)',
+                background: 'var(--card-bg)', color: 'var(--dark)', border: '2px solid var(--dark)',
                 cursor: product.stock === 0 ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, opacity: product.stock === 0 ? 0.5 : 1, transition: 'all 0.2s'
               }}
               onMouseEnter={e => { if (product.stock > 0) { e.currentTarget.style.background = 'var(--dark)'; e.currentTarget.style.color = '#fff'; } }}
@@ -693,7 +693,7 @@ const ProductDetail = () => {
 
             <button onClick={() => toggleWishlist(product._id)}
               style={{
-                width: 54, height: 54, borderRadius: 12, border: `2px solid ${wished ? 'var(--primary)' : '#e0e0e0'}`,
+                width: 54, height: 54, borderRadius: 12, border: `2px solid ${wished ? 'var(--primary)' : 'var(--border)'}`,
                 background: wished ? 'rgba(233,69,96,0.08)' : '#fff',
                 color: wished ? 'var(--primary)' : '#888',
                 cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.2s'
@@ -703,7 +703,7 @@ const ProductDetail = () => {
           </div>
 
           {/* Trust signals */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, paddingTop: 16, borderTop: '1px solid #f0f0f0' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, paddingTop: 16, borderTop: '1px solid var(--border)' }}>
             {[
               { icon: <FiTruck size={16} />, text: 'Free delivery on orders above Rs.500' },
               { icon: <FiRefreshCw size={16} />, text: '7-day easy returns and exchange' },
@@ -719,7 +719,7 @@ const ProductDetail = () => {
 
       {/* ── Tabs: Description / Specs / Reviews ── */}
       <div className="card" style={{ padding: 0, marginBottom: 40 }}>
-        <div style={{ display: 'flex', borderBottom: '1px solid #f0f0f0' }}>
+        <div style={{ display: 'flex', borderBottom: '1px solid var(--border)' }}>
           {['description', 'specifications', 'reviews'].map(t => (
             <button key={t} onClick={() => setTab(t)}
               style={{
@@ -737,7 +737,7 @@ const ProductDetail = () => {
         <div style={{ padding: 28 }}>
           {/* Description */}
           {tab === 'description' && (
-            <div style={{ lineHeight: 1.9, color: '#444', fontSize: 15 }}>
+            <div style={{ lineHeight: 1.9, color: 'var(--text-color)', fontSize: 15 }}>
               {product.description?.split('\n').filter(Boolean).map((paragraph, index) => (
                 <p key={index} style={{ marginBottom: 16 }}>{paragraph}</p>
               ))}
@@ -749,7 +749,7 @@ const ProductDetail = () => {
             <div className="product-spec-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0 40px' }}>
               {product.specifications?.length > 0 ? product.specifications.map((spec, i) => (
                 <div key={i} className="product-spec-row" style={{ display: 'flex', gap: 16, padding: '12px 0', borderBottom: '1px solid #f5f5f5' }}>
-                  <span style={{ fontWeight: 600, minWidth: 130, fontSize: 14, color: '#888' }}>{spec.key}</span>
+                  <span style={{ fontWeight: 600, minWidth: 130, fontSize: 14, color: 'var(--gray)' }}>{spec.key}</span>
                   <span style={{ fontSize: 14, color: '#333' }}>{spec.value}</span>
                 </div>
               )) : (
@@ -764,7 +764,7 @@ const ProductDetail = () => {
               {/* Write a review */}
               {isAuthenticated && (
                 <form onSubmit={handleReviewSubmit}
-                  style={{ background: '#f9f9f9', padding: 22, borderRadius: 14, marginBottom: 30, border: '1px solid #f0f0f0' }}>
+                  style={{ background: 'var(--surface-2)', padding: 22, borderRadius: 14, marginBottom: 30, border: '1px solid var(--border)' }}>
                   <h4 style={{ marginBottom: 16, fontSize: 16 }}>Write a Review</h4>
 
                   <div style={{ marginBottom: 16 }}>
@@ -799,11 +799,11 @@ const ProductDetail = () => {
                   No reviews yet. Be the first to review!
                 </div>
               ) : reviews.map(review => (
-                <div key={review._id} style={{ padding: '20px 0', borderBottom: '1px solid #f0f0f0' }}>
+                <div key={review._id} style={{ padding: '20px 0', borderBottom: '1px solid var(--border)' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                       <img src={review.user.avatar?.url || 'https://via.placeholder.com/36?text=U'} alt={review.user.name}
-                        style={{ width: 38, height: 38, borderRadius: '50%', objectFit: 'cover', border: '2px solid #f0f0f0' }} />
+                        style={{ width: 38, height: 38, borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--border)' }} />
                       <div>
                         <div style={{ fontWeight: 600, fontSize: 14 }}>{review.user.name}</div>
                         <div style={{ fontSize: 12, color: 'var(--gray)', marginTop: 2 }}>

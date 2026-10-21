@@ -139,7 +139,7 @@ const Dashboard = () => {
                   <td><Link to={`/orders/${order._id}`} style={{ color: 'var(--primary)', fontWeight: 600 }}>{order.orderId}</Link></td>
                   <td>
                     <div style={{ fontWeight: 500 }}>{order.user?.name || order.shippingAddress?.fullName}</div>
-                    <div style={{ fontSize: 12, color: '#888' }}>{order.user?.email || order.guestEmail}</div>
+                    <div style={{ fontSize: 12, color: 'var(--gray)' }}>{order.user?.email || order.guestEmail}</div>
                   </td>
                   <td style={{ fontWeight: 700 }}>Rs.{order.totalPrice?.toFixed(2)}</td>
                   <td>
@@ -149,7 +149,7 @@ const Dashboard = () => {
                       padding: '3px 10px', borderRadius: 20, fontSize: 12, fontWeight: 600, textTransform: 'capitalize'
                     }}>{order.orderStatus}</span>
                   </td>
-                  <td style={{ color: '#888', fontSize: 13 }}>{new Date(order.createdAt).toLocaleDateString()}</td>
+                  <td style={{ color: 'var(--gray)', fontSize: 13 }}>{new Date(order.createdAt).toLocaleDateString()}</td>
                 </tr>
               ))}
             </tbody>

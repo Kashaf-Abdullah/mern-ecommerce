@@ -178,22 +178,22 @@ const AdminNotifications = () => {
         ) : (
           <div style={{ display: 'grid', gap: 16 }}>
             {notifications.map(notification => (
-              <div key={notification._id} style={{ padding: 18, borderRadius: 14, border: '1px solid #e5e7eb', background: '#fff' }}>
+              <div key={notification._id} style={{ padding: 18, borderRadius: 14, border: '1px solid #e5e7eb', background: 'var(--card-bg)' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
                   <h3 style={{ margin: 0, fontSize: 16, fontWeight: 700 }}>{notification.title}</h3>
                   <div style={{ textAlign: 'right' }}>
                     <span style={{ color: '#6b7280', fontSize: 13 }}>{new Date(notification.createdAt).toLocaleString()}</span>
-                    <div style={{ fontSize: 12, color: '#888', marginTop: 2 }}>
+                    <div style={{ fontSize: 12, color: 'var(--gray)', marginTop: 2 }}>
                       Sent to: {notification.targetAll ? 'All Users' : `${notification.users?.length || 0} Users`}
                     </div>
                   </div>
                 </div>
-                <p style={{ margin: '10px 0 0', color: '#444' }}>{notification.message}</p>
+                <p style={{ margin: '10px 0 0', color: 'var(--text-color)' }}>{notification.message}</p>
                 {notification.link && (
                   <a href={notification.link} target="_blank" rel="noreferrer" style={{ color: 'var(--primary)', fontSize: 14 }}>Open Link</a>
                 )}
                 {!notification.targetAll && notification.users && notification.users.length > 0 && (
-                  <div style={{ marginTop: 8, fontSize: 12, color: '#666' }}>
+                  <div style={{ marginTop: 8, fontSize: 12, color: 'var(--gray)' }}>
                     Recipients: {notification.users.map(u => u.name).join(', ')}
                   </div>
                 )}

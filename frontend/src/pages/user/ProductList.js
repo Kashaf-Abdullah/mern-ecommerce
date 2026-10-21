@@ -15,7 +15,7 @@ const SORT_OPTIONS = [
 const FilterSection = ({ title, children, defaultOpen = true }) => {
   const [open, setOpen] = useState(defaultOpen);
   return (
-    <div style={{ borderBottom: '1px solid #f0f0f0', paddingBottom: 16, marginBottom: 16 }}>
+    <div style={{ borderBottom: '1px solid var(--border)', paddingBottom: 16, marginBottom: 16 }}>
       <button onClick={() => setOpen(!open)}
         style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', background: 'none', padding: '4px 0', fontWeight: 700, fontSize: 14 }}
       >
@@ -185,7 +185,7 @@ const ProductList = () => {
         </div>
 
         <div className="product-list-toolbar" style={{ display: 'flex', flexWrap: 'wrap', gap: 12, alignItems: 'center', flex: 1, minWidth: 280, justifyContent: 'flex-end' }}>
-          <div style={{ flex: 1, minWidth: 220, display: 'flex', alignItems: 'center', gap: 8, background: '#fff', border: '1px solid #e0e0e0', borderRadius: 10, padding: '10px 14px' }}>
+          <div style={{ flex: 1, minWidth: 220, display: 'flex', alignItems: 'center', gap: 8, background: 'var(--card-bg)', border: '1px solid var(--border)', borderRadius: 10, padding: '10px 14px' }}>
             <FiSearch size={18} color="#888" />
             <input
               type="text"
@@ -214,21 +214,21 @@ const ProductList = () => {
             <button
               type="button"
               onClick={() => setViewMode('grid')}
-              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 42, height: 42, borderRadius: 12, border: `1px solid ${viewMode === 'grid' ? 'var(--primary)' : '#e0e0e0'}`, background: viewMode === 'grid' ? 'var(--primary)' : '#fff', color: viewMode === 'grid' ? '#fff' : '#555', cursor: 'pointer' }}
+              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 42, height: 42, borderRadius: 12, border: `1px solid ${viewMode === 'grid' ? 'var(--primary)' : 'var(--border)'}`, background: viewMode === 'grid' ? 'var(--primary)' : '#fff', color: viewMode === 'grid' ? '#fff' : '#555', cursor: 'pointer' }}
             >
               <FiGrid size={18} />
             </button>
             <button
               type="button"
               onClick={() => setViewMode('list')}
-              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 42, height: 42, borderRadius: 12, border: `1px solid ${viewMode === 'list' ? 'var(--primary)' : '#e0e0e0'}`, background: viewMode === 'list' ? 'var(--primary)' : '#fff', color: viewMode === 'list' ? '#fff' : '#555', cursor: 'pointer' }}
+              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 42, height: 42, borderRadius: 12, border: `1px solid ${viewMode === 'list' ? 'var(--primary)' : 'var(--border)'}`, background: viewMode === 'list' ? 'var(--primary)' : '#fff', color: viewMode === 'list' ? '#fff' : '#555', cursor: 'pointer' }}
             >
               <FiList size={18} />
             </button>
           </div>
 
           <button onClick={() => setShowFilters(!showFilters)}
-            style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '9px 16px', border: '2px solid #e0e0e0', borderRadius: 8, background: '#fff', fontWeight: 600, fontSize: 14 }}>
+            style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '9px 16px', border: '2px solid var(--border)', borderRadius: 8, background: 'var(--card-bg)', fontWeight: 600, fontSize: 14 }}>
             <FiFilter size={16} />
             Filters {activeFilterCount > 0 && <span style={{ background: 'var(--primary)', color: '#fff', borderRadius: '50%', width: 18, height: 18, fontSize: 11, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{activeFilterCount}</span>}
           </button>

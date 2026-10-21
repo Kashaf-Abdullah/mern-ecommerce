@@ -30,7 +30,7 @@ const Wishlist = () => {
           return (
           <div key={product._id} className="card" style={{ display: 'flex', flexDirection: 'column' }}>
             <Link to={`/products/${product._id}`}>
-              <div style={{ aspectRatio: '1', overflow: 'hidden', background: '#f8f8f8' }}>
+              <div style={{ aspectRatio: '1', overflow: 'hidden', background: 'var(--surface-2)' }}>
                 <img src={productImage} alt={product.name}
                   style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.3s' }}
                   onMouseEnter={e => e.target.style.transform = 'scale(1.06)'}

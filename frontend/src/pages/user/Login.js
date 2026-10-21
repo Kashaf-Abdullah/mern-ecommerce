@@ -68,7 +68,7 @@ export const Login = () => {
         <button type="submit" disabled={loading} className="btn btn-primary btn-full btn-lg" style={{ borderRadius: 10, marginBottom: 16 }}>
           {loading ? 'Signing In...' : 'Sign In'}
         </button>
-        <p style={{ textAlign: 'center', fontSize: 14, color: '#666' }}>
+        <p style={{ textAlign: 'center', fontSize: 14, color: 'var(--gray)' }}>
           Don't have an account? <Link to="/register" style={{ color: 'var(--primary)', fontWeight: 600 }}>Sign Up</Link>
         </p>
 
@@ -117,7 +117,7 @@ export const Register = () => {
         <button type="submit" disabled={loading} className="btn btn-primary btn-full btn-lg" style={{ borderRadius: 10, marginBottom: 16, marginTop: 4 }}>
           {loading ? 'Creating Account...' : 'Create Account'}
         </button>
-        <p style={{ textAlign: 'center', fontSize: 14, color: '#666' }}>
+        <p style={{ textAlign: 'center', fontSize: 14, color: 'var(--gray)' }}>
           Already have an account? <Link to="/login" style={{ color: 'var(--primary)', fontWeight: 600 }}>Sign In</Link>
         </p>
       </form>

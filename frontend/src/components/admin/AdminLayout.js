@@ -45,7 +45,7 @@ const AdminLayout = () => {
   const sidebarLeft = isMobile ? (open ? 0 : '-100%') : 0;
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: '#f4f6f9' }}>
+    <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg)' }}>
       <aside style={{
         width: sidebarWidth,
         background: '#1a1a2e',
@@ -101,14 +101,14 @@ const AdminLayout = () => {
       )}
 
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
-        <header style={{ background: '#fff', padding: isMobile ? '0 16px' : '0 28px', height: 60, display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid #e5e7eb', position: 'sticky', top: 0, zIndex: 100, boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}>
+        <header style={{ background: 'var(--card-bg)', padding: isMobile ? '0 16px' : '0 28px', height: 60, display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid #e5e7eb', position: 'sticky', top: 0, zIndex: 100, boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}>
           {isMobile && (
             <button onClick={() => setOpen(true)} style={{ background: 'none', border: 'none', color: '#6b7280', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: 10, marginRight: 8 }}>
               <FiMenu size={22} />
             </button>
           )}
           <div style={{ fontSize: 14, color: '#6b7280' }}>
-            Welcome back, <strong style={{ color: '#1a1a2e' }}>{user?.name}</strong>
+            Welcome back, <strong style={{ color: 'var(--text-color)' }}>{user?.name}</strong>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
             <NavLink to="/admin/settings" title="Store Settings" style={{ color: '#6b7280', display: 'flex', alignItems: 'center' }}>

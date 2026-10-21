@@ -109,17 +109,17 @@ const AdminCoupons = () => {
                 ) : coupons.map(coupon => (
                   <tr key={coupon._id}>
                     <td>
-                      <div style={{ fontFamily: 'monospace', fontWeight: 800, fontSize: 15, letterSpacing: 1, color: 'var(--dark)', background: '#f5f5f5', display: 'inline-block', padding: '4px 10px', borderRadius: 6 }}>
+                      <div style={{ fontFamily: 'monospace', fontWeight: 800, fontSize: 15, letterSpacing: 1, color: 'var(--dark)', background: 'var(--surface-2)', display: 'inline-block', padding: '4px 10px', borderRadius: 6 }}>
                         {coupon.code}
                       </div>
-                      {coupon.description && <div style={{ fontSize: 12, color: '#888', marginTop: 4 }}>{coupon.description}</div>}
+                      {coupon.description && <div style={{ fontSize: 12, color: 'var(--gray)', marginTop: 4 }}>{coupon.description}</div>}
                     </td>
                     <td>
                       <div style={{ fontWeight: 700, fontSize: 16, color: 'var(--primary)', display: 'flex', alignItems: 'center', gap: 4 }}>
                         <FiPercent size={14} />
                         {coupon.discountType === 'percentage' ? `${coupon.discountValue}%` : `Rs.${coupon.discountValue}`}
                       </div>
-                      {coupon.maxDiscount && <div style={{ fontSize: 12, color: '#888' }}>Max: Rs.{coupon.maxDiscount}</div>}
+                      {coupon.maxDiscount && <div style={{ fontSize: 12, color: 'var(--gray)' }}>Max: Rs.{coupon.maxDiscount}</div>}
                     </td>
                     <td style={{ fontSize: 14 }}>Rs.{coupon.minOrderAmount || 0}</td>
                     <td>
@@ -133,7 +133,7 @@ const AdminCoupons = () => {
                       )}
                     </td>
                     <td style={{ fontSize: 13 }}>
-                      <div style={{ color: '#444' }}>{new Date(coupon.startDate).toLocaleDateString()} –</div>
+                      <div style={{ color: 'var(--text-color)' }}>{new Date(coupon.startDate).toLocaleDateString()} –</div>
                       <div style={{ color: isExpired(coupon) ? 'var(--danger)' : '#444' }}>{new Date(coupon.expiryDate).toLocaleDateString()}</div>
                     </td>
                     <td>
@@ -149,7 +149,7 @@ const AdminCoupons = () => {
                     </td>
                     <td>
                       <div style={{ display: 'flex', gap: 8 }}>
-                        <button onClick={() => openEdit(coupon)} style={{ width: 32, height: 32, borderRadius: 8, border: '1px solid #e0e0e0', background: '#fff', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#555' }}>
+                        <button onClick={() => openEdit(coupon)} style={{ width: 32, height: 32, borderRadius: 8, border: '1px solid var(--border)', background: 'var(--card-bg)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#555' }}>
                           <FiEdit2 size={14} />
                         </button>
                         <button onClick={() => handleDelete(coupon._id)} style={{ width: 32, height: 32, borderRadius: 8, border: '1px solid #ffcdd2', background: '#fff5f5', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--danger)' }}>
@@ -168,10 +168,10 @@ const AdminCoupons = () => {
       {/* Modal */}
       {showModal && (
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
-          <div style={{ background: '#fff', borderRadius: 16, width: '100%', maxWidth: 560, maxHeight: '90vh', overflow: 'auto' }}>
-            <div style={{ padding: '22px 28px', borderBottom: '1px solid #f0f0f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'sticky', top: 0, background: '#fff', zIndex: 1 }}>
+          <div style={{ background: 'var(--card-bg)', borderRadius: 16, width: '100%', maxWidth: 560, maxHeight: '90vh', overflow: 'auto' }}>
+            <div style={{ padding: '22px 28px', borderBottom: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'sticky', top: 0, background: 'var(--card-bg)', zIndex: 1 }}>
               <h2 style={{ fontSize: 18, fontWeight: 700 }}>{editCoupon ? 'Edit Coupon' : 'Create Coupon'}</h2>
-              <button onClick={() => setShowModal(false)} style={{ background: '#f5f5f5', border: 'none', width: 34, height: 34, borderRadius: 8, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <button onClick={() => setShowModal(false)} style={{ background: 'var(--surface-2)', border: 'none', width: 34, height: 34, borderRadius: 8, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <FiX size={18} />
               </button>
             </div>
@@ -257,7 +257,7 @@ const AdminCoupons = () => {
                 </div>
               </div>
 
-              <div style={{ display: 'flex', gap: 12, justifyContent: 'flex-end', marginTop: 24, paddingTop: 20, borderTop: '1px solid #f0f0f0' }}>
+              <div style={{ display: 'flex', gap: 12, justifyContent: 'flex-end', marginTop: 24, paddingTop: 20, borderTop: '1px solid var(--border)' }}>
                 <button type="button" onClick={() => setShowModal(false)} className="btn btn-outline">Cancel</button>
                 <button type="submit" disabled={saving} className="btn btn-primary">
                   {saving ? 'Saving...' : editCoupon ? 'Update Coupon' : 'Create Coupon'}

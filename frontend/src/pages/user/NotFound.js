@@ -11,7 +11,7 @@ const NotFound = () => (
       </p>
       <div style={{ display: 'flex', justifyContent: 'center', gap: 12, flexWrap: 'wrap' }}>
         <Link to="/" className="btn btn-primary btn-lg">Home</Link>
-        <Link to="/products" className="btn btn-primary btn-lg" style={{ background: '#fff', color: 'var(--dark)', border: '2px solid var(--dark)' }}>
+        <Link to="/products" className="btn btn-primary btn-lg" style={{ background: 'var(--card-bg)', color: 'var(--dark)', border: '2px solid var(--dark)' }}>
           Browse Products
         </Link>
       </div>

@@ -33,7 +33,7 @@ const ProductCard = ({ product }) => {
       {/* Badges */}
       <div style={{ position: 'absolute', top: isMobile ? 6 : 10, left: isMobile ? 6 : 10, zIndex: 2, display: 'flex', flexDirection: 'column', gap: isMobile ? 2 : 4 }}>
         {product.discountPercent > 0 && (
-          <span style={{ background: 'var(--primary)', color: '#fff', padding: isMobile ? '2px 6px' : '3px 8px', borderRadius: 4, fontSize: isMobile ? 10 : 11, fontWeight: 700 }}>
+          <span style={{ background: 'var(--primary)', color: 'var(--on-primary)', padding: isMobile ? '2px 6px' : '3px 8px', borderRadius: 4, fontSize: isMobile ? 10 : 11, fontWeight: 700 }}>
             -{product.discountPercent}%
           </span>
         )}
@@ -54,7 +54,7 @@ const ProductCard = ({ product }) => {
         onClick={() => toggleWishlist(product._id)}
         style={{
           position: 'absolute', top: isMobile ? 6 : 10, right: isMobile ? 6 : 10, zIndex: 2,
-          width: isMobile ? 32 : 36, height: isMobile ? 32 : 36, borderRadius: '50%', background: '#fff',
+          width: isMobile ? 32 : 36, height: isMobile ? 32 : 36, borderRadius: '50%', background: 'var(--card-bg)',
           boxShadow: '0 2px 8px rgba(0,0,0,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center',
           color: wished ? 'var(--primary)' : '#888', transition: 'all 0.2s', cursor: 'pointer', border: 'none',
           padding: 0
@@ -65,7 +65,7 @@ const ProductCard = ({ product }) => {
 
       {/* Image */}
       <Link to={`/products/${product._id}`} style={{ textDecoration: 'none' }}>
-        <div style={{ overflow: 'hidden', aspectRatio: '1', background: '#f8f8f8', position: 'relative' }}>
+        <div style={{ overflow: 'hidden', aspectRatio: '1', background: 'var(--surface-2)', position: 'relative' }}>
           <img
             src={productImage}
             alt={product.name}
@@ -78,12 +78,12 @@ const ProductCard = ({ product }) => {
 
       {/* Info */}
       <div style={{ padding: isMobile ? '10px 12px 12px' : '14px 16px 16px', flex: 1, display: 'flex', flexDirection: 'column', gap: isMobile ? 4 : 6 }}>
-        <div style={{ fontSize: isMobile ? 10 : 11, color: 'var(--gray)', textTransform: 'uppercase', letterSpacing: 0.5, fontWeight: 600 }}>
+        <div style={{ fontSize: isMobile ? 10 : 11, color: 'var(--gray)', fontWeight: 600 }}>
           {product.brand}
         </div>
 
         <Link to={`/products/${product._id}`} style={{ textDecoration: 'none' }}>
-          <h3 style={{ fontSize: isMobile ? 13 : 14, fontWeight: 600, lineHeight: 1.3, color: 'var(--dark)', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+          <h3 style={{ fontSize: isMobile ? 13 : 14, fontWeight: 600, lineHeight: 1.3, color: 'var(--text-color)', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
             {product.name}
           </h3>
         </Link>
@@ -96,7 +96,7 @@ const ProductCard = ({ product }) => {
 
         {/* Price */}
         <div style={{ display: 'flex', alignItems: 'flex-start', gap: isMobile ? 6 : 8, marginTop: 2, flexWrap: 'wrap' }}>
-          <span style={{ fontSize: isMobile ? 16 : 18, fontWeight: 700, color: 'var(--dark)' }}>Rs.{formatAmount(effectivePrice)}</span>
+          <span style={{ fontSize: isMobile ? 16 : 18, fontWeight: 800, color: 'var(--text-color)' }}>Rs.{formatAmount(effectivePrice)}</span>
           {savings > 0 && (
             <>
               <span style={{ fontSize: isMobile ? 11 : 13, color: 'var(--gray)', textDecoration: 'line-through' }}>Rs.{formatAmount(product.price)}</span>
@@ -119,7 +119,7 @@ const ProductCard = ({ product }) => {
             disabled={product.stock === 0}
             style={{
               flex: 1, padding: isMobile ? '8px 0' : '9px 0', borderRadius: 'var(--radius-sm)', fontSize: isMobile ? 12 : 13, fontWeight: 600,
-              background: product.stock === 0 ? '#e0e0e0' : 'var(--dark)',
+              background: product.stock === 0 ? 'var(--border)' : 'var(--dark)',
               color: product.stock === 0 ? '#999' : '#fff',
               cursor: product.stock === 0 ? 'not-allowed' : 'pointer',
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4,
@@ -133,12 +133,12 @@ const ProductCard = ({ product }) => {
           </button>
           <Link to={`/products/${product._id}`}
             style={{
-              width: isMobile ? 36 : 38, height: isMobile ? 36 : 38, borderRadius: 'var(--radius-sm)', border: '2px solid #e0e0e0',
-              display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#666',
+              width: isMobile ? 36 : 38, height: isMobile ? 36 : 38, borderRadius: 'var(--radius-sm)', border: '2px solid var(--border)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--gray)',
               transition: 'all 0.2s', minHeight: isMobile ? '36px' : '40px', flexShrink: 0
             }}
             onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--primary)'; e.currentTarget.style.color = 'var(--primary)'; }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = '#e0e0e0'; e.currentTarget.style.color = '#666'; }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.color = '#666'; }}
           >
             <FiEye size={isMobile ? 14 : 15} />
           </Link>

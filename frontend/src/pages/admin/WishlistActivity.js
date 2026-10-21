@@ -53,7 +53,7 @@ const WishlistActivity = () => {
               </thead>
               <tbody>
                 {activities.map(activity => (
-                  <tr key={activity._id} style={{ background: '#fff' }}>
+                  <tr key={activity._id} style={{ background: 'var(--card-bg)' }}>
                     <td style={{ padding: '14px 12px', borderBottom: '1px solid #e5e7eb' }}>
                       <div style={{ fontWeight: 600, color: '#111827' }}>{activity.user?.name || 'Unknown'}</div>
                       <div style={{ color: '#6b7280', fontSize: 13 }}>{activity.user?.email || ''}</div>

@@ -68,10 +68,10 @@ const Orders = () => {
               <div style={{ display: 'flex', gap: 8, marginTop: 14 }}>
                 {order.items?.slice(0, 5).map((item, i) => (
                   <img key={i} src={item.image} alt={item.name}
-                    style={{ width: 48, height: 48, objectFit: 'cover', borderRadius: 8, border: '1px solid #f0f0f0' }} />
+                    style={{ width: 48, height: 48, objectFit: 'cover', borderRadius: 8, border: '1px solid var(--border)' }} />
                 ))}
                 {order.items?.length > 5 && (
-                  <div style={{ width: 48, height: 48, borderRadius: 8, background: '#f5f5f5', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700, color: '#888' }}>
+                  <div style={{ width: 48, height: 48, borderRadius: 8, background: 'var(--surface-2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700, color: 'var(--gray)' }}>
                     +{order.items.length - 5}
                   </div>
                 )}

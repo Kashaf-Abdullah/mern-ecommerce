@@ -40,7 +40,7 @@ export const ForgotPassword = () => {
       {sent ? (
         <div style={{ textAlign: 'center' }}>
           <div style={{ fontSize: 50, marginBottom: 16 }}>📧</div>
-          <p style={{ color: '#444', marginBottom: 20 }}>Password reset link sent to <strong>{email}</strong>. Check your inbox.</p>
+          <p style={{ color: 'var(--text-color)', marginBottom: 20 }}>Password reset link sent to <strong>{email}</strong>. Check your inbox.</p>
           <Link to="/login" className="btn btn-primary btn-full" style={{ borderRadius: 10 }}>Back to Login</Link>
         </div>
       ) : (

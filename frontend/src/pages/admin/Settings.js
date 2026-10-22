@@ -44,13 +44,13 @@ const TEXT_SECTIONS = {
 
 const SectionCard = ({ title, children }) => (
   <div style={{ background: 'var(--card-bg)', border: '1px solid var(--border)', borderRadius: 12, marginBottom: 16, overflow: 'hidden' }}>
-    <div style={{ padding: '14px 20px', borderBottom: '1px solid #f5f5f5', fontWeight: 700, fontSize: 15 }}>{title}</div>
+    <div style={{ padding: '14px 20px', borderBottom: '1px solid var(--border)', fontWeight: 700, fontSize: 15 }}>{title}</div>
     <div style={{ padding: '8px 20px 16px' }}>{children}</div>
   </div>
 );
 
 const FieldRow = ({ label, children }) => (
-  <div className="admin-setting-row" style={{ display: 'flex', alignItems: 'flex-start', gap: 16, padding: '10px 0', borderBottom: '1px solid #f9f9f9' }}>
+  <div className="admin-setting-row" style={{ display: 'flex', alignItems: 'flex-start', gap: 16, padding: '10px 0', borderBottom: '1px solid var(--border)' }}>
     <label style={{ fontSize: 13, color: 'var(--gray)', minWidth: 180, paddingTop: 8 }}>{label}</label>
     <div style={{ flex: 1 }}>{children}</div>
   </div>
@@ -540,7 +540,7 @@ const AdminSettings = () => {
                       ...inputStyle,
                       flex: 1,
                       opacity: localSocials[field.key]?.enabled ? 1 : 0.6,
-                      background: localSocials[field.key]?.enabled ? 'var(--card-bg)' : '#f7f7f7',
+                      background: localSocials[field.key]?.enabled ? 'var(--card-bg)' : 'var(--surface-2)',
                     }} />
                 </div>
               </FieldRow>
@@ -724,7 +724,7 @@ const AdminSettings = () => {
                       {localPayment.bankUpi && <><span style={{ color: 'var(--gray)' }}>UPI</span><span style={{ color: '#3b82f6' }}>{localPayment.bankUpi}</span></>}
                     </div>
                     {localPayment.bankNote && (
-                      <div style={{ fontSize: 12, color: 'var(--gray)', background: '#fff8e1', padding: '8px 12px', borderRadius: 8, marginBottom: 12 }}>
+                      <div style={{ fontSize: 12, color: 'var(--gray)', background: 'var(--surface-2)', padding: '8px 12px', borderRadius: 8, marginBottom: 12 }}>
                         ℹ️ {localPayment.bankNote}
                       </div>
                     )}

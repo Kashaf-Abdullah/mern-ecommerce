@@ -74,16 +74,17 @@ const Profile = () => {
       <h1 style={{ fontSize: 26, fontWeight: 800, marginBottom: 28 }}>My Account</h1>
 
       {/* Profile Header */}
-      <div className="card" style={{ padding: 28, marginBottom: 24, display: 'flex', alignItems: 'center', gap: 20 }}>
-        <div style={{ position: 'relative' }}>
-          <img src={user?.avatar?.url} alt={user?.name}
-            style={{ width: 80, height: 80, borderRadius: '50%', objectFit: 'cover', border: '3px solid var(--primary)' }} />
+      <div className="card profile-head">
+        <div className="profile-avatar">
+          {user?.avatar?.url
+            ? <img src={user.avatar.url} alt={user?.name} />
+            : <span>{(user?.name || '?').trim().charAt(0).toUpperCase()}</span>}
         </div>
         <div>
           <h2 style={{ fontSize: 20, fontWeight: 700 }}>{user?.name}</h2>
           <div style={{ color: 'var(--gray)', fontSize: 14, marginTop: 4 }}>{user?.email}</div>
           <div style={{ marginTop: 8 }}>
-            <span style={{ background: 'rgba(233,69,96,0.1)', color: 'var(--primary)', padding: '3px 10px', borderRadius: 20, fontSize: 12, fontWeight: 600, textTransform: 'capitalize' }}>
+            <span style={{ background: 'var(--primary-soft)', color: 'var(--primary)', padding: '3px 10px', borderRadius: 20, fontSize: 12, fontWeight: 600, textTransform: 'capitalize' }}>
               {user?.role}
             </span>
             {user?.isEmailVerified && (

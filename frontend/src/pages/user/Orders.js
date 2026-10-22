@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { FiPackage, FiEye } from 'react-icons/fi';
+import { FiPackage, FiChevronRight } from 'react-icons/fi';
 import { orderAPI } from '../../utils/api';
 
 const statusColors = {
-  pending: '#ffc107', confirmed: '#17a2b8', processing: '#007bff',
-  shipped: '#6f42c1', delivered: '#28a745', cancelled: '#dc3545', refunded: '#6c757d'
+  pending: '#d97706', confirmed: '#0891b2', processing: '#2563eb',
+  shipped: '#7c3aed', delivered: '#16a34a', cancelled: '#dc2626', refunded: '#6b7280'
 };
+const FILTERS = ['all', 'pending', 'processing', 'shipped', 'delivered', 'cancelled'];
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [filter, setFilter] = useState('all');
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -28,56 +30,66 @@ const Orders = () => {
 
   if (loading) return <div className="page-loading"><div className="spinner" /></div>;
 
+  const shown = filter === 'all' ? orders : orders.filter(o => o.orderStatus === filter);
+
   return (
-    <div className="container" style={{ paddingTop: 30, paddingBottom: 60 }}>
-      <h1 style={{ fontSize: 26, fontWeight: 800, marginBottom: 28 }}>My Orders</h1>
+    <div className="container" style={{ paddingTop: 28, paddingBottom: 60, maxWidth: 900 }}>
+      <div className="section-head">
+        <div>
+          <h1 style={{ fontSize: 28 }}>My Orders</h1>
+          <p>{orders.length} order{orders.length === 1 ? '' : 's'} placed</p>
+        </div>
+      </div>
+
+      {orders.length > 0 && (
+        <div className="chip-row">
+          {FILTERS.map(f => (
+            <button key={f} onClick={() => setFilter(f)} className={`chip${filter === f ? ' active' : ''}`}>{f}</button>
+          ))}
+        </div>
+      )}
 
       {orders.length === 0 ? (
         <div className="card" style={{ padding: 60, textAlign: 'center' }}>
-          <FiPackage size={60} color="#ddd" style={{ marginBottom: 16 }} />
+          <FiPackage size={56} color="var(--border)" style={{ marginBottom: 16 }} />
           <h3 style={{ marginBottom: 10 }}>No orders yet</h3>
           <p style={{ color: 'var(--gray)', marginBottom: 24 }}>Start shopping to see your orders here</p>
           <Link to="/products" className="btn btn-primary">Shop Now</Link>
         </div>
+      ) : shown.length === 0 ? (
+        <div className="card" style={{ padding: 40, textAlign: 'center', color: 'var(--gray)' }}>No {filter} orders.</div>
       ) : (
         <>
-          {orders.map(order => (
-            <div key={order._id} className="card" style={{ padding: '20px 24px', marginBottom: 16 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12 }}>
-                <div>
-                  <div style={{ fontWeight: 700, fontSize: 15 }}>{order.orderId}</div>
-                  <div style={{ color: 'var(--gray)', fontSize: 13, marginTop: 4 }}>
-                    {new Date(order.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}
-                    {' · '}{order.items?.length} item(s)
+          {shown.map(order => {
+            const color = statusColors[order.orderStatus] || '#6b7280';
+            return (
+              <Link to={`/orders/${order._id}`} key={order._id} className="order-card" style={{ '--stripe': color }}>
+                <div className="order-top">
+                  <div>
+                    <div className="order-id">{order.orderId}</div>
+                    <div className="order-meta">
+                      {new Date(order.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
+                      {' · '}{order.items?.length} item{order.items?.length === 1 ? '' : 's'}
+                    </div>
                   </div>
+                  <span className="order-status" style={{ background: `color-mix(in srgb, ${color} 15%, transparent)`, color }}>{order.orderStatus}</span>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                  <span style={{
-                    background: statusColors[order.orderStatus] + '22',
-                    color: statusColors[order.orderStatus],
-                    padding: '4px 14px', borderRadius: 20, fontSize: 13, fontWeight: 700, textTransform: 'capitalize'
-                  }}>{order.orderStatus}</span>
-                  <div style={{ fontWeight: 800, fontSize: 16 }}>Rs.{order.totalPrice?.toFixed(2)}</div>
-                  <Link to={`/orders/${order._id}`} className="btn btn-outline btn-sm">
-                    <FiEye size={14} /> View
-                  </Link>
-                </div>
-              </div>
-
-              {/* Item thumbnails */}
-              <div style={{ display: 'flex', gap: 8, marginTop: 14 }}>
-                {order.items?.slice(0, 5).map((item, i) => (
-                  <img key={i} src={item.image} alt={item.name}
-                    style={{ width: 48, height: 48, objectFit: 'cover', borderRadius: 8, border: '1px solid var(--border)' }} />
-                ))}
-                {order.items?.length > 5 && (
-                  <div style={{ width: 48, height: 48, borderRadius: 8, background: 'var(--surface-2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700, color: 'var(--gray)' }}>
-                    +{order.items.length - 5}
+                <div className="order-bottom">
+                  <div className="order-thumbs">
+                    {order.items?.slice(0, 4).map((item, i) => (
+                      <img key={i} src={item.image} alt={item.name} />
+                    ))}
+                    {order.items?.length > 4 && <div className="order-more">+{order.items.length - 4}</div>}
                   </div>
-                )}
-              </div>
-            </div>
-          ))}
+                  <div className="order-total">
+                    <div style={{ fontSize: 12, color: 'var(--gray)' }}>Total</div>
+                    <div style={{ fontWeight: 800, fontSize: 18 }}>Rs.{order.totalPrice?.toFixed(2)}</div>
+                  </div>
+                  <FiChevronRight size={20} className="order-arrow" />
+                </div>
+              </Link>
+            );
+          })}
 
           {totalPages > 1 && (
             <div className="pagination">

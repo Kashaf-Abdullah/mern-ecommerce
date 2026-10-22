@@ -20,7 +20,22 @@ const SummaryBar = ({
     top: 80,
     marginTop: isMobile ? 20 : 0
   }}>
-    <h3 style={{ fontSize: isMobile ? 14 : 16, fontWeight: 700, marginBottom: 16 }}>Price Details</h3>
+    <h3 style={{ fontSize: isMobile ? 14 : 16, fontWeight: 700, marginBottom: 14 }}>Order Summary</h3>
+    <div className="sum-items">
+      {cart.items?.map(item => (
+        <div key={item._id || item.product?._id} className="sum-item">
+          <div className="sum-thumb">
+            <img src={getProductImageUrl(item.product)} alt="" />
+            <span>{item.quantity}</span>
+          </div>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div className="sum-name">{item.product?.name}</div>
+            <div style={{ fontSize: 12, color: 'var(--gray)' }}>Rs.{item.price} each</div>
+          </div>
+          <div style={{ fontWeight: 700, fontSize: 13 }}>Rs.{(item.price * item.quantity).toLocaleString()}</div>
+        </div>
+      ))}
+    </div>
     {[
       { label: `Items (${cart.items?.length})`, value: `Rs.${subtotal.toLocaleString()}` },
       { label: 'Delivery', value: shippingPrice === 0 ? 'FREE 🎉' : `Rs.${shippingPrice}`, color: shippingPrice === 0 ? 'var(--success)' : undefined },

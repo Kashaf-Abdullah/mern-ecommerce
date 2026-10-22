@@ -511,7 +511,7 @@ const ProductDetail = () => {
       <div className="pd-grid" style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? 24 : 50, marginBottom: isMobile ? 30 : 50 }}>
 
         {/* ── IMAGE GALLERY ── */}
-        <div>
+        <div className="pd-gallery">
           {/* Main image with zoom */}
           <div
             onMouseEnter={() => setZoom(true)}
@@ -595,7 +595,7 @@ const ProductDetail = () => {
         </div>
 
         {/* ── PRODUCT INFO ── */}
-        <div>
+        <div className="pd-info">
           {/* Brand */}
           <div style={{ fontSize: isMobile ? 11 : 12, color: 'var(--gray)', textTransform: 'uppercase', letterSpacing: isMobile ? 0.5 : 1.2, fontWeight: 700, marginBottom: 8 }}>
             {product.brand}
@@ -810,6 +810,17 @@ const ProductDetail = () => {
             </div>
           )}
         </div>
+      </div>
+
+      {/* Phones: sticky purchase bar above the tab bar */}
+      <div className="pd-sticky">
+        <div style={{ minWidth: 0 }}>
+          <div style={{ fontSize: 11, color: 'var(--gray)' }}>Price</div>
+          <div style={{ fontWeight: 800, fontSize: 17 }}>Rs.{(product.discountPrice > 0 ? product.discountPrice : product.price).toLocaleString()}</div>
+        </div>
+        <button onClick={handleAddToCart} disabled={product.stock === 0} className="btn btn-primary" style={{ flex: 1, justifyContent: 'center', opacity: product.stock === 0 ? 0.5 : 1 }}>
+          <FiShoppingCart size={17} /> {product.stock === 0 ? 'Out of stock' : 'Add to Cart'}
+        </button>
       </div>
     </div>
   );

@@ -188,7 +188,7 @@
 //               style={{
 //                 width: 52, height: 52, borderRadius: 10, border: '2px solid var(--border)',
 //                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-//                 color: wished ? 'var(--primary)' : '#888', background: wished ? 'rgba(233,69,96,0.08)' : '#fff',
+//                 color: wished ? 'var(--primary)' : 'var(--gray)', background: wished ? 'rgba(233,69,96,0.08)' : '#fff',
 //                 cursor: 'pointer', transition: 'all 0.2s'
 //               }}>
 //               <FiHeart size={20} fill={wished ? 'currentColor' : 'none'} />
@@ -202,7 +202,7 @@
 //               { icon: <FiRefreshCw size={16} />, text: '7-day easy returns' },
 //               { icon: <FiShield size={16} />, text: '100% Genuine product guaranteed' },
 //             ].map((item, i) => (
-//               <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 13, color: '#555' }}>
+//               <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 13, color: 'var(--gray)' }}>
 //                 <span style={{ color: 'var(--primary)' }}>{item.icon}</span> {item.text}
 //               </div>
 //             ))}
@@ -218,7 +218,7 @@
 //               style={{
 //                 padding: '16px 24px', fontWeight: 600, fontSize: 14,
 //                 background: 'none', textTransform: 'capitalize',
-//                 color: tab === t ? 'var(--primary)' : '#666',
+//                 color: tab === t ? 'var(--primary)' : 'var(--gray)',
 //                 borderBottom: tab === t ? '2px solid var(--primary)' : '2px solid transparent',
 //                 transition: 'all 0.2s'
 //               }}>
@@ -286,7 +286,7 @@
 //                       <StarRating rating={review.rating} size={14} />
 //                     </div>
 //                     {review.title && <h5 style={{ fontSize: 14, marginBottom: 6 }}>{review.title}</h5>}
-//                     <p style={{ fontSize: 14, color: '#555', lineHeight: 1.7 }}>{review.comment}</p>
+//                     <p style={{ fontSize: 14, color: 'var(--gray)', lineHeight: 1.7 }}>{review.comment}</p>
 //                   </div>
 //                 ))
 //               )}
@@ -583,7 +583,7 @@ const ProductDetail = () => {
                 style={{
                   width: isMobile ? 56 : 68, height: isMobile ? 56 : 68, borderRadius: 10, border: '2px dashed #d1d5db',
                   display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-                  cursor: 'pointer', color: '#aaa', gap: 4, flexShrink: 0,
+                  cursor: 'pointer', color: 'var(--gray)', gap: 4, flexShrink: 0,
                   background: 'var(--surface-2)'
                 }}>
                 <FiZoomIn size={isMobile ? 16 : 18} />
@@ -638,7 +638,7 @@ const ProductDetail = () => {
 
           {/* Short description */}
           {product.shortDescription && (
-            <p style={{ fontSize: isMobile ? 13 : 15, color: '#555', lineHeight: 1.7, marginBottom: isMobile ? 14 : 18 }}>
+            <p style={{ fontSize: isMobile ? 13 : 15, color: 'var(--gray)', lineHeight: 1.7, marginBottom: isMobile ? 14 : 18 }}>
               {product.shortDescription}
             </p>
           )}
@@ -673,30 +673,20 @@ const ProductDetail = () => {
           )}
 
           {/* Action buttons */}
-          <div style={{ display: 'flex', gap: isMobile ? 10 : 12, marginBottom: isMobile ? 18 : 24, flexDirection: isMobile ? 'column' : 'row' }}>
-            <button onClick={handleAddToCart} disabled={product.stock === 0}
-              style={{
-                flex: 1, padding: isMobile ? '12px 0' : '14px 0', borderRadius: isMobile ? 10 : 12, fontWeight: 700, fontSize: isMobile ? 14 : 15,
-                background: 'var(--card-bg)', color: 'var(--dark)', border: '2px solid var(--dark)',
-                cursor: product.stock === 0 ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, opacity: product.stock === 0 ? 0.5 : 1, transition: 'all 0.2s'
-              }}
-              onMouseEnter={e => { if (product.stock > 0) { e.currentTarget.style.background = 'var(--dark)'; e.currentTarget.style.color = '#fff'; } }}
-              onMouseLeave={e => { e.currentTarget.style.background = '#fff'; e.currentTarget.style.color = 'var(--dark)'; }}>
-              <FiShoppingCart size={isMobile ? 16 : 18} /> {isMobile ? 'Add' : 'Add to Cart'}
+          <div className="pd-actions">
+            <button onClick={handleAddToCart} disabled={product.stock === 0} className="btn btn-outline pd-btn"
+              style={{ opacity: product.stock === 0 ? 0.5 : 1 }}>
+              <FiShoppingCart size={18} /> Add to Cart
             </button>
-
-            <button onClick={handleBuyNow} disabled={product.stock === 0}
-              className="btn btn-primary"
-              style={{ flex: 1, padding: '14px 0', borderRadius: 12, fontWeight: 700, fontSize: 15, justifyContent: 'center', opacity: product.stock === 0 ? 0.5 : 1 }}>
+            <button onClick={handleBuyNow} disabled={product.stock === 0} className="btn btn-primary pd-btn"
+              style={{ opacity: product.stock === 0 ? 0.5 : 1 }}>
               Buy Now
             </button>
-
-            <button onClick={() => toggleWishlist(product._id)}
+            <button onClick={() => toggleWishlist(product._id)} aria-label="Wishlist" className="pd-wish"
               style={{
-                width: 54, height: 54, borderRadius: 12, border: `2px solid ${wished ? 'var(--primary)' : 'var(--border)'}`,
-                background: wished ? 'rgba(233,69,96,0.08)' : '#fff',
-                color: wished ? 'var(--primary)' : '#888',
-                cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.2s'
+                border: `2px solid ${wished ? 'var(--primary)' : 'var(--border)'}`,
+                background: wished ? 'var(--primary-soft)' : 'var(--card-bg)',
+                color: wished ? 'var(--primary)' : 'var(--gray)',
               }}>
               <FiHeart size={20} fill={wished ? 'currentColor' : 'none'} />
             </button>
@@ -709,7 +699,7 @@ const ProductDetail = () => {
               { icon: <FiRefreshCw size={16} />, text: '7-day easy returns and exchange' },
               { icon: <FiShield size={16} />, text: '100% Genuine product guaranteed' },
             ].map((item, i) => (
-              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 13, color: '#555' }}>
+              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 13, color: 'var(--gray)' }}>
                 <span style={{ color: 'var(--primary)', flexShrink: 0 }}>{item.icon}</span> {item.text}
               </div>
             ))}
@@ -719,13 +709,13 @@ const ProductDetail = () => {
 
       {/* ── Tabs: Description / Specs / Reviews ── */}
       <div className="card" style={{ padding: 0, marginBottom: 40 }}>
-        <div style={{ display: 'flex', borderBottom: '1px solid var(--border)' }}>
+        <div className="pd-tabs" style={{ display: 'flex', borderBottom: '1px solid var(--border)' }}>
           {['description', 'specifications', 'reviews'].map(t => (
             <button key={t} onClick={() => setTab(t)}
               style={{
-                padding: '16px 26px', fontWeight: 600, fontSize: 14, background: 'none', border: 'none',
+                padding: isMobile ? '14px 16px' : '16px 26px', whiteSpace: 'nowrap', fontWeight: 600, fontSize: 14, background: 'none', border: 'none',
                 textTransform: 'capitalize', cursor: 'pointer',
-                color: tab === t ? 'var(--primary)' : '#666',
+                color: tab === t ? 'var(--primary)' : 'var(--gray)',
                 borderBottom: `3px solid ${tab === t ? 'var(--primary)' : 'transparent'}`,
                 transition: 'all 0.2s'
               }}>
@@ -773,14 +763,14 @@ const ProductDetail = () => {
                   </div>
 
                   <div style={{ marginBottom: 14 }}>
-                    <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: '#555' }}>Title (optional)</label>
+                    <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: 'var(--gray)' }}>Title (optional)</label>
                     <input type="text" placeholder="Summarize your review" value={reviewForm.title}
                       onChange={e => setReviewForm(f => ({ ...f, title: e.target.value }))}
                       className="form-control" />
                   </div>
 
                   <div style={{ marginBottom: 16 }}>
-                    <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: '#555' }}>Your Review *</label>
+                    <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: 'var(--gray)' }}>Your Review *</label>
                     <textarea rows={4} placeholder="Share your experience with this product..."
                       value={reviewForm.comment}
                       onChange={e => setReviewForm(f => ({ ...f, comment: e.target.value }))}
@@ -814,7 +804,7 @@ const ProductDetail = () => {
                     <StarRating rating={review.rating} size={15} />
                   </div>
                   {review.title && <h5 style={{ fontSize: 14, marginBottom: 6, color: '#333' }}>{review.title}</h5>}
-                  <p style={{ fontSize: 14, color: '#555', lineHeight: 1.7 }}>{review.comment}</p>
+                  <p style={{ fontSize: 14, color: 'var(--gray)', lineHeight: 1.7 }}>{review.comment}</p>
                 </div>
               ))}
             </div>

@@ -29,20 +29,20 @@ const NotificationDetail = () => {
       <div style={{ marginBottom: 24 }}>
         <Link to="/notifications" className="btn btn-outline btn-sm" style={{ marginBottom: 16 }}>← Back to Notifications</Link>
         <h1 style={{ fontSize: 28, fontWeight: 800, marginBottom: 8 }}>Notification Details</h1>
-        <p style={{ color: '#6b7280' }}>Read the full notification and follow its link if provided.</p>
+        <p style={{ color: 'var(--gray)' }}>Read the full notification and follow its link if provided.</p>
       </div>
 
       <div className="card" style={{ padding: 28 }}>
         {loading ? (
-          <div style={{ color: '#6b7280' }}>Loading notification...</div>
+          <div style={{ color: 'var(--gray)' }}>Loading notification...</div>
         ) : !notification ? (
-          <div style={{ color: '#6b7280' }}>Notification not found.</div>
+          <div style={{ color: 'var(--gray)' }}>Notification not found.</div>
         ) : (
           <>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12, flexWrap: 'wrap' }}>
               <div>
                 <h2 style={{ margin: 0, fontSize: 24, fontWeight: 800 }}>{notification.title}</h2>
-                <p style={{ margin: '8px 0 0', color: '#6b7280' }}>{new Date(notification.createdAt).toLocaleString()}</p>
+                <p style={{ margin: '8px 0 0', color: 'var(--gray)' }}>{new Date(notification.createdAt).toLocaleString()}</p>
               </div>
               {notification.link && (
                 <a href={notification.link} target="_blank" rel="noreferrer" className="btn btn-primary btn-sm" style={{ whiteSpace: 'nowrap' }}>
@@ -50,7 +50,7 @@ const NotificationDetail = () => {
                 </a>
               )}
             </div>
-            <div style={{ marginTop: 24, color: '#333', lineHeight: 1.8, fontSize: 15 }}>
+            <div style={{ marginTop: 24, color: 'var(--text-color)', lineHeight: 1.8, fontSize: 15 }}>
               {notification.message.split('\n').map((line, idx) => (
                 <p key={idx} style={{ margin: idx === 0 ? 0 : '1rem 0 0' }}>{line}</p>
               ))}

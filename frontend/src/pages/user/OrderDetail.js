@@ -87,7 +87,7 @@ export const OrderDetail = () => {
                   }}>
                     {i <= currentStep ? '✓' : i + 1}
                   </div>
-                  <span style={{ fontSize: isMobile ? 10 : 12, fontWeight: i === currentStep ? 700 : 400, color: i <= currentStep ? '#333' : '#aaa', textTransform: 'capitalize' }}>{s}</span>
+                  <span style={{ fontSize: isMobile ? 10 : 12, fontWeight: i === currentStep ? 700 : 400, color: i <= currentStep ? 'var(--text-color)' : 'var(--gray)', textTransform: 'capitalize' }}>{s}</span>
                 </div>
                 {i < steps.length - 1 && (
                   <div style={{ flex: 1, height: 3, minWidth: isMobile ? 30 : 40, background: i < currentStep ? statusColors[steps[i + 1]] : 'var(--border)', margin: isMobile ? '0 2px' : '0 4px', marginBottom: 22, borderRadius: 2 }} />

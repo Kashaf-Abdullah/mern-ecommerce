@@ -21,6 +21,13 @@ const defaultTheme = {
 };
 
 const defaultTexts = {
+  storeName: 'ShopNow',
+  searchPlaceholder: 'Search products, brands...',
+  loginBtn: 'Login',
+  signupBtn: 'Sign Up',
+  quickLinksTitle: 'Quick Links',
+  categoriesTitle: 'Categories',
+  contactTitle: 'Contact Us',
   announcementBar: '🚚 Free shipping on orders above Rs.500 | Use code WELCOME10 for 10% off',
   heroTitle: 'Discover Amazing Products Today',
   heroSubtitle: 'Shop the latest trends with unbeatable prices. Free shipping on orders above Rs.500.',

@@ -78,7 +78,7 @@ const AdminCategories = () => {
                 </div>
                 <div style={{ display: 'flex', gap: 8 }}>
                   <button onClick={() => openEdit(cat)}
-                    style={{ width: 32, height: 32, borderRadius: 8, border: '1px solid var(--border)', background: 'var(--card-bg)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#555' }}>
+                    style={{ width: 32, height: 32, borderRadius: 8, border: '1px solid var(--border)', background: 'var(--card-bg)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--gray)' }}>
                     <FiEdit2 size={14} />
                   </button>
                   <button onClick={() => handleDelete(cat._id)}
@@ -88,7 +88,7 @@ const AdminCategories = () => {
                 </div>
               </div>
               {cat.description && (
-                <p style={{ fontSize: 13, color: '#777', marginTop: 12, lineHeight: 1.6 }}>{cat.description}</p>
+                <p style={{ fontSize: 13, color: 'var(--gray)', marginTop: 12, lineHeight: 1.6 }}>{cat.description}</p>
               )}
               <div style={{ marginTop: 14, display: 'flex', gap: 10 }}>
                 <span style={{ background: cat.isActive ? 'rgba(40,167,69,0.1)' : 'rgba(220,53,69,0.1)', color: cat.isActive ? 'var(--success)' : 'var(--danger)', padding: '3px 10px', borderRadius: 20, fontSize: 12, fontWeight: 600 }}>

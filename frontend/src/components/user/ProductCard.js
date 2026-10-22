@@ -57,7 +57,7 @@ const ProductCard = ({ product }) => {
           position: 'absolute', top: isMobile ? 6 : 10, right: isMobile ? 6 : 10, zIndex: 2,
           width: isMobile ? 32 : 36, height: isMobile ? 32 : 36, borderRadius: '50%', background: 'var(--card-bg)',
           boxShadow: '0 2px 8px rgba(0,0,0,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center',
-          color: wished ? 'var(--primary)' : '#888', transition: 'all 0.2s', cursor: 'pointer', border: 'none',
+          color: wished ? 'var(--primary)' : 'var(--gray)', transition: 'all 0.2s', cursor: 'pointer', border: 'none',
           padding: 0
         }}
       >
@@ -121,7 +121,7 @@ const ProductCard = ({ product }) => {
             style={{
               flex: 1, padding: isMobile ? '8px 0' : '9px 0', borderRadius: 'var(--radius-sm)', fontSize: isMobile ? 12 : 13, fontWeight: 600,
               background: product.stock === 0 ? 'var(--border)' : 'var(--dark)',
-              color: product.stock === 0 ? '#999' : '#fff',
+              color: product.stock === 0 ? 'var(--gray)' : '#fff',
               cursor: product.stock === 0 ? 'not-allowed' : 'pointer',
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4,
               transition: 'all 0.2s',
@@ -139,7 +139,7 @@ const ProductCard = ({ product }) => {
               transition: 'all 0.2s', minHeight: isMobile ? '36px' : '40px', flexShrink: 0
             }}
             onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--primary)'; e.currentTarget.style.color = 'var(--primary)'; }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.color = '#666'; }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.color = 'var(--gray)'; }}
           >
             <FiEye size={isMobile ? 14 : 15} />
           </Link>

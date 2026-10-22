@@ -72,7 +72,7 @@ const Footer = () => {
             ].map(l => (
               <Link key={l.to} to={l.to} style={linkStyle}
                 onMouseEnter={e => e.currentTarget.style.color = primary}
-                onMouseLeave={e => e.currentTarget.style.color = '#9ca3af'}>
+                onMouseLeave={e => e.currentTarget.style.color = 'var(--gray)'}>
                 {l.label}
               </Link>
             ))}
@@ -86,7 +86,7 @@ const Footer = () => {
             {['Electronics', 'Fashion', 'Home & Kitchen', 'Sports', 'Books'].map(cat => (
               <Link key={cat} to={`/products?search=${cat}`} style={linkStyle}
                 onMouseEnter={e => e.currentTarget.style.color = primary}
-                onMouseLeave={e => e.currentTarget.style.color = '#9ca3af'}>
+                onMouseLeave={e => e.currentTarget.style.color = 'var(--gray)'}>
                 {cat}
               </Link>
             ))}
@@ -123,9 +123,9 @@ const Footer = () => {
           <p style={{ fontSize: isMobile ? 12 : 13 }}>{t('copyright') || '© 2024 ShopNow. All rights reserved.'}</p>
           <div style={{ display: 'flex', gap: isMobile ? 12 : 16, fontSize: isMobile ? 12 : 13, flexWrap: 'wrap' }}>
             {['Privacy Policy', 'Terms of Service', 'Refund Policy'].map(p => (
-              <a key={p} href="#" style={{ color: '#6b7280', transition: 'color 0.2s', textDecoration: 'none', whiteSpace: 'nowrap' }}
+              <a key={p} href="#" style={{ color: 'var(--gray)', transition: 'color 0.2s', textDecoration: 'none', whiteSpace: 'nowrap' }}
                 onMouseEnter={e => e.currentTarget.style.color = primary}
-                onMouseLeave={e => e.currentTarget.style.color = '#6b7280'}>
+                onMouseLeave={e => e.currentTarget.style.color = 'var(--gray)'}>
                 {p}
               </a>
             ))}

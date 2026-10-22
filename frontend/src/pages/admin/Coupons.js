@@ -105,7 +105,7 @@ const AdminCoupons = () => {
               </thead>
               <tbody>
                 {coupons.length === 0 ? (
-                  <tr><td colSpan={7} style={{ textAlign: 'center', padding: 40, color: '#aaa' }}>No coupons yet</td></tr>
+                  <tr><td colSpan={7} style={{ textAlign: 'center', padding: 40, color: 'var(--gray)' }}>No coupons yet</td></tr>
                 ) : coupons.map(coupon => (
                   <tr key={coupon._id}>
                     <td>
@@ -134,7 +134,7 @@ const AdminCoupons = () => {
                     </td>
                     <td style={{ fontSize: 13 }}>
                       <div style={{ color: 'var(--text-color)' }}>{new Date(coupon.startDate).toLocaleDateString()} –</div>
-                      <div style={{ color: isExpired(coupon) ? 'var(--danger)' : '#444' }}>{new Date(coupon.expiryDate).toLocaleDateString()}</div>
+                      <div style={{ color: isExpired(coupon) ? 'var(--danger)' : 'var(--text-color)' }}>{new Date(coupon.expiryDate).toLocaleDateString()}</div>
                     </td>
                     <td>
                       {!coupon.isActive ? (
@@ -149,7 +149,7 @@ const AdminCoupons = () => {
                     </td>
                     <td>
                       <div style={{ display: 'flex', gap: 8 }}>
-                        <button onClick={() => openEdit(coupon)} style={{ width: 32, height: 32, borderRadius: 8, border: '1px solid var(--border)', background: 'var(--card-bg)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#555' }}>
+                        <button onClick={() => openEdit(coupon)} style={{ width: 32, height: 32, borderRadius: 8, border: '1px solid var(--border)', background: 'var(--card-bg)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--gray)' }}>
                           <FiEdit2 size={14} />
                         </button>
                         <button onClick={() => handleDelete(coupon._id)} style={{ width: 32, height: 32, borderRadius: 8, border: '1px solid #ffcdd2', background: '#fff5f5', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--danger)' }}>
@@ -178,7 +178,7 @@ const AdminCoupons = () => {
             <form onSubmit={handleSubmit} style={{ padding: '22px 28px' }}>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
                 <div style={{ gridColumn: 'span 2' }}>
-                  <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: '#555' }}>Coupon Code *</label>
+                  <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: 'var(--gray)' }}>Coupon Code *</label>
                   <input type="text" value={form.code}
                     onChange={e => setForm(f => ({ ...f, code: e.target.value.toUpperCase() }))}
                     className="form-control" placeholder="e.g. SAVE20" required
@@ -186,14 +186,14 @@ const AdminCoupons = () => {
                 </div>
 
                 <div style={{ gridColumn: 'span 2' }}>
-                  <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: '#555' }}>Description</label>
+                  <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: 'var(--gray)' }}>Description</label>
                   <input type="text" value={form.description}
                     onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
                     className="form-control" placeholder="Optional description" />
                 </div>
 
                 <div>
-                  <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: '#555' }}>Discount Type *</label>
+                  <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: 'var(--gray)' }}>Discount Type *</label>
                   <select value={form.discountType} onChange={e => setForm(f => ({ ...f, discountType: e.target.value }))}
                     className="form-control">
                     <option value="percentage">Percentage (%)</option>
@@ -202,7 +202,7 @@ const AdminCoupons = () => {
                 </div>
 
                 <div>
-                  <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: '#555' }}>
+                  <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: 'var(--gray)' }}>
                     Discount Value * {form.discountType === 'percentage' ? '(%)' : '(Rs.)'}
                   </label>
                   <input type="number" value={form.discountValue}
@@ -212,7 +212,7 @@ const AdminCoupons = () => {
 
                 {form.discountType === 'percentage' && (
                   <div>
-                    <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: '#555' }}>Max Discount (Rs.)</label>
+                    <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: 'var(--gray)' }}>Max Discount (Rs.)</label>
                     <input type="number" value={form.maxDiscount}
                       onChange={e => setForm(f => ({ ...f, maxDiscount: e.target.value }))}
                       className="form-control" min="0" placeholder="No limit" />
@@ -220,28 +220,28 @@ const AdminCoupons = () => {
                 )}
 
                 <div>
-                  <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: '#555' }}>Min Order Amount (Rs.)</label>
+                  <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: 'var(--gray)' }}>Min Order Amount (Rs.)</label>
                   <input type="number" value={form.minOrderAmount}
                     onChange={e => setForm(f => ({ ...f, minOrderAmount: e.target.value }))}
                     className="form-control" min="0" placeholder="0" />
                 </div>
 
                 <div>
-                  <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: '#555' }}>Usage Limit</label>
+                  <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: 'var(--gray)' }}>Usage Limit</label>
                   <input type="number" value={form.usageLimit}
                     onChange={e => setForm(f => ({ ...f, usageLimit: e.target.value }))}
                     className="form-control" min="0" placeholder="Unlimited" />
                 </div>
 
                 <div>
-                  <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: '#555' }}>Start Date *</label>
+                  <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: 'var(--gray)' }}>Start Date *</label>
                   <input type="date" value={form.startDate}
                     onChange={e => setForm(f => ({ ...f, startDate: e.target.value }))}
                     className="form-control" required />
                 </div>
 
                 <div>
-                  <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: '#555' }}>Expiry Date *</label>
+                  <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: 'var(--gray)' }}>Expiry Date *</label>
                   <input type="date" value={form.expiryDate}
                     onChange={e => setForm(f => ({ ...f, expiryDate: e.target.value }))}
                     className="form-control" required />

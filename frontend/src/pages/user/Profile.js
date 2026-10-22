@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 const TabBtn = ({ active, onClick, children }) => (
   <button onClick={onClick} style={{
     padding: '10px 20px', fontWeight: 600, fontSize: 14, background: 'none',
-    color: active ? 'var(--primary)' : '#666',
+    color: active ? 'var(--primary)' : 'var(--gray)',
     borderBottom: `2px solid ${active ? 'var(--primary)' : 'transparent'}`,
     transition: 'all 0.2s', whiteSpace: 'nowrap'
   }}>{children}</button>

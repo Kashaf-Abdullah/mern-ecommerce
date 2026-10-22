@@ -121,7 +121,7 @@ const AdminOrders = () => {
               {loading ? (
                 <tr><td colSpan={8} style={{ textAlign: 'center', padding: 40 }}><div className="spinner" style={{ margin: '0 auto' }} /></td></tr>
               ) : orders.length === 0 ? (
-                <tr><td colSpan={8} style={{ textAlign: 'center', padding: 40, color: '#aaa' }}>No orders found</td></tr>
+                <tr><td colSpan={8} style={{ textAlign: 'center', padding: 40, color: 'var(--gray)' }}>No orders found</td></tr>
               ) : orders.map(order => (
                 <tr key={order._id}>
                   <td style={{ fontWeight: 700, fontSize: 13, color: 'var(--primary)' }}>{order.orderId}</td>
@@ -230,8 +230,8 @@ const AdminOrders = () => {
                       <label key={s} style={{
                         flex: 1, padding: '10px 14px', border: `2px solid ${statusForm.status === s ? statusColors[s] : 'var(--border)'}`,
                         borderRadius: 10, cursor: 'pointer', textAlign: 'center', fontSize: 14, fontWeight: 600,
-                        background: statusForm.status === s ? statusColors[s] + '15' : '#fff',
-                        color: statusForm.status === s ? statusColors[s] : '#666',
+                        background: statusForm.status === s ? statusColors[s] + '15' : 'var(--card-bg)',
+                        color: statusForm.status === s ? statusColors[s] : 'var(--gray)',
                         transition: 'all 0.2s', textTransform: 'capitalize'
                       }}>
                         <input type="radio" name="status" value={s}

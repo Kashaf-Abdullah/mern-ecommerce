@@ -214,14 +214,14 @@ const ProductList = () => {
             <button
               type="button"
               onClick={() => setViewMode('grid')}
-              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 42, height: 42, borderRadius: 12, border: `1px solid ${viewMode === 'grid' ? 'var(--primary)' : 'var(--border)'}`, background: viewMode === 'grid' ? 'var(--primary)' : '#fff', color: viewMode === 'grid' ? '#fff' : '#555', cursor: 'pointer' }}
+              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 42, height: 42, borderRadius: 12, border: `1px solid ${viewMode === 'grid' ? 'var(--primary)' : 'var(--border)'}`, background: viewMode === 'grid' ? 'var(--primary)' : 'var(--card-bg)', color: viewMode === 'grid' ? '#fff' : 'var(--gray)', cursor: 'pointer' }}
             >
               <FiGrid size={18} />
             </button>
             <button
               type="button"
               onClick={() => setViewMode('list')}
-              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 42, height: 42, borderRadius: 12, border: `1px solid ${viewMode === 'list' ? 'var(--primary)' : 'var(--border)'}`, background: viewMode === 'list' ? 'var(--primary)' : '#fff', color: viewMode === 'list' ? '#fff' : '#555', cursor: 'pointer' }}
+              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 42, height: 42, borderRadius: 12, border: `1px solid ${viewMode === 'list' ? 'var(--primary)' : 'var(--border)'}`, background: viewMode === 'list' ? 'var(--primary)' : 'var(--card-bg)', color: viewMode === 'list' ? '#fff' : 'var(--gray)', cursor: 'pointer' }}
             >
               <FiList size={18} />
             </button>

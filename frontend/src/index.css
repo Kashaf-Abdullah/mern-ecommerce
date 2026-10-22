@@ -383,7 +383,7 @@ tr:hover td { background: var(--surface-2); }
 }
 
 /* ===== Home page ===== */
-.hero { position: relative; overflow: hidden; border-radius: calc(var(--radius) + 6px); background: var(--secondary); color: #fff; display: grid; grid-template-columns: 1.1fr 0.9fr; min-height: 440px; margin-bottom: 40px; }
+.hero { position: relative; overflow: hidden; border-radius: calc(var(--radius) + 6px); background: linear-gradient(135deg, var(--secondary), color-mix(in srgb, var(--primary) 24%, var(--secondary))); border: 1px solid rgba(255,255,255,.1); color: #fff; display: grid; grid-template-columns: 1.1fr 0.9fr; min-height: 440px; margin-bottom: 40px; }
 .hero-copy { position: relative; z-index: 1; padding: 64px 56px; display: flex; flex-direction: column; justify-content: center; gap: 18px; }
 .hero-copy h1 { font-size: clamp(32px, 4.6vw, 54px); line-height: 1.08; max-width: 14ch; }
 .hero-copy p { font-size: 17px; line-height: 1.7; opacity: .78; max-width: 46ch; }
@@ -484,4 +484,42 @@ tr:hover td { background: var(--surface-2); }
   .auth-aside { display: none; }
   .auth-brand-mobile { display: block; }
   .auth-main { padding: 24px 14px; }
+}
+
+/* ===== Product detail actions & tabs ===== */
+.pd-actions { display: grid; grid-template-columns: 1fr 1fr 54px; gap: 12px; margin-bottom: 24px; }
+.pd-btn { padding: 14px 8px; font-size: 15px; border-radius: var(--radius); justify-content: center; white-space: nowrap; }
+.pd-wish { height: 100%; min-height: 50px; border-radius: var(--radius); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: var(--transition); }
+.pd-tabs { overflow-x: auto; scrollbar-width: none; }
+.pd-tabs::-webkit-scrollbar { display: none; }
+@media (max-width: 768px) {
+  .pd-actions { gap: 10px; grid-template-columns: 1fr 1fr 50px; margin-bottom: 18px; }
+  .pd-btn { font-size: 14px; padding: 13px 4px; }
+  .tab-badge { top: -7px; right: -12px; }
+  .cat-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .cat-tile { padding: 14px 6px; font-size: 12px; text-align: center; }
+  .cat-tile .emoji { font-size: 26px; }
+  .perks { grid-template-columns: repeat(2, 1fr); }
+  .perk { flex-direction: column; align-items: flex-start; gap: 8px; padding: 14px; }
+  .perk:nth-child(3) { border-left: none; }
+}
+@media (max-width: 480px) {
+  .perks { grid-template-columns: repeat(2, 1fr); }
+  .perk + .perk { border-top: none; border-left: 1px solid var(--border); }
+  .perk:nth-child(3) { border-left: none; }
+  .perk:nth-child(n+3) { border-top: 1px solid var(--border); }
+}
+
+/* ===== Tables become cards on phones ===== */
+@media (max-width: 768px) {
+  .stack-table, .stack-table tbody, .stack-table tr, .stack-table td { display: block; width: 100%; }
+  .stack-table thead { display: none; }
+  .stack-table tr { border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 12px; padding: 6px 4px; background: var(--card-bg); }
+  .stack-table tr:hover td { background: transparent; }
+  .stack-table td { display: flex; justify-content: space-between; align-items: center; gap: 14px; padding: 8px 12px; border: none; text-align: right; font-size: 14px; min-width: 0; }
+  .stack-table td::before { content: attr(data-label); flex-shrink: 0; font-size: 12px; font-weight: 600; color: var(--gray); text-align: left; }
+  .stack-table td[data-label=""]::before { display: none; }
+  .stack-table td:first-child { text-align: left; justify-content: flex-start; padding-bottom: 10px; margin-bottom: 4px; border-bottom: 1px solid var(--border); border-radius: 0; }
+  .stack-table td:first-child::before { display: none; }
+  .stack-table td:last-child { justify-content: flex-end; flex-wrap: wrap; }
 }

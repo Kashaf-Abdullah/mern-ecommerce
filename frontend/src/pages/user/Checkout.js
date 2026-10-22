@@ -173,10 +173,10 @@ const Checkout = () => {
         {steps.map((s, i) => (
           <React.Fragment key={s}>
             <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? 6 : 8, flexShrink: 0 }}>
-              <div style={{ width: isMobile ? 30 : 34, height: isMobile ? 30 : 34, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: i <= step ? 'var(--primary)' : 'var(--border)', color: i <= step ? '#fff' : '#999', fontWeight: 700, fontSize: isMobile ? 12 : 14 }}>
+              <div style={{ width: isMobile ? 30 : 34, height: isMobile ? 30 : 34, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: i <= step ? 'var(--primary)' : 'var(--border)', color: i <= step ? '#fff' : 'var(--gray)', fontWeight: 700, fontSize: isMobile ? 12 : 14 }}>
                 {i < step ? <FiCheck size={isMobile ? 14 : 16} /> : i + 1}
               </div>
-              <span style={{ fontSize: isMobile ? 12 : 14, fontWeight: i === step ? 700 : 400, color: i <= step ? 'var(--dark)' : '#999', whiteSpace: 'nowrap' }}>{s}</span>
+              <span style={{ fontSize: isMobile ? 12 : 14, fontWeight: i === step ? 700 : 400, color: i <= step ? 'var(--dark)' : 'var(--gray)', whiteSpace: 'nowrap' }}>{s}</span>
             </div>
             {i < 2 && <div style={{ flex: 1, height: 2, background: i < step ? 'var(--primary)' : 'var(--border)', margin: '0 6px', minWidth: isMobile ? 8 : 12 }} />}
           </React.Fragment>
@@ -205,7 +205,7 @@ const Checkout = () => {
               )}
               {!isAuthenticated && (
                 <div style={{ marginBottom: 14 }}>
-                  <label htmlFor="guest-email" style={{ fontSize: isMobile ? 12 : 13, fontWeight: 600, marginBottom: 6, display: 'block', color: '#555' }}>Email Address</label>
+                  <label htmlFor="guest-email" style={{ fontSize: isMobile ? 12 : 13, fontWeight: 600, marginBottom: 6, display: 'block', color: 'var(--gray)' }}>Email Address</label>
                   <input id="guest-email" type="email" value={guestEmail} onChange={e => setGuestEmail(e.target.value)}
                     className="form-control" required autoComplete="email" />
                   <small style={{ color: 'var(--gray)' }}>We’ll send your order confirmation to this email.</small>
@@ -222,7 +222,7 @@ const Checkout = () => {
                   { key: 'pincode', label: 'Pincode (optional)', span: isMobile ? 1 : 1, optional: true },
                 ].map(f => (
                   <div key={f.key} style={{ gridColumn: `span ${f.span}` }}>
-                    <label style={{ fontSize: isMobile ? 12 : 13, fontWeight: 600, marginBottom: 6, display: 'block', color: '#555' }}>{f.label}</label>
+                    <label style={{ fontSize: isMobile ? 12 : 13, fontWeight: 600, marginBottom: 6, display: 'block', color: 'var(--gray)' }}>{f.label}</label>
                     {f.key === 'city' ? (
                       <select value={address.city || ''} onChange={e => setAddress(a => ({ ...a, city: e.target.value }))}
                         className="form-control" required>
@@ -295,10 +295,10 @@ const Checkout = () => {
                               <div onClick={() => fileRef.current.click()}
                                 style={{ border: '2px dashed #d1d5db', borderRadius: 10, padding: isMobile ? '16px' : '20px', textAlign: 'center', cursor: 'pointer', transition: 'all 0.2s' }}
                                 onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--primary)'; e.currentTarget.style.background = 'rgba(233,69,96,0.03)'; }}
-                                onMouseLeave={e => { e.currentTarget.style.borderColor = '#d1d5db'; e.currentTarget.style.background = '#fff'; }}>
+                                onMouseLeave={e => { e.currentTarget.style.borderColor = '#d1d5db'; e.currentTarget.style.background = 'var(--card-bg)'; }}>
                                 <FiUpload size={isMobile ? 22 : 26} color="#aaa" style={{ marginBottom: 6 }} />
-                                <div style={{ fontWeight: 600, color: '#555', fontSize: isMobile ? 12 : 13 }}>Click to upload screenshot</div>
-                                <div style={{ fontSize: isMobile ? 10 : 11, color: '#aaa', marginTop: 3 }}>JPG, PNG up to 5MB</div>
+                                <div style={{ fontWeight: 600, color: 'var(--gray)', fontSize: isMobile ? 12 : 13 }}>Click to upload screenshot</div>
+                                <div style={{ fontSize: isMobile ? 10 : 11, color: 'var(--gray)', marginTop: 3 }}>JPG, PNG up to 5MB</div>
                               </div>
                             ) : (
                               <div style={{ border: '2px solid #22c55e', borderRadius: 10, padding: isMobile ? 10 : 14, display: 'flex', alignItems: 'center', gap: isMobile ? 10 : 14, background: 'rgba(34,197,94,0.04)' }}>
@@ -335,12 +335,12 @@ const Checkout = () => {
                 <FiTruck color="var(--primary)" /> Order Review
               </h3>
               <div style={{ background: 'var(--surface-2)', borderRadius: 10, padding: isMobile ? '12px 14px' : '14px 18px', marginBottom: 14 }}>
-                <div style={{ fontSize: 10, fontWeight: 700, color: '#aaa', letterSpacing: 0.8, marginBottom: 6 }}>DELIVERY ADDRESS</div>
+                <div style={{ fontSize: 10, fontWeight: 700, color: 'var(--gray)', letterSpacing: 0.8, marginBottom: 6 }}>DELIVERY ADDRESS</div>
                 <div style={{ fontWeight: 600, fontSize: isMobile ? 13 : 14 }}>{address.fullName} — {address.phone}</div>
                 <div style={{ color: 'var(--gray)', fontSize: isMobile ? 12 : 13, marginTop: 2, wordBreak: 'break-word' }}>{address.addressLine1}, {address.city}, {address.state} {address.pincode}</div>
               </div>
               <div style={{ background: 'var(--surface-2)', borderRadius: 10, padding: isMobile ? '12px 14px' : '14px 18px', marginBottom: 14 }}>
-                <div style={{ fontSize: 10, fontWeight: 700, color: '#aaa', letterSpacing: 0.8, marginBottom: 6 }}>PAYMENT METHOD</div>
+                <div style={{ fontSize: 10, fontWeight: 700, color: 'var(--gray)', letterSpacing: 0.8, marginBottom: 6 }}>PAYMENT METHOD</div>
                 <div style={{ fontWeight: 600, fontSize: isMobile ? 13 : 14 }}>{paymentMethod === 'cod' ? '💵 Cash on Delivery' : '🧾 Bank Transfer'}</div>
                 {paymentMethod === 'receipt' && receiptFile && (
                   <div style={{ fontSize: isMobile ? 12 : 13, color: '#22c55e', marginTop: 4, display: 'flex', alignItems: 'center', gap: 6 }}>

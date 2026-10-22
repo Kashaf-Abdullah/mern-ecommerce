@@ -45,7 +45,7 @@ const Wishlist = () => {
               <div style={{ fontSize: 17, fontWeight: 800 }}>
                 Rs.{(product.discountPrice > 0 ? product.discountPrice : product.price).toLocaleString()}
                 {product.discountPrice > 0 && (
-                  <span style={{ fontSize: 13, color: '#aaa', textDecoration: 'line-through', marginLeft: 8 }}>Rs.{product.price}</span>
+                  <span style={{ fontSize: 13, color: 'var(--gray)', textDecoration: 'line-through', marginLeft: 8 }}>Rs.{product.price}</span>
                 )}
               </div>
               <div style={{ display: 'flex', gap: 8, marginTop: 'auto' }}>

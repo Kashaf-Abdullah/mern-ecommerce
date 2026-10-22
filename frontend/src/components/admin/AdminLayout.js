@@ -23,6 +23,28 @@ const AdminLayout = () => {
   const { isMobile, isDesktop } = useBreakpoint();
   const [open, setOpen] = useState(window.innerWidth > 1024);
 
+  // Label table cells from their header so CSS can turn rows into cards on phones
+  useEffect(() => {
+    const main = document.querySelector('.admin-main');
+    if (!main) return undefined;
+    let raf = 0;
+    const label = () => {
+      main.querySelectorAll('table').forEach(table => {
+        table.classList.add('stack-table');
+        const heads = Array.from(table.querySelectorAll('thead th')).map(th => th.textContent.trim());
+        table.querySelectorAll('tbody tr').forEach(tr => {
+          Array.from(tr.children).forEach((td, i) => {
+            if (td.dataset.label === undefined) td.dataset.label = heads[i] || '';
+          });
+        });
+      });
+    };
+    const obs = new MutationObserver(() => { cancelAnimationFrame(raf); raf = requestAnimationFrame(label); });
+    obs.observe(main, { childList: true, subtree: true });
+    label();
+    return () => { obs.disconnect(); cancelAnimationFrame(raf); };
+  }, []);
+
   // Phones: slide-over drawer. Tablets: icon rail. Desktop: full sidebar.
   useEffect(() => { setOpen(isDesktop); }, [isDesktop, isMobile]);
 
@@ -67,7 +89,7 @@ const AdminLayout = () => {
               style={({ isActive }) => ({
                 display: 'flex', alignItems: 'center', gap: 12,
                 padding: '11px 12px', borderRadius: 10, marginBottom: 3,
-                color: isActive ? '#fff' : '#9ca3af',
+                color: isActive ? '#fff' : 'var(--gray)',
                 background: isActive ? 'var(--primary, #e94560)' : 'transparent',
                 fontWeight: isActive ? 600 : 400, fontSize: 14,
                 transition: 'all 0.2s', whiteSpace: 'nowrap', overflow: 'hidden', textDecoration: 'none',
@@ -79,7 +101,7 @@ const AdminLayout = () => {
         </nav>
 
         <div style={{ padding: '10px 8px', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
-          <button onClick={() => navigate('/')} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 12px', width: '100%', background: 'none', border: 'none', color: '#9ca3af', fontSize: 14, cursor: 'pointer', borderRadius: 8, marginBottom: 4, whiteSpace: 'nowrap', overflow: 'hidden' }}>
+          <button onClick={() => navigate('/')} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 12px', width: '100%', background: 'none', border: 'none', color: 'var(--gray)', fontSize: 14, cursor: 'pointer', borderRadius: 8, marginBottom: 4, whiteSpace: 'nowrap', overflow: 'hidden' }}>
             <FiEye size={18} style={{ flexShrink: 0 }} />{open && 'View Store'}
           </button>
           <button onClick={logout} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 12px', width: '100%', background: 'none', border: 'none', color: '#f87171', fontSize: 14, cursor: 'pointer', borderRadius: 8, whiteSpace: 'nowrap', overflow: 'hidden' }}>

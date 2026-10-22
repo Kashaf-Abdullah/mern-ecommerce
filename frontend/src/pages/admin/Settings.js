@@ -204,7 +204,7 @@ const AdminSettings = () => {
         <input type="text" value={localTheme[themeKey] || ''}
           onChange={e => updateLocalTheme(themeKey, e.target.value)}
           style={{ ...inputStyle, width: 110, padding: '7px 10px', fontFamily: 'monospace', fontSize: 13 }} />
-        {subtitle && <span style={{ fontSize: 12, color: '#aaa' }}>{subtitle}</span>}
+        {subtitle && <span style={{ fontSize: 12, color: 'var(--gray)' }}>{subtitle}</span>}
       </div>
     </FieldRow>
   );
@@ -232,7 +232,7 @@ const AdminSettings = () => {
             style={{
               padding: '10px 20px', fontWeight: tab === tb.id ? 700 : 500, fontSize: 14,
               background: 'none', border: 'none', cursor: 'pointer',
-              color: tab === tb.id ? 'var(--primary)' : '#666',
+              color: tab === tb.id ? 'var(--primary)' : 'var(--gray)',
               borderBottom: `3px solid ${tab === tb.id ? 'var(--primary)' : 'transparent'}`,
               marginBottom: -2, transition: 'all 0.2s'
             }}>{tb.label}</button>
@@ -540,7 +540,7 @@ const AdminSettings = () => {
                       ...inputStyle,
                       flex: 1,
                       opacity: localSocials[field.key]?.enabled ? 1 : 0.6,
-                      background: localSocials[field.key]?.enabled ? '#fff' : '#f7f7f7',
+                      background: localSocials[field.key]?.enabled ? 'var(--card-bg)' : '#f7f7f7',
                     }} />
                 </div>
               </FieldRow>
@@ -595,7 +595,7 @@ const AdminSettings = () => {
             </p>
             <FieldRow label="Shipping fee (PKR)">
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                <span style={{ fontSize: 14, fontWeight: 700, color: '#555' }}>Rs.</span>
+                <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--gray)' }}>Rs.</span>
                 <input
                   type="number"
                   min="0"
@@ -693,7 +693,7 @@ const AdminSettings = () => {
                     { key: 'bankUpi', label: 'UPI ID (optional)', placeholder: 'e.g. yourstore@upi' },
                   ].map(f => (
                     <div key={f.key} style={{ gridColumn: f.span === 2 ? 'span 2' : 'span 1' }}>
-                      <label style={{ fontSize: 13, fontWeight: 600, color: '#555', marginBottom: 6, display: 'block' }}>{f.label}</label>
+                      <label style={{ fontSize: 13, fontWeight: 600, color: 'var(--gray)', marginBottom: 6, display: 'block' }}>{f.label}</label>
                       <input type="text" value={localPayment[f.key] || ''}
                         onChange={e => updateLocalPayment(f.key, e.target.value)}
                         placeholder={f.placeholder}
@@ -701,7 +701,7 @@ const AdminSettings = () => {
                     </div>
                   ))}
                   <div style={{ gridColumn: 'span 2' }}>
-                    <label style={{ fontSize: 13, fontWeight: 600, color: '#555', marginBottom: 6, display: 'block' }}>
+                    <label style={{ fontSize: 13, fontWeight: 600, color: 'var(--gray)', marginBottom: 6, display: 'block' }}>
                       Instructions for Customer
                     </label>
                     <textarea rows={3} value={localPayment.bankNote || ''}
@@ -713,7 +713,7 @@ const AdminSettings = () => {
 
                 {/* Preview how it looks at checkout */}
                 <div style={{ marginTop: 20, background: 'var(--surface-2)', borderRadius: 12, padding: 16 }}>
-                  <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 12, color: '#555' }}>👁 Customer Checkout Preview</div>
+                  <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 12, color: 'var(--gray)' }}>👁 Customer Checkout Preview</div>
                   <div style={{ background: 'var(--card-bg)', border: '1px solid var(--border)', borderRadius: 10, padding: 16 }}>
                     <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 10 }}>Bank Transfer Details</div>
                     <div style={{ display: 'grid', gridTemplateColumns: '120px 1fr', gap: '6px 12px', fontSize: 13, marginBottom: 14 }}>

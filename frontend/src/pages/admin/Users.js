@@ -45,7 +45,7 @@ const AdminUsers = () => {
       {/* Filters */}
       <div style={{ display: 'flex', gap: 14, marginBottom: 20 }}>
         <div style={{ position: 'relative', flex: 1, maxWidth: 380 }}>
-          <FiSearch style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#aaa' }} size={16} />
+          <FiSearch style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: 'var(--gray)' }} size={16} />
           <input type="text" placeholder="Search by name or email..." value={search}
             onChange={e => { setSearch(e.target.value); setPage(1); }}
             className="form-control" style={{ paddingLeft: 42 }} />
@@ -77,7 +77,7 @@ const AdminUsers = () => {
               {loading ? (
                 <tr><td colSpan={7} style={{ textAlign: 'center', padding: 40 }}><div className="spinner" style={{ margin: '0 auto' }} /></td></tr>
               ) : users.length === 0 ? (
-                <tr><td colSpan={7} style={{ textAlign: 'center', padding: 40, color: '#aaa' }}>No users found</td></tr>
+                <tr><td colSpan={7} style={{ textAlign: 'center', padding: 40, color: 'var(--gray)' }}>No users found</td></tr>
               ) : users.map(user => (
                 <tr key={user._id}>
                   <td>
@@ -93,7 +93,7 @@ const AdminUsers = () => {
                   <td>
                     <span style={{
                       background: user.role === 'admin' ? 'rgba(233,69,96,0.1)' : user.role === 'subadmin' ? 'rgba(255,193,7,0.15)' : 'rgba(108,117,125,0.1)',
-                      color: user.role === 'admin' ? 'var(--primary)' : user.role === 'subadmin' ? '#856404' : '#666',
+                      color: user.role === 'admin' ? 'var(--primary)' : user.role === 'subadmin' ? '#856404' : 'var(--gray)',
                       padding: '3px 10px', borderRadius: 20, fontSize: 12, fontWeight: 700, textTransform: 'capitalize'
                     }}>{user.role}</span>
                   </td>

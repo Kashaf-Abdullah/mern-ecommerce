@@ -93,13 +93,13 @@
 //               </button>
 //             </form>
 //             {showSuggestions && suggestions.length > 0 && (
-//               <div style={{ position: 'absolute', top: '110%', left: 0, right: 0, background: '#fff', borderRadius: 8, boxShadow: '0 8px 30px rgba(0,0,0,0.15)', zIndex: 100, border: '1px solid #e0e0e0', overflow: 'hidden' }}>
+//               <div style={{ position: 'absolute', top: '110%', left: 0, right: 0, background: 'var(--card-bg)', borderRadius: 8, boxShadow: '0 8px 30px rgba(0,0,0,0.15)', zIndex: 100, border: '1px solid #e0e0e0', overflow: 'hidden' }}>
 //                 {suggestions.map(s => (
 //                   <div key={s._id}
 //                     onClick={() => { navigate(`/products/${s._id}`); setSearch(''); setShowSuggestions(false); }}
 //                     style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 16px', cursor: 'pointer', borderBottom: '1px solid var(--border)' }}
 //                     onMouseEnter={e => e.currentTarget.style.background = 'var(--surface-2)'}
-//                     onMouseLeave={e => e.currentTarget.style.background = '#fff'}>
+//                     onMouseLeave={e => e.currentTarget.style.background = 'var(--card-bg)'}>
 //                     <img src={s.images?.[0]?.url} alt={s.name} style={{ width: 38, height: 38, objectFit: 'cover', borderRadius: 6 }} />
 //                     <div>
 //                       <div style={{ fontSize: 14, fontWeight: 500 }}>{s.name}</div>
@@ -131,7 +131,7 @@
 //                   <FiChevronDown size={14} />
 //                 </button>
 //                 {userMenuOpen && (
-//                   <div style={{ position: 'absolute', right: 0, top: '110%', background: '#fff', borderRadius: 10, boxShadow: '0 8px 30px rgba(0,0,0,0.15)', minWidth: 180, zIndex: 100, border: '1px solid #e0e0e0', overflow: 'hidden' }}>
+//                   <div style={{ position: 'absolute', right: 0, top: '110%', background: 'var(--card-bg)', borderRadius: 10, boxShadow: '0 8px 30px rgba(0,0,0,0.15)', minWidth: 180, zIndex: 100, border: '1px solid #e0e0e0', overflow: 'hidden' }}>
 //                     {[
 //                       { to: '/profile', icon: <FiUser size={15} />, label: 'My Profile' },
 //                       { to: '/orders',  icon: <FiPackage size={15} />, label: 'My Orders' },
@@ -140,14 +140,14 @@
 //                       <Link key={item.to} to={item.to} onClick={() => setUserMenuOpen(false)}
 //                         style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 16px', fontSize: 14, borderBottom: '1px solid var(--border)', color: textColor, textDecoration: 'none' }}
 //                         onMouseEnter={e => e.currentTarget.style.background = 'var(--surface-2)'}
-//                         onMouseLeave={e => e.currentTarget.style.background = '#fff'}>
+//                         onMouseLeave={e => e.currentTarget.style.background = 'var(--card-bg)'}>
 //                         {item.icon} {item.label}
 //                       </Link>
 //                     ))}
 //                     <button onClick={() => { logout(); setUserMenuOpen(false); }}
 //                       style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 16px', fontSize: 14, width: '100%', background: 'none', border: 'none', color: '#dc3545', cursor: 'pointer' }}
 //                       onMouseEnter={e => e.currentTarget.style.background = '#fff5f5'}
-//                       onMouseLeave={e => e.currentTarget.style.background = '#fff'}>
+//                       onMouseLeave={e => e.currentTarget.style.background = 'var(--card-bg)'}>
 //                       <FiLogOut size={15} /> Logout
 //                     </button>
 //                   </div>
@@ -168,9 +168,9 @@
 //         <div className="container" style={{ display: 'flex', gap: 4, overflowX: 'auto', padding: '8px 20px' }}>
 //           {['All Products', 'Electronics', 'Fashion', 'Home & Kitchen', 'Sports', 'Books'].map(cat => (
 //             <Link key={cat} to={cat === 'All Products' ? '/products' : `/products?search=${cat}`}
-//               style={{ padding: '6px 14px', borderRadius: 6, fontSize: 13, fontWeight: 500, whiteSpace: 'nowrap', color: '#444', background: 'transparent', textDecoration: 'none', transition: 'all 0.2s' }}
+//               style={{ padding: '6px 14px', borderRadius: 6, fontSize: 13, fontWeight: 500, whiteSpace: 'nowrap', color: 'var(--text-color)', background: 'transparent', textDecoration: 'none', transition: 'all 0.2s' }}
 //               onMouseEnter={e => { e.currentTarget.style.background = primary + '18'; e.currentTarget.style.color = primary; }}
-//               onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#444'; }}>
+//               onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--text-color)'; }}>
 //               {cat}
 //             </Link>
 //           ))}
@@ -549,7 +549,7 @@ const Navbar = () => {
                     whiteSpace: 'nowrap', color: categoryLinkColor, textDecoration: 'none',
                     transition: 'all 0.2s', background: 'transparent'
                   }}
-                  onMouseEnter={e => { e.currentTarget.style.background = categoryLinkHoverBg; e.currentTarget.style.color = isDarkNav ? '#fff' : primary; }}
+                  onMouseEnter={e => { e.currentTarget.style.background = categoryLinkHoverBg; e.currentTarget.style.color = isDarkNav ? 'var(--card-bg)' : primary; }}
                   onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = categoryLinkColor; }}>
                   {cat.name}
                 </Link>
@@ -596,7 +596,7 @@ const Navbar = () => {
                     style={{ width: 44, height: 44, borderRadius: '50%', objectFit: 'cover' }} />
                   <div>
                     <div style={{ fontWeight: 600, fontSize: 15, color: textColor }}>{user.name}</div>
-                    <div style={{ fontSize: 12, color: '#888' }}>{user.email}</div>
+                    <div style={{ fontSize: 12, color: 'var(--gray)' }}>{user.email}</div>
                   </div>
                 </div>
                 {[
@@ -636,7 +636,7 @@ const Navbar = () => {
 
             {/* Categories */}
             <div style={{ padding: '14px 20px', flex: 1 }}>
-              <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 1, color: '#aaa', textTransform: 'uppercase', marginBottom: 10 }}>
+              <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 1, color: 'var(--gray)', textTransform: 'uppercase', marginBottom: 10 }}>
                 Categories
               </div>
               {[{ name: 'All Products', _id: '' }, ...categories].map(cat => (

@@ -80,7 +80,7 @@ const Dashboard = () => {
               </BarChart>
             </ResponsiveContainer>
           ) : (
-            <div style={{ height: 240, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#aaa' }}>
+            <div style={{ height: 240, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--gray)' }}>
               No revenue data yet
             </div>
           )}
@@ -105,13 +105,13 @@ const Dashboard = () => {
                 {pieData.map(d => (
                   <div key={d.name} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12 }}>
                     <div style={{ width: 10, height: 10, borderRadius: '50%', background: statusColors[d.name] || '#ccc' }} />
-                    <span style={{ textTransform: 'capitalize', color: '#555' }}>{d.name} ({d.value})</span>
+                    <span style={{ textTransform: 'capitalize', color: 'var(--gray)' }}>{d.name} ({d.value})</span>
                   </div>
                 ))}
               </div>
             </>
           ) : (
-            <div style={{ height: 180, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#aaa' }}>No data</div>
+            <div style={{ height: 180, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--gray)' }}>No data</div>
           )}
         </div>
       </div>

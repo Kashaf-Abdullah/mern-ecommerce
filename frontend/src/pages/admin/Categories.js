@@ -68,17 +68,17 @@ const AdminCategories = () => {
             <div key={cat._id} className="card" style={{ padding: 22 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-                  <div style={{ width: 52, height: 52, borderRadius: 14, background: 'rgba(233,69,96,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 26 }}>
+                  <div style={{ width: 52, height: 52, borderRadius: 14, background: 'var(--primary-soft)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 26 }}>
                     {catEmojis[cat.slug] || '🏷️'}
                   </div>
                   <div>
                     <h3 style={{ fontSize: 16, fontWeight: 700 }}>{cat.name}</h3>
-                    <div style={{ fontSize: 12, color: '#888', marginTop: 3 }}>/{cat.slug}</div>
+                    <div style={{ fontSize: 12, color: 'var(--gray)', marginTop: 3 }}>/{cat.slug}</div>
                   </div>
                 </div>
                 <div style={{ display: 'flex', gap: 8 }}>
                   <button onClick={() => openEdit(cat)}
-                    style={{ width: 32, height: 32, borderRadius: 8, border: '1px solid #e0e0e0', background: '#fff', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#555' }}>
+                    style={{ width: 32, height: 32, borderRadius: 8, border: '1px solid var(--border)', background: 'var(--card-bg)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--gray)' }}>
                     <FiEdit2 size={14} />
                   </button>
                   <button onClick={() => handleDelete(cat._id)}
@@ -88,13 +88,13 @@ const AdminCategories = () => {
                 </div>
               </div>
               {cat.description && (
-                <p style={{ fontSize: 13, color: '#777', marginTop: 12, lineHeight: 1.6 }}>{cat.description}</p>
+                <p style={{ fontSize: 13, color: 'var(--gray)', marginTop: 12, lineHeight: 1.6 }}>{cat.description}</p>
               )}
               <div style={{ marginTop: 14, display: 'flex', gap: 10 }}>
                 <span style={{ background: cat.isActive ? 'rgba(40,167,69,0.1)' : 'rgba(220,53,69,0.1)', color: cat.isActive ? 'var(--success)' : 'var(--danger)', padding: '3px 10px', borderRadius: 20, fontSize: 12, fontWeight: 600 }}>
                   {cat.isActive ? 'Active' : 'Inactive'}
                 </span>
-                <span style={{ background: '#f5f5f5', color: '#666', padding: '3px 10px', borderRadius: 20, fontSize: 12 }}>
+                <span style={{ background: 'var(--surface-2)', color: 'var(--gray)', padding: '3px 10px', borderRadius: 20, fontSize: 12 }}>
                   Order: {cat.order}
                 </span>
               </div>
@@ -106,10 +106,10 @@ const AdminCategories = () => {
       {/* Modal */}
       {showModal && (
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
-          <div style={{ background: '#fff', borderRadius: 16, width: '100%', maxWidth: 460 }}>
-            <div style={{ padding: '22px 28px', borderBottom: '1px solid #f0f0f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ background: 'var(--card-bg)', borderRadius: 16, width: '100%', maxWidth: 460 }}>
+            <div style={{ padding: '22px 28px', borderBottom: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <h2 style={{ fontSize: 18, fontWeight: 700 }}>{editCat ? 'Edit Category' : 'Add Category'}</h2>
-              <button onClick={() => setShowModal(false)} style={{ background: '#f5f5f5', border: 'none', width: 34, height: 34, borderRadius: 8, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <button onClick={() => setShowModal(false)} style={{ background: 'var(--surface-2)', border: 'none', width: 34, height: 34, borderRadius: 8, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <FiX size={18} />
               </button>
             </div>

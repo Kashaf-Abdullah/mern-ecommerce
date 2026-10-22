@@ -111,7 +111,7 @@
 
 //       {/* Search */}
 //       <div style={{ position: 'relative', marginBottom: 20, maxWidth: 400 }}>
-//         <FiSearch style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#aaa' }} />
+//         <FiSearch style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: 'var(--gray)' }} />
 //         <input type="text" placeholder="Search products..." value={search}
 //           onChange={e => { setSearch(e.target.value); setPage(1); }}
 //           className="form-control" style={{ paddingLeft: 42 }} />
@@ -142,14 +142,14 @@
 //                       <img src={p.images?.[0]?.url} alt={p.name} style={{ width: 46, height: 46, objectFit: 'cover', borderRadius: 8 }} />
 //                       <div>
 //                         <div style={{ fontWeight: 600, fontSize: 14, maxWidth: 200 }}>{p.name}</div>
-//                         <div style={{ fontSize: 12, color: '#888' }}>{p.brand}</div>
+//                         <div style={{ fontSize: 12, color: 'var(--gray)' }}>{p.brand}</div>
 //                       </div>
 //                     </div>
 //                   </td>
-//                   <td style={{ fontSize: 13, color: '#666' }}>{p.category?.name}</td>
+//                   <td style={{ fontSize: 13, color: 'var(--gray)' }}>{p.category?.name}</td>
 //                   <td>
 //                     <div style={{ fontWeight: 700 }}>Rs.{(p.discountPrice > 0 ? p.discountPrice : p.price).toLocaleString()}</div>
-//                     {p.discountPrice > 0 && <div style={{ fontSize: 12, color: '#aaa', textDecoration: 'line-through' }}>Rs.{p.price}</div>}
+//                     {p.discountPrice > 0 && <div style={{ fontSize: 12, color: 'var(--gray)', textDecoration: 'line-through' }}>Rs.{p.price}</div>}
 //                   </td>
 //                   <td>
 //                     <span style={{ fontWeight: 600, color: p.stock === 0 ? 'var(--danger)' : p.stock < 10 ? 'var(--warning)' : 'var(--success)' }}>
@@ -159,14 +159,14 @@
 //                   <td style={{ fontSize: 13 }}>⭐ {p.ratings} ({p.numReviews})</td>
 //                   <td>
 //                     <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-//                       {p.featured && <span style={{ background: 'rgba(233,69,96,0.1)', color: 'var(--primary)', padding: '2px 8px', borderRadius: 4, fontSize: 11, fontWeight: 600, width: 'fit-content' }}>Featured</span>}
+//                       {p.featured && <span style={{ background: 'var(--primary-soft)', color: 'var(--primary)', padding: '2px 8px', borderRadius: 4, fontSize: 11, fontWeight: 600, width: 'fit-content' }}>Featured</span>}
 //                       {p.trending && <span style={{ background: 'rgba(23,162,184,0.1)', color: '#17a2b8', padding: '2px 8px', borderRadius: 4, fontSize: 11, fontWeight: 600, width: 'fit-content' }}>Trending</span>}
-//                       {!p.featured && !p.trending && <span style={{ color: '#aaa', fontSize: 12 }}>—</span>}
+//                       {!p.featured && !p.trending && <span style={{ color: 'var(--gray)', fontSize: 12 }}>—</span>}
 //                     </div>
 //                   </td>
 //                   <td>
 //                     <div style={{ display: 'flex', gap: 8 }}>
-//                       <button onClick={() => openEdit(p)} style={{ width: 32, height: 32, borderRadius: 8, border: '1px solid #e0e0e0', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#555' }}>
+//                       <button onClick={() => openEdit(p)} style={{ width: 32, height: 32, borderRadius: 8, border: '1px solid var(--border)', background: 'var(--card-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'var(--gray)' }}>
 //                         <FiEdit2 size={14} />
 //                       </button>
 //                       <button onClick={() => handleDelete(p._id)} style={{ width: 32, height: 32, borderRadius: 8, border: '1px solid #ffcdd2', background: '#fff5f5', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'var(--danger)' }}>
@@ -181,7 +181,7 @@
 //         </div>
 
 //         {totalPages > 1 && (
-//           <div style={{ padding: '16px 24px', borderTop: '1px solid #f0f0f0' }}>
+//           <div style={{ padding: '16px 24px', borderTop: '1px solid var(--border)' }}>
 //             <div className="pagination" style={{ justifyContent: 'flex-start', marginTop: 0 }}>
 //               {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
 //                 <button key={p} onClick={() => setPage(p)} className={`page-btn${page === p ? ' active' : ''}`}>{p}</button>
@@ -194,10 +194,10 @@
 //       {/* Modal */}
 //       {showModal && (
 //         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
-//           <div style={{ background: '#fff', borderRadius: 16, width: '100%', maxWidth: 700, maxHeight: '90vh', overflow: 'auto' }}>
-//             <div style={{ padding: '24px 28px', borderBottom: '1px solid #f0f0f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'sticky', top: 0, background: '#fff', zIndex: 1 }}>
+//           <div style={{ background: 'var(--card-bg)', borderRadius: 16, width: '100%', maxWidth: 700, maxHeight: '90vh', overflow: 'auto' }}>
+//             <div style={{ padding: '24px 28px', borderBottom: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'sticky', top: 0, background: 'var(--card-bg)', zIndex: 1 }}>
 //               <h2 style={{ fontSize: 18, fontWeight: 700 }}>{editProduct ? 'Edit Product' : 'Add Product'}</h2>
-//               <button onClick={() => setShowModal(false)} style={{ background: '#f5f5f5', border: 'none', width: 34, height: 34, borderRadius: 8, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+//               <button onClick={() => setShowModal(false)} style={{ background: 'var(--surface-2)', border: 'none', width: 34, height: 34, borderRadius: 8, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
 //                 <FiX size={18} />
 //               </button>
 //             </div>
@@ -213,7 +213,7 @@
 //                   { key: 'tags', label: 'Tags (comma separated)' },
 //                 ].map(f => (
 //                   <div key={f.key} style={{ gridColumn: f.span === 2 ? 'span 2' : 'span 1' }}>
-//                     <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: '#555' }}>{f.label}</label>
+//                     <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: 'var(--gray)' }}>{f.label}</label>
 //                     <input type={f.type || 'text'} value={form[f.key]}
 //                       onChange={e => setForm(p => ({ ...p, [f.key]: e.target.value }))}
 //                       className="form-control" required={f.required} />
@@ -221,7 +221,7 @@
 //                 ))}
 
 //                 <div style={{ gridColumn: 'span 2' }}>
-//                   <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: '#555' }}>Category *</label>
+//                   <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: 'var(--gray)' }}>Category *</label>
 //                   <select value={form.category} onChange={e => setForm(f => ({ ...f, category: e.target.value }))}
 //                     className="form-control" required>
 //                     <option value="">Select Category</option>
@@ -230,14 +230,14 @@
 //                 </div>
 
 //                 <div style={{ gridColumn: 'span 2' }}>
-//                   <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: '#555' }}>Short Description</label>
+//                   <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: 'var(--gray)' }}>Short Description</label>
 //                   <textarea rows={2} value={form.shortDescription}
 //                     onChange={e => setForm(f => ({ ...f, shortDescription: e.target.value }))}
 //                     className="form-control" style={{ resize: 'vertical' }} />
 //                 </div>
 
 //                 <div style={{ gridColumn: 'span 2' }}>
-//                   <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: '#555' }}>Full Description *</label>
+//                   <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: 'var(--gray)' }}>Full Description *</label>
 //                   <textarea rows={4} value={form.description}
 //                     onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
 //                     className="form-control" style={{ resize: 'vertical' }} required />
@@ -258,7 +258,7 @@
 //                 {/* Specifications */}
 //                 <div style={{ gridColumn: 'span 2' }}>
 //                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-//                     <label style={{ fontSize: 13, fontWeight: 600, color: '#555' }}>Specifications</label>
+//                     <label style={{ fontSize: 13, fontWeight: 600, color: 'var(--gray)' }}>Specifications</label>
 //                     <button type="button" onClick={addSpec} className="btn btn-outline btn-sm"><FiPlus size={13} /> Add</button>
 //                   </div>
 //                   {form.specifications.map((spec, i) => (
@@ -275,7 +275,7 @@
 //                 </div>
 //               </div>
 
-//               <div style={{ display: 'flex', gap: 12, justifyContent: 'flex-end', marginTop: 24, paddingTop: 20, borderTop: '1px solid #f0f0f0' }}>
+//               <div style={{ display: 'flex', gap: 12, justifyContent: 'flex-end', marginTop: 24, paddingTop: 20, borderTop: '1px solid var(--border)' }}>
 //                 <button type="button" onClick={() => setShowModal(false)} className="btn btn-outline">Cancel</button>
 //                 <button type="submit" disabled={saving} className="btn btn-primary">
 //                   {saving ? 'Saving...' : editProduct ? 'Update Product' : 'Create Product'}
@@ -330,13 +330,13 @@ const ImageManager = ({ images, newFiles, onAddFiles, onRemoveExisting, onRemove
     <div>
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-        <label style={{ fontSize: 13, fontWeight: 600, color: '#444' }}>
+        <label style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-color)' }}>
           Product Images
-          <span style={{ fontWeight: 400, color: '#999', marginLeft: 6 }}>({allCount}/10)</span>
+          <span style={{ fontWeight: 400, color: 'var(--gray)', marginLeft: 6 }}>({allCount}/10)</span>
         </label>
         {allCount > 0 && (
           <button type="button" onClick={() => fileRef.current.click()}
-            style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '5px 12px', background: '#f5f5f5', border: '1px solid #e0e0e0', borderRadius: 7, fontSize: 12, fontWeight: 600, cursor: 'pointer', color: '#555' }}>
+            style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '5px 12px', background: 'var(--surface-2)', border: '1px solid var(--border)', borderRadius: 7, fontSize: 12, fontWeight: 600, cursor: 'pointer', color: 'var(--gray)' }}>
             <FiPlus size={13} /> Add More
           </button>
         )}
@@ -372,9 +372,9 @@ const ImageManager = ({ images, newFiles, onAddFiles, onRemoveExisting, onRemove
                   title="Set as main image"
                   style={{
                     position: 'absolute', bottom: -8, left: '50%', transform: 'translateX(-50%)',
-                    background: '#fff', border: '1px solid #e0e0e0', borderRadius: 20,
+                    background: 'var(--card-bg)', border: '1px solid var(--border)', borderRadius: 20,
                     fontSize: 9, fontWeight: 700, padding: '2px 7px', cursor: 'pointer',
-                    whiteSpace: 'nowrap', color: '#666', boxShadow: '0 1px 4px rgba(0,0,0,0.1)'
+                    whiteSpace: 'nowrap', color: 'var(--gray)', boxShadow: '0 1px 4px rgba(0,0,0,0.1)'
                   }}>Set Main</button>
               )}
 
@@ -425,9 +425,9 @@ const ImageManager = ({ images, newFiles, onAddFiles, onRemoveExisting, onRemove
                     title="Set as main image"
                     style={{
                       position: 'absolute', top: 4, left: 4,
-                      background: 'rgba(255,255,255,0.9)', border: '1px solid #e0e0e0',
+                      background: 'rgba(255,255,255,0.9)', border: '1px solid var(--border)',
                       borderRadius: 4, fontSize: 8, fontWeight: 700, padding: '2px 5px',
-                      cursor: 'pointer', color: '#555'
+                      cursor: 'pointer', color: 'var(--gray)'
                     }}><FiStar size={9} /></button>
                 )}
 
@@ -450,13 +450,13 @@ const ImageManager = ({ images, newFiles, onAddFiles, onRemoveExisting, onRemove
             <button type="button" onClick={() => fileRef.current.click()}
               style={{
                 width: 88, height: 88, borderRadius: 10,
-                border: '2px dashed #d1d5db', background: '#fafafa',
+                border: '2px dashed #d1d5db', background: 'var(--surface-2)',
                 display: 'flex', flexDirection: 'column', alignItems: 'center',
-                justifyContent: 'center', gap: 5, cursor: 'pointer', color: '#aaa',
+                justifyContent: 'center', gap: 5, cursor: 'pointer', color: 'var(--gray)',
                 transition: 'all 0.2s', flexShrink: 0
               }}
               onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--primary)'; e.currentTarget.style.color = 'var(--primary)'; }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = '#d1d5db'; e.currentTarget.style.color = '#aaa'; }}>
+              onMouseLeave={e => { e.currentTarget.style.borderColor = '#d1d5db'; e.currentTarget.style.color = 'var(--gray)'; }}>
               <FiPlus size={22} />
               <span style={{ fontSize: 10, fontWeight: 600 }}>Add</span>
             </button>
@@ -474,14 +474,14 @@ const ImageManager = ({ images, newFiles, onAddFiles, onRemoveExisting, onRemove
           style={{
             border: `2px dashed ${draggingOver ? 'var(--primary)' : '#d1d5db'}`,
             borderRadius: 12, padding: '36px 24px', textAlign: 'center', cursor: 'pointer',
-            background: draggingOver ? 'rgba(233,69,96,0.04)' : '#fafafa',
+            background: draggingOver ? 'var(--primary-soft)' : '#fafafa',
             transition: 'all 0.2s'
           }}>
           <FiImage size={40} color={draggingOver ? 'var(--primary)' : '#ccc'} style={{ marginBottom: 12 }} />
-          <div style={{ fontWeight: 700, fontSize: 15, color: draggingOver ? 'var(--primary)' : '#555', marginBottom: 6 }}>
+          <div style={{ fontWeight: 700, fontSize: 15, color: draggingOver ? 'var(--primary)' : 'var(--gray)', marginBottom: 6 }}>
             {draggingOver ? 'Drop images here!' : 'Click or drag & drop images'}
           </div>
-          <div style={{ fontSize: 12, color: '#aaa' }}>JPG, PNG, WebP · Max 5MB each · Up to 10 images</div>
+          <div style={{ fontSize: 12, color: 'var(--gray)' }}>JPG, PNG, WebP · Max 5MB each · Up to 10 images</div>
           <div style={{ marginTop: 12 }}>
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '8px 18px', background: 'var(--primary)', color: '#fff', borderRadius: 8, fontSize: 13, fontWeight: 600 }}>
               <FiUpload size={14} /> Choose Images
@@ -492,7 +492,7 @@ const ImageManager = ({ images, newFiles, onAddFiles, onRemoveExisting, onRemove
 
       {/* Info tip */}
       {allCount > 0 && (
-        <div style={{ display: 'flex', alignItems: 'flex-start', gap: 6, fontSize: 12, color: '#888', marginTop: 10, lineHeight: 1.5 }}>
+        <div style={{ display: 'flex', alignItems: 'flex-start', gap: 6, fontSize: 12, color: 'var(--gray)', marginTop: 10, lineHeight: 1.5 }}>
           <FiAlertCircle size={13} style={{ flexShrink: 0, marginTop: 1 }} />
           <span>
             <strong>⭐ MAIN</strong> = first image shown on product page.
@@ -744,9 +744,9 @@ const AdminProducts = () => {
   const removeSpec = (i) => setForm(f => ({ ...f, specifications: f.specifications.filter((_, idx) => idx !== i) }));
 
   const iStyle = {
-    width: '100%', padding: '9px 12px', border: '1.5px solid #e5e7eb',
+    width: '100%', padding: '9px 12px', border: '1.5px solid var(--border)',
     borderRadius: 8, fontSize: 14, fontFamily: 'inherit',
-    outline: 'none', transition: 'border-color 0.2s', background: '#fff',
+    outline: 'none', transition: 'border-color 0.2s', background: 'var(--card-bg)',
   };
 
   /* ═══════ RENDER ═══════ */
@@ -756,7 +756,7 @@ const AdminProducts = () => {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
           <h1 style={{ fontSize: 22, fontWeight: 800 }}>Products</h1>
-          <p style={{ color: '#888', fontSize: 14, marginTop: 4 }}>
+          <p style={{ color: 'var(--gray)', fontSize: 14, marginTop: 4 }}>
             {products.length} products on this page
           </p>
         </div>
@@ -767,7 +767,7 @@ const AdminProducts = () => {
 
       {/* ── Search ── */}
       <div style={{ position: 'relative', marginBottom: 20, maxWidth: 420 }}>
-        <FiSearch style={{ position: 'absolute', left: 13, top: '50%', transform: 'translateY(-50%)', color: '#aaa' }} />
+        <FiSearch style={{ position: 'absolute', left: 13, top: '50%', transform: 'translateY(-50%)', color: 'var(--gray)' }} />
         <input type="text" placeholder="Search products…" value={search}
           onChange={e => { setSearch(e.target.value); setPage(1); }}
           className="form-control" style={{ paddingLeft: 42 }} />
@@ -797,7 +797,7 @@ const AdminProducts = () => {
                 </tr>
               ) : products.length === 0 ? (
                 <tr>
-                  <td colSpan={7} style={{ textAlign: 'center', padding: 44, color: '#aaa' }}>
+                  <td colSpan={7} style={{ textAlign: 'center', padding: 44, color: 'var(--gray)' }}>
                     No products found
                   </td>
                 </tr>
@@ -809,9 +809,9 @@ const AdminProducts = () => {
                       <div style={{ position: 'relative', flexShrink: 0 }}>
                         {p.images?.[0]?.url ? (
                           <img src={p.images[0].url} alt={p.name}
-                            style={{ width: 50, height: 50, objectFit: 'cover', borderRadius: 10, border: '1px solid #f0f0f0' }} />
+                            style={{ width: 50, height: 50, objectFit: 'cover', borderRadius: 10, border: '1px solid var(--border)' }} />
                         ) : (
-                          <div style={{ width: 50, height: 50, borderRadius: 10, background: '#f5f5f5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          <div style={{ width: 50, height: 50, borderRadius: 10, background: 'var(--surface-2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                             <FiImage size={20} color="#ccc" />
                           </div>
                         )}
@@ -823,7 +823,7 @@ const AdminProducts = () => {
                       </div>
                       <div>
                         <div style={{ fontWeight: 600, fontSize: 14, maxWidth: 180, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.name}</div>
-                        <div style={{ fontSize: 12, color: '#999', marginTop: 2 }}>{p.brand}</div>
+                        <div style={{ fontSize: 12, color: 'var(--gray)', marginTop: 2 }}>{p.brand}</div>
                       </div>
                     </div>
                   </td>
@@ -833,7 +833,7 @@ const AdminProducts = () => {
                     <div style={{ display: 'flex', gap: 3, flexWrap: 'wrap', maxWidth: 100 }}>
                       {(p.images || []).slice(0, 4).map((img, i) => (
                         <img key={i} src={img.url} alt=""
-                          style={{ width: 26, height: 26, objectFit: 'cover', borderRadius: 5, border: i === 0 ? '2px solid #f59e0b' : '1px solid #e0e0e0' }} />
+                          style={{ width: 26, height: 26, objectFit: 'cover', borderRadius: 5, border: i === 0 ? '2px solid #f59e0b' : '1px solid var(--border)' }} />
                       ))}
                       {(!p.images || p.images.length === 0) && (
                         <span style={{ fontSize: 11, color: '#ccc' }}>No photos</span>
@@ -844,7 +844,7 @@ const AdminProducts = () => {
                     </div>
                   </td>
 
-                  <td style={{ fontSize: 13, color: '#666' }}>{p.category?.name || '—'}</td>
+                  <td style={{ fontSize: 13, color: 'var(--gray)' }}>{p.category?.name || '—'}</td>
 
                   <td>
                     <div style={{ fontWeight: 700, fontSize: 14 }}>
@@ -868,7 +868,7 @@ const AdminProducts = () => {
 
                   <td>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                      {p.featured && <span style={{ background: 'rgba(233,69,96,0.1)', color: 'var(--primary)', padding: '2px 8px', borderRadius: 20, fontSize: 11, fontWeight: 700, width: 'fit-content' }}>⭐ Featured</span>}
+                      {p.featured && <span style={{ background: 'var(--primary-soft)', color: 'var(--primary)', padding: '2px 8px', borderRadius: 20, fontSize: 11, fontWeight: 700, width: 'fit-content' }}>⭐ Featured</span>}
                       {p.trending && <span style={{ background: 'rgba(23,162,184,0.12)', color: '#0891b2', padding: '2px 8px', borderRadius: 20, fontSize: 11, fontWeight: 700, width: 'fit-content' }}>🔥 Trending</span>}
                       {!p.featured && !p.trending && <span style={{ color: '#ccc', fontSize: 12 }}>—</span>}
                     </div>
@@ -877,7 +877,7 @@ const AdminProducts = () => {
                   <td>
                     <div style={{ display: 'flex', gap: 8 }}>
                       <button onClick={() => openEdit(p)} title="Edit"
-                        style={{ width: 34, height: 34, borderRadius: 8, border: '1px solid #e0e0e0', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#444' }}>
+                        style={{ width: 34, height: 34, borderRadius: 8, border: '1px solid var(--border)', background: 'var(--card-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'var(--text-color)' }}>
                         <FiEdit2 size={15} />
                       </button>
                       <button onClick={() => handleDelete(p._id)} title="Delete"
@@ -894,7 +894,7 @@ const AdminProducts = () => {
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div style={{ padding: '14px 22px', borderTop: '1px solid #f0f0f0' }}>
+          <div style={{ padding: '14px 22px', borderTop: '1px solid var(--border)' }}>
             <div className="pagination" style={{ justifyContent: 'flex-start', marginTop: 0 }}>
               {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
                 <button key={p} onClick={() => setPage(p)}
@@ -916,29 +916,29 @@ const AdminProducts = () => {
           padding: '16px'
         }}>
           <div style={{
-            background: '#fff', borderRadius: 18,
+            background: 'var(--card-bg)', borderRadius: 18,
             width: '100%', maxWidth: 780,
             maxHeight: '94vh', display: 'flex', flexDirection: 'column',
             boxShadow: '0 24px 60px rgba(0,0,0,0.25)'
           }}>
             {/* Modal header */}
             <div style={{
-              padding: '18px 26px', borderBottom: '1px solid #f0f0f0',
+              padding: '18px 26px', borderBottom: '1px solid var(--border)',
               display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-              flexShrink: 0, background: '#fafafa', borderRadius: '18px 18px 0 0'
+              flexShrink: 0, background: 'var(--surface-2)', borderRadius: '18px 18px 0 0'
             }}>
               <div>
-                <h2 style={{ fontSize: 17, fontWeight: 800, color: '#1a1a2e' }}>
+                <h2 style={{ fontSize: 17, fontWeight: 800, color: 'var(--text-color)' }}>
                   {editProduct ? '✏️  Edit Product' : '➕  Add New Product'}
                 </h2>
                 {editProduct && (
-                  <p style={{ fontSize: 12, color: '#aaa', marginTop: 3 }}>
+                  <p style={{ fontSize: 12, color: 'var(--gray)', marginTop: 3 }}>
                     ID: {editProduct._id}
                   </p>
                 )}
               </div>
               <button onClick={closeModal} disabled={saving}
-                style={{ background: '#f0f0f0', border: 'none', width: 36, height: 36, borderRadius: 10, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#666' }}>
+                style={{ background: '#f0f0f0', border: 'none', width: 36, height: 36, borderRadius: 10, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--gray)' }}>
                 <FiX size={18} />
               </button>
             </div>
@@ -948,7 +948,7 @@ const AdminProducts = () => {
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
 
                 {/* ─────────── IMAGE MANAGER (full width) ─────────── */}
-                <div style={{ gridColumn: 'span 2', padding: '18px', background: '#f9fafb', borderRadius: 14, border: '1px solid #f0f0f0' }}>
+                <div style={{ gridColumn: 'span 2', padding: '18px', background: '#f9fafb', borderRadius: 14, border: '1px solid var(--border)' }}>
                   <ImageManager
                     images={imgExisting}
                     newFiles={imgNew}
@@ -961,11 +961,11 @@ const AdminProducts = () => {
 
                 {/* ─────────── BASIC FIELDS ─────────── */}
                 <div style={{ gridColumn: 'span 2' }}>
-                  <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: '#444' }}>Product Name *</label>
+                  <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: 'var(--text-color)' }}>Product Name *</label>
                   <input type="text" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
                     placeholder="e.g. iPhone 15 Pro Max 256GB" style={iStyle} required
                     onFocus={e => e.target.style.borderColor = 'var(--primary)'}
-                    onBlur={e => e.target.style.borderColor = '#e5e7eb'} />
+                    onBlur={e => e.target.style.borderColor = 'var(--border)'} />
                 </div>
 
                 {[
@@ -977,18 +977,18 @@ const AdminProducts = () => {
                   { key: 'tags',         label: 'Tags',              type: 'text',   placeholder: 'phone, apple, 5g (comma separated)' },
                 ].map(f => (
                   <div key={f.key}>
-                    <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: '#444' }}>{f.label}</label>
+                    <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: 'var(--text-color)' }}>{f.label}</label>
                     <input type={f.type} value={form[f.key]} placeholder={f.placeholder}
                       onChange={e => setForm(p => ({ ...p, [f.key]: e.target.value }))}
                       style={iStyle} required={f.label.endsWith('*')}
                       onFocus={e => e.target.style.borderColor = 'var(--primary)'}
-                      onBlur={e => e.target.style.borderColor = '#e5e7eb'} />
+                      onBlur={e => e.target.style.borderColor = 'var(--border)'} />
                   </div>
                 ))}
 
                 {/* Category */}
                 <div style={{ gridColumn: 'span 2' }}>
-                  <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: '#444' }}>Category *</label>
+                  <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: 'var(--text-color)' }}>Category *</label>
                   <select value={form.category} onChange={e => setForm(f => ({ ...f, category: e.target.value }))}
                     style={{ ...iStyle }} required>
                     <option value="">— Select Category —</option>
@@ -998,22 +998,22 @@ const AdminProducts = () => {
 
                 {/* Short Description */}
                 <div style={{ gridColumn: 'span 2' }}>
-                  <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: '#444' }}>Short Description</label>
+                  <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: 'var(--text-color)' }}>Short Description</label>
                   <textarea rows={2} value={form.shortDescription} placeholder="Brief one-line product summary"
                     onChange={e => setForm(f => ({ ...f, shortDescription: e.target.value }))}
                     style={{ ...iStyle, resize: 'vertical' }}
                     onFocus={e => e.target.style.borderColor = 'var(--primary)'}
-                    onBlur={e => e.target.style.borderColor = '#e5e7eb'} />
+                    onBlur={e => e.target.style.borderColor = 'var(--border)'} />
                 </div>
 
                 {/* Full Description */}
                 <div style={{ gridColumn: 'span 2' }}>
-                  <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: '#444' }}>Full Description *</label>
+                  <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: 'var(--text-color)' }}>Full Description *</label>
                   <textarea rows={5} value={form.description} placeholder="Detailed product description…"
                     onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
                     style={{ ...iStyle, resize: 'vertical' }} required
                     onFocus={e => e.target.style.borderColor = 'var(--primary)'}
-                    onBlur={e => e.target.style.borderColor = '#e5e7eb'} />
+                    onBlur={e => e.target.style.borderColor = 'var(--border)'} />
                 </div>
 
                 {/* Toggles */}
@@ -1022,13 +1022,13 @@ const AdminProducts = () => {
                     { key: 'featured', label: '⭐ Featured', desc: 'Show on homepage' },
                     { key: 'trending', label: '🔥 Trending', desc: 'Show in trending section' },
                   ].map(t => (
-                    <label key={t.key} style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', padding: '10px 16px', border: `2px solid ${form[t.key] ? 'var(--primary)' : '#e5e7eb'}`, borderRadius: 10, background: form[t.key] ? 'rgba(233,69,96,0.05)' : '#fff', transition: 'all 0.2s' }}>
+                    <label key={t.key} style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', padding: '10px 16px', border: `2px solid ${form[t.key] ? 'var(--primary)' : 'var(--border)'}`, borderRadius: 10, background: form[t.key] ? 'var(--primary-soft)' : 'var(--card-bg)', transition: 'all 0.2s' }}>
                       <input type="checkbox" checked={form[t.key]}
                         onChange={e => setForm(f => ({ ...f, [t.key]: e.target.checked }))}
                         style={{ accentColor: 'var(--primary)', width: 16, height: 16 }} />
                       <div>
                         <div style={{ fontWeight: 700, fontSize: 14 }}>{t.label}</div>
-                        <div style={{ fontSize: 11, color: '#999' }}>{t.desc}</div>
+                        <div style={{ fontSize: 11, color: 'var(--gray)' }}>{t.desc}</div>
                       </div>
                     </label>
                   ))}
@@ -1038,11 +1038,11 @@ const AdminProducts = () => {
                 <div style={{ gridColumn: 'span 2' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
                     <div>
-                      <label style={{ fontSize: 13, fontWeight: 600, color: '#444' }}>Specifications</label>
-                      <span style={{ fontSize: 12, color: '#aaa', marginLeft: 8 }}>({form.specifications.length} rows)</span>
+                      <label style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-color)' }}>Specifications</label>
+                      <span style={{ fontSize: 12, color: 'var(--gray)', marginLeft: 8 }}>({form.specifications.length} rows)</span>
                     </div>
                     <button type="button" onClick={addSpec}
-                      style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '6px 13px', background: '#f5f5f5', border: '1px solid #e5e7eb', borderRadius: 8, fontSize: 13, cursor: 'pointer', fontWeight: 600, color: '#555' }}>
+                      style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '6px 13px', background: 'var(--surface-2)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 13, cursor: 'pointer', fontWeight: 600, color: 'var(--gray)' }}>
                       <FiPlus size={13} /> Add Row
                     </button>
                   </div>
@@ -1053,12 +1053,12 @@ const AdminProducts = () => {
                           onChange={e => updateSpec(i, 'key', e.target.value)}
                           style={{ ...iStyle, padding: '8px 11px', fontSize: 13 }}
                           onFocus={e => e.target.style.borderColor = 'var(--primary)'}
-                          onBlur={e => e.target.style.borderColor = '#e5e7eb'} />
+                          onBlur={e => e.target.style.borderColor = 'var(--border)'} />
                         <input placeholder="e.g. Midnight Black" value={spec.value}
                           onChange={e => updateSpec(i, 'value', e.target.value)}
                           style={{ ...iStyle, padding: '8px 11px', fontSize: 13 }}
                           onFocus={e => e.target.style.borderColor = 'var(--primary)'}
-                          onBlur={e => e.target.style.borderColor = '#e5e7eb'} />
+                          onBlur={e => e.target.style.borderColor = 'var(--border)'} />
                         <button type="button" onClick={() => removeSpec(i)}
                           style={{ width: 36, height: 36, background: '#fff5f5', border: '1px solid #fca5a5', borderRadius: 8, color: '#ef4444', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                           <FiX size={14} />
@@ -1079,9 +1079,9 @@ const AdminProducts = () => {
               )}
 
               {/* Footer buttons */}
-              <div style={{ display: 'flex', gap: 12, justifyContent: 'flex-end', marginTop: 24, paddingTop: 20, borderTop: '1px solid #f0f0f0' }}>
+              <div style={{ display: 'flex', gap: 12, justifyContent: 'flex-end', marginTop: 24, paddingTop: 20, borderTop: '1px solid var(--border)' }}>
                 <button type="button" onClick={closeModal} disabled={saving}
-                  style={{ padding: '10px 24px', border: '2px solid #e5e7eb', borderRadius: 10, background: '#fff', cursor: 'pointer', fontWeight: 600, fontSize: 14, color: '#555' }}>
+                  style={{ padding: '10px 24px', border: '2px solid var(--border)', borderRadius: 10, background: 'var(--card-bg)', cursor: 'pointer', fontWeight: 600, fontSize: 14, color: 'var(--gray)' }}>
                   Cancel
                 </button>
                 <button type="submit" disabled={saving} className="btn btn-primary"

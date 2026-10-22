@@ -72,15 +72,15 @@ const Dashboard = () => {
           {revenueChartData.length > 0 ? (
             <ResponsiveContainer width="100%" height={240}>
               <BarChart data={revenueChartData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                <CartesianGrid strokeDasharray="3 3" stroke="currentColor" strokeOpacity={0.12} />
                 <XAxis dataKey="name" fontSize={12} />
                 <YAxis fontSize={12} />
-                <Tooltip formatter={(value) => [`Rs.${value.toLocaleString()}`, 'Revenue']} />
+                <Tooltip formatter={(value) => [`Rs.${value.toLocaleString()}`, 'Revenue']} contentStyle={{ background: 'var(--card-bg)', border: '1px solid var(--border)', borderRadius: 8, color: 'var(--text-color)' }} />
                 <Bar dataKey="revenue" fill="var(--primary)" radius={[6, 6, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           ) : (
-            <div style={{ height: 240, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#aaa' }}>
+            <div style={{ height: 240, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--gray)' }}>
               No revenue data yet
             </div>
           )}
@@ -98,20 +98,20 @@ const Dashboard = () => {
                       <Cell key={i} fill={statusColors[entry.name] || '#ccc'} />
                     ))}
                   </Pie>
-                  <Tooltip />
+                  <Tooltip contentStyle={{ background: 'var(--card-bg)', border: '1px solid var(--border)', borderRadius: 8, color: 'var(--text-color)' }} />
                 </PieChart>
               </ResponsiveContainer>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, justifyContent: 'center' }}>
                 {pieData.map(d => (
                   <div key={d.name} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12 }}>
                     <div style={{ width: 10, height: 10, borderRadius: '50%', background: statusColors[d.name] || '#ccc' }} />
-                    <span style={{ textTransform: 'capitalize', color: '#555' }}>{d.name} ({d.value})</span>
+                    <span style={{ textTransform: 'capitalize', color: 'var(--gray)' }}>{d.name} ({d.value})</span>
                   </div>
                 ))}
               </div>
             </>
           ) : (
-            <div style={{ height: 180, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#aaa' }}>No data</div>
+            <div style={{ height: 180, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--gray)' }}>No data</div>
           )}
         </div>
       </div>
@@ -139,7 +139,7 @@ const Dashboard = () => {
                   <td><Link to={`/orders/${order._id}`} style={{ color: 'var(--primary)', fontWeight: 600 }}>{order.orderId}</Link></td>
                   <td>
                     <div style={{ fontWeight: 500 }}>{order.user?.name || order.shippingAddress?.fullName}</div>
-                    <div style={{ fontSize: 12, color: '#888' }}>{order.user?.email || order.guestEmail}</div>
+                    <div style={{ fontSize: 12, color: 'var(--gray)' }}>{order.user?.email || order.guestEmail}</div>
                   </td>
                   <td style={{ fontWeight: 700 }}>Rs.{order.totalPrice?.toFixed(2)}</td>
                   <td>
@@ -149,7 +149,7 @@ const Dashboard = () => {
                       padding: '3px 10px', borderRadius: 20, fontSize: 12, fontWeight: 600, textTransform: 'capitalize'
                     }}>{order.orderStatus}</span>
                   </td>
-                  <td style={{ color: '#888', fontSize: 13 }}>{new Date(order.createdAt).toLocaleDateString()}</td>
+                  <td style={{ color: 'var(--gray)', fontSize: 13 }}>{new Date(order.createdAt).toLocaleDateString()}</td>
                 </tr>
               ))}
             </tbody>

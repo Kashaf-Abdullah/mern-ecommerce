@@ -8,7 +8,7 @@ const AuthCard = ({ title, subtitle, children }) => (
     <div className="card auth-card-panel" style={{ padding: '40px', width: '100%', maxWidth: 440 }}>
       <div style={{ textAlign: 'center', marginBottom: 32 }}>
         <Link to="/" style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 28, color: 'var(--primary)' }}>
-          Shop<span style={{ color: 'var(--dark)' }}>Now</span>
+          Shop<span style={{ color: 'var(--text-color)' }}>Now</span>
         </Link>
         <h2 style={{ fontSize: 22, fontWeight: 700, marginTop: 16 }}>{title}</h2>
         <p style={{ color: 'var(--gray)', fontSize: 14, marginTop: 6 }}>{subtitle}</p>
@@ -40,7 +40,7 @@ export const ForgotPassword = () => {
       {sent ? (
         <div style={{ textAlign: 'center' }}>
           <div style={{ fontSize: 50, marginBottom: 16 }}>📧</div>
-          <p style={{ color: '#444', marginBottom: 20 }}>Password reset link sent to <strong>{email}</strong>. Check your inbox.</p>
+          <p style={{ color: 'var(--text-color)', marginBottom: 20 }}>Password reset link sent to <strong>{email}</strong>. Check your inbox.</p>
           <Link to="/login" className="btn btn-primary btn-full" style={{ borderRadius: 10 }}>Back to Login</Link>
         </div>
       ) : (

@@ -82,15 +82,15 @@ export const OrderDetail = () => {
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, minWidth: isMobile ? 60 : 'auto' }}>
                   <div style={{
                     width: isMobile ? 30 : 36, height: isMobile ? 30 : 36, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    background: i <= currentStep ? statusColors[s] : '#e0e0e0',
+                    background: i <= currentStep ? statusColors[s] : 'var(--border)',
                     color: '#fff', fontWeight: 700, fontSize: isMobile ? 11 : 13
                   }}>
                     {i <= currentStep ? '✓' : i + 1}
                   </div>
-                  <span style={{ fontSize: isMobile ? 10 : 12, fontWeight: i === currentStep ? 700 : 400, color: i <= currentStep ? '#333' : '#aaa', textTransform: 'capitalize' }}>{s}</span>
+                  <span style={{ fontSize: isMobile ? 10 : 12, fontWeight: i === currentStep ? 700 : 400, color: i <= currentStep ? 'var(--text-color)' : 'var(--gray)', textTransform: 'capitalize' }}>{s}</span>
                 </div>
                 {i < steps.length - 1 && (
-                  <div style={{ flex: 1, height: 3, minWidth: isMobile ? 30 : 40, background: i < currentStep ? statusColors[steps[i + 1]] : '#e0e0e0', margin: isMobile ? '0 2px' : '0 4px', marginBottom: 22, borderRadius: 2 }} />
+                  <div style={{ flex: 1, height: 3, minWidth: isMobile ? 30 : 40, background: i < currentStep ? statusColors[steps[i + 1]] : 'var(--border)', margin: isMobile ? '0 2px' : '0 4px', marginBottom: 22, borderRadius: 2 }} />
                 )}
               </React.Fragment>
             ))}
@@ -110,7 +110,7 @@ export const OrderDetail = () => {
                 <img src={item.image} alt={item.name} style={{ width: isMobile ? 48 : 64, height: isMobile ? 48 : 64, objectFit: 'cover', borderRadius: 8, flexShrink: 0 }} />
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ fontWeight: 600, fontSize: isMobile ? 13 : 15, overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.name}</div>
-                  <div style={{ fontSize: isMobile ? 11 : 13, color: '#888', marginTop: 4 }}>Qty: {item.quantity} × Rs.{item.price}</div>
+                  <div style={{ fontSize: isMobile ? 11 : 13, color: 'var(--gray)', marginTop: 4 }}>Qty: {item.quantity} × Rs.{item.price}</div>
                 </div>
                 <div style={{ fontWeight: 700, fontSize: isMobile ? 13 : 15, textAlign: 'right', flexShrink: 0 }}>Rs.{(item.price * item.quantity).toLocaleString()}</div>
               </div>
@@ -123,7 +123,7 @@ export const OrderDetail = () => {
               <FiMapPin color="var(--primary)" size={isMobile ? 18 : 20} /> Delivery Address
             </h3>
             <div style={{ fontSize: isMobile ? 13 : 15, fontWeight: 600 }}>{order.shippingAddress?.fullName}</div>
-            <div style={{ fontSize: isMobile ? 12 : 14, color: '#666', marginTop: 6, lineHeight: 1.7 }}>
+            <div style={{ fontSize: isMobile ? 12 : 14, color: 'var(--gray)', marginTop: 6, lineHeight: 1.7 }}>
               {order.shippingAddress?.addressLine1}<br />
               {order.shippingAddress?.addressLine2 && <>{order.shippingAddress.addressLine2}<br /></>}
               {order.shippingAddress?.city}, {order.shippingAddress?.state} - {order.shippingAddress?.pincode}<br />
@@ -150,17 +150,17 @@ export const OrderDetail = () => {
               ...(order.discountAmount > 0 ? [{ label: 'Discount', value: `-Rs.${order.discountAmount?.toFixed(2)}`, color: 'var(--success)' }] : []),
             ].map(row => (
               <div key={row.label} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12, fontSize: isMobile ? 12 : 14 }}>
-                <span style={{ color: '#666' }}>{row.label}</span>
+                <span style={{ color: 'var(--gray)' }}>{row.label}</span>
                 <span style={{ fontWeight: 600, color: row.color }}>{row.value}</span>
               </div>
             ))}
-            <div style={{ borderTop: '2px solid #f0f0f0', paddingTop: 14 }}>
+            <div style={{ borderTop: '2px solid var(--border)', paddingTop: 14 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 800, fontSize: isMobile ? 15 : 17 }}>
                 <span>Total</span>
                 <span style={{ color: 'var(--primary)' }}>Rs.{order.totalPrice?.toFixed(2)}</span>
               </div>
             </div>
-            <div style={{ marginTop: 14, padding: isMobile ? '8px 12px' : '10px 14px', background: '#f5f5f5', borderRadius: 8, fontSize: isMobile ? 11 : 13 }}>
+            <div style={{ marginTop: 14, padding: isMobile ? '8px 12px' : '10px 14px', background: 'var(--surface-2)', borderRadius: 8, fontSize: isMobile ? 11 : 13 }}>
               <span style={{ fontWeight: 600 }}>Payment Method: </span>{order.paymentMethod?.toUpperCase()}
               <br />
               <span style={{ fontWeight: 600 }}>Status: </span>

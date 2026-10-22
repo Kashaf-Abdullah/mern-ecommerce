@@ -4,13 +4,13 @@ import { settingsAPI } from '../utils/api';
 const defaultTheme = {
   primary: '#e94560',
   secondary: '#1a1a2e',
-  bg: '#f8f9fa',
+  bg: '#f6f7f9',
   nav: '#ffffff',
   footer: '#1a1a2e',
   card: '#ffffff',
   text: '#1a1a2e',
   radius: '12px',
-  font: "'Poppins', sans-serif",
+  font: "'Plus Jakarta Sans', sans-serif",
   btnStyle: 'filled',
   logoType: 'text', // 'text' or 'image'
   logoText: 'ShopNow',
@@ -21,6 +21,13 @@ const defaultTheme = {
 };
 
 const defaultTexts = {
+  storeName: 'ShopNow',
+  searchPlaceholder: 'Search products, brands...',
+  loginBtn: 'Login',
+  signupBtn: 'Sign Up',
+  quickLinksTitle: 'Quick Links',
+  categoriesTitle: 'Categories',
+  contactTitle: 'Contact Us',
   announcementBar: '🚚 Free shipping on orders above Rs.500 | Use code WELCOME10 for 10% off',
   heroTitle: 'Discover Amazing Products Today',
   heroSubtitle: 'Shop the latest trends with unbeatable prices. Free shipping on orders above Rs.500.',
@@ -150,21 +157,47 @@ export const ThemeProvider = ({ children }) => {
   }, []); // eslint-disable-line
   useEffect(() => {
     const root = document.documentElement;
-    root.style.setProperty('--primary', theme.primary);
-    root.style.setProperty('--primary-dark', darkenHex(theme.primary, 20));
-    root.style.setProperty('--secondary', theme.secondary);
-    root.style.setProperty('--dark', theme.secondary);
-    root.style.setProperty('--darker', darkenHex(theme.secondary, 10));
-    root.style.setProperty('--light', theme.bg);
-    root.style.setProperty('--radius', theme.radius);
-    root.style.setProperty('--radius-sm', `calc(${theme.radius} - 4px)`);
-    root.style.setProperty('--nav-bg', theme.nav);
-    root.style.setProperty('--footer-bg', theme.footer);
-    root.style.setProperty('--card-bg', theme.card);
-    root.style.setProperty('--text-color', theme.text);
+    const set = (k, v) => root.style.setProperty(k, v);
+    const dark = luminance(theme.bg) < 0.4;
+
+    set('--primary', theme.primary);
+    set('--primary-dark', darkenHex(theme.primary, 20));
+    set('--primary-soft', mixHex(theme.primary, theme.card, 0.12));
+    set('--on-primary', luminance(theme.primary) > 0.55 ? '#111111' : '#ffffff');
+    set('--secondary', theme.secondary);
+    set('--dark', theme.secondary);
+    set('--darker', darkenHex(theme.secondary, 10));
+    set('--light', theme.bg);
+    set('--bg', theme.bg);
+    set('--radius', theme.radius);
+    set('--radius-sm', `calc(${theme.radius} - 4px)`);
+    set('--nav-bg', theme.nav);
+    set('--nav-text', luminance(theme.nav) > 0.5 ? '#1a1a2e' : '#ffffff');
+    set('--footer-bg', theme.footer);
+    set('--card-bg', theme.card);
+    set('--surface-2', mixHex(theme.text, theme.card, 0.05));
+    set('--text-color', theme.text);
+    set('--gray', mixHex(theme.text, theme.card, 0.62));
+    set('--border', mixHex(theme.text, theme.card, 0.14));
+    set('--input-bg', dark ? mixHex(theme.text, theme.card, 0.06) : theme.card);
+    set('--shadow', dark ? '0 4px 20px rgba(0,0,0,0.45)' : '0 1px 2px rgba(16,24,40,0.05), 0 4px 16px rgba(16,24,40,0.06)');
+    set('--shadow-hover', dark ? '0 10px 30px rgba(0,0,0,0.6)' : '0 10px 30px rgba(16,24,40,0.14)');
+
+    root.setAttribute('data-btn', theme.btnStyle || 'filled');
+    root.setAttribute('data-mode', dark ? 'dark' : 'light');
+    root.style.colorScheme = dark ? 'dark' : 'light';
     document.body.style.background = theme.bg;
     document.body.style.color = theme.text;
     document.body.style.fontFamily = theme.font;
+
+    // Load the chosen Google font on demand
+    const family = (theme.font.match(/'([^']+)'/) || [])[1];
+    if (family && !['Georgia'].includes(family)) {
+      const id = 'theme-font-link';
+      let link = document.getElementById(id);
+      if (!link) { link = document.createElement('link'); link.id = id; link.rel = 'stylesheet'; document.head.appendChild(link); }
+      link.href = `https://fonts.googleapis.com/css2?family=${family.replace(/ /g, '+')}:wght@400;500;600;700;800&display=swap`;
+    }
   }, [theme]);
 
   const saveTheme = (newTheme) => {
@@ -226,6 +259,34 @@ function darkenHex(hex, amt) {
     const b = Math.max(0, (num & 0xff) - amt);
     return '#' + ((r << 16) | (g << 8) | b).toString(16).padStart(6, '0');
   } catch { return hex; }
+}
+
+function toRgb(hex) {
+  const h = (hex || '#000000').replace('#', '');
+  const full = h.length === 3 ? h.split('').map(c => c + c).join('') : h.padEnd(6, '0');
+  const n = parseInt(full.slice(0, 6), 16);
+  return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+}
+
+// Utility: mix color a into color b by ratio (0-1 = amount of a)
+function mixHex(a, b, ratio) {
+  try {
+    const [r1, g1, b1] = toRgb(a);
+    const [r2, g2, b2] = toRgb(b);
+    const m = (x, y) => Math.round(x * ratio + y * (1 - ratio));
+    return '#' + ((m(r1, r2) << 16) | (m(g1, g2) << 8) | m(b1, b2)).toString(16).padStart(6, '0');
+  } catch { return a; }
+}
+
+// Utility: relative luminance 0 (black) - 1 (white)
+function luminance(hex) {
+  try {
+    const [r, g, b] = toRgb(hex).map(v => {
+      const c = v / 255;
+      return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+    });
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  } catch { return 1; }
 }
 
 export default ThemeContext;

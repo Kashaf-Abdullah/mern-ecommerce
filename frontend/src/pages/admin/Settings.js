@@ -9,6 +9,10 @@ const PRESETS = [
   { name: 'Forest', primary: '#16a34a', secondary: '#14532d', bg: '#f0fdf4', nav: '#ffffff', footer: '#14532d', card: '#ffffff', text: '#14532d' },
   { name: 'Royal', primary: '#7c3aed', secondary: '#1e1b4b', bg: '#faf5ff', nav: '#ffffff', footer: '#1e1b4b', card: '#ffffff', text: '#1e1b4b' },
   { name: 'Sunset', primary: '#f97316', secondary: '#431407', bg: '#fff7ed', nav: '#ffffff', footer: '#431407', card: '#ffffff', text: '#1c1917' },
+  { name: 'Midnight (Dark)', primary: '#8b5cf6', secondary: '#0b1020', bg: '#0b1020', nav: '#111832', footer: '#080c19', card: '#151d3b', text: '#e8ebf7' },
+  { name: 'Charcoal (Dark)', primary: '#f59e0b', secondary: '#18181b', bg: '#121214', nav: '#18181b', footer: '#0c0c0e', card: '#1d1d21', text: '#f4f4f5' },
+  { name: 'Mono', primary: '#111827', secondary: '#111827', bg: '#ffffff', nav: '#ffffff', footer: '#f3f4f6', card: '#ffffff', text: '#111827' },
+  { name: 'Rose', primary: '#e11d48', secondary: '#4c0519', bg: '#fff1f2', nav: '#ffffff', footer: '#4c0519', card: '#ffffff', text: '#4c0519' },
 ];
 
 const TEXT_SECTIONS = {
@@ -39,23 +43,23 @@ const TEXT_SECTIONS = {
 };
 
 const SectionCard = ({ title, children }) => (
-  <div style={{ background: '#fff', border: '1px solid #f0f0f0', borderRadius: 12, marginBottom: 16, overflow: 'hidden' }}>
-    <div style={{ padding: '14px 20px', borderBottom: '1px solid #f5f5f5', fontWeight: 700, fontSize: 15 }}>{title}</div>
+  <div style={{ background: 'var(--card-bg)', border: '1px solid var(--border)', borderRadius: 12, marginBottom: 16, overflow: 'hidden' }}>
+    <div style={{ padding: '14px 20px', borderBottom: '1px solid var(--border)', fontWeight: 700, fontSize: 15 }}>{title}</div>
     <div style={{ padding: '8px 20px 16px' }}>{children}</div>
   </div>
 );
 
 const FieldRow = ({ label, children }) => (
-  <div className="admin-setting-row" style={{ display: 'flex', alignItems: 'flex-start', gap: 16, padding: '10px 0', borderBottom: '1px solid #f9f9f9' }}>
-    <label style={{ fontSize: 13, color: '#666', minWidth: 180, paddingTop: 8 }}>{label}</label>
+  <div className="admin-setting-row" style={{ display: 'flex', alignItems: 'flex-start', gap: 16, padding: '10px 0', borderBottom: '1px solid var(--border)' }}>
+    <label style={{ fontSize: 13, color: 'var(--gray)', minWidth: 180, paddingTop: 8 }}>{label}</label>
     <div style={{ flex: 1 }}>{children}</div>
   </div>
 );
 
 const inputStyle = {
-  width: '100%', padding: '9px 12px', border: '2px solid #e0e0e0',
+  width: '100%', padding: '9px 12px', border: '2px solid var(--border)',
   borderRadius: 8, fontSize: 14, fontFamily: 'inherit',
-  background: '#fff', color: '#1a1a2e', outline: 'none',
+  background: 'var(--card-bg)', color: 'var(--text-color)', outline: 'none',
 };
 
 const AdminSettings = () => {
@@ -196,11 +200,11 @@ const AdminSettings = () => {
       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
         <input type="color" value={localTheme[themeKey] || '#000000'}
           onChange={e => updateLocalTheme(themeKey, e.target.value)}
-          style={{ width: 44, height: 34, border: '2px solid #e0e0e0', borderRadius: 8, padding: 2, cursor: 'pointer' }} />
+          style={{ width: 44, height: 34, border: '2px solid var(--border)', borderRadius: 8, padding: 2, cursor: 'pointer' }} />
         <input type="text" value={localTheme[themeKey] || ''}
           onChange={e => updateLocalTheme(themeKey, e.target.value)}
           style={{ ...inputStyle, width: 110, padding: '7px 10px', fontFamily: 'monospace', fontSize: 13 }} />
-        {subtitle && <span style={{ fontSize: 12, color: '#aaa' }}>{subtitle}</span>}
+        {subtitle && <span style={{ fontSize: 12, color: 'var(--gray)' }}>{subtitle}</span>}
       </div>
     </FieldRow>
   );
@@ -222,13 +226,13 @@ const AdminSettings = () => {
       </div>
 
       {/* Tabs */}
-      <div className="admin-setting-tabs" style={{ display: 'flex', gap: 4, borderBottom: '2px solid #f0f0f0', marginBottom: 24 }}>
+      <div className="admin-setting-tabs" style={{ display: 'flex', gap: 4, borderBottom: '2px solid var(--border)', marginBottom: 24 }}>
         {tabs.map(tb => (
           <button key={tb.id} onClick={() => setTab(tb.id)}
             style={{
               padding: '10px 20px', fontWeight: tab === tb.id ? 700 : 500, fontSize: 14,
               background: 'none', border: 'none', cursor: 'pointer',
-              color: tab === tb.id ? 'var(--primary)' : '#666',
+              color: tab === tb.id ? 'var(--primary)' : 'var(--gray)',
               borderBottom: `3px solid ${tab === tb.id ? 'var(--primary)' : 'transparent'}`,
               marginBottom: -2, transition: 'all 0.2s'
             }}>{tb.label}</button>
@@ -245,7 +249,7 @@ const AdminSettings = () => {
                   style={{
                     padding: '8px 16px', borderRadius: 8, fontSize: 13, cursor: 'pointer',
                     background: p.bg, color: p.text,
-                    border: localTheme.primary === p.primary ? `2px solid ${p.primary}` : '2px solid #e0e0e0',
+                    border: localTheme.primary === p.primary ? `2px solid ${p.primary}` : '2px solid var(--border)',
                     fontWeight: localTheme.primary === p.primary ? 700 : 400,
                     boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
                     borderLeft: `5px solid ${p.primary}`, transition: 'all 0.2s'
@@ -270,7 +274,10 @@ const AdminSettings = () => {
             <FieldRow label="Font Family">
               <select value={localTheme.font} onChange={e => updateLocalTheme('font', e.target.value)}
                 style={{ ...inputStyle, width: 240 }}>
+                <option value="'Plus Jakarta Sans', sans-serif">Plus Jakarta Sans</option>
+                <option value="'Manrope', sans-serif">Manrope</option>
                 <option value="'DM Sans', sans-serif">DM Sans</option>
+                <option value="'Playfair Display', serif">Playfair Display (Serif)</option>
                 <option value="'Inter', sans-serif">Inter</option>
                 <option value="'Poppins', sans-serif">Poppins</option>
                 <option value="'Nunito', sans-serif">Nunito</option>
@@ -299,7 +306,7 @@ const AdminSettings = () => {
 
           {/* Live Preview */}
           <SectionCard title="Live Preview">
-            <div style={{ background: '#f5f5f5', borderRadius: 12, padding: 16 }}>
+            <div style={{ background: 'var(--surface-2)', borderRadius: 12, padding: 16 }}>
               <div style={{ background: localTheme.nav, padding: '12px 20px', borderRadius: 10, display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14, boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
                 <span style={{ fontWeight: 800, fontSize: 20, color: localTheme.primary }}>{localTheme.logoText || localTexts.storeName || 'ShopNow'}</span>
                 <div style={{ display: 'flex', gap: 10 }}>
@@ -317,7 +324,7 @@ const AdminSettings = () => {
               </div>
               <div style={{ display: 'flex', gap: 14 }}>
                 {[1, 2, 3].map(n => (
-                  <div key={n} style={{ background: localTheme.card, borderRadius: localTheme.radius, padding: 14, flex: 1, border: '1px solid #e0e0e0' }}>
+                  <div key={n} style={{ background: localTheme.card, borderRadius: localTheme.radius, padding: 14, flex: 1, border: '1px solid var(--border)' }}>
                     <div style={{ height: 80, background: '#f0f0f0', borderRadius: 8, marginBottom: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 28 }}>🛍️</div>
                     <div style={{ fontWeight: 600, fontSize: 13, color: localTheme.text, marginBottom: 4 }}>Product {n}</div>
                     <div style={{ fontWeight: 700, fontSize: 16, color: localTheme.primary }}>Rs.{999 * n}</div>
@@ -380,9 +387,9 @@ const AdminSettings = () => {
                 <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
                   {localTheme.logoImage ? (
                     <img src={localTheme.logoImage.url} alt="Logo"
-                      style={{ maxWidth: 150, maxHeight: 60, objectFit: 'contain', border: '1px solid #e0e0e0', borderRadius: 8, padding: 8 }} />
+                      style={{ maxWidth: 150, maxHeight: 60, objectFit: 'contain', border: '1px solid var(--border)', borderRadius: 8, padding: 8 }} />
                   ) : (
-                    <div style={{ width: 150, height: 60, border: '2px dashed #e0e0e0', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#888', fontSize: 12 }}>
+                    <div style={{ width: 150, height: 60, border: '2px dashed var(--border)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--gray)', fontSize: 12 }}>
                       No logo uploaded
                     </div>
                   )}
@@ -504,7 +511,7 @@ const AdminSettings = () => {
       {/* ===== SOCIAL TAB ===== */}
       {tab === 'social' && (
         <div>
-          <p style={{ fontSize: 14, color: '#666', marginBottom: 20 }}>
+          <p style={{ fontSize: 14, color: 'var(--gray)', marginBottom: 20 }}>
             Tick the social icons you want to show, then add the corresponding URL.
           </p>
           <SectionCard title="Social Media Links">
@@ -518,7 +525,7 @@ const AdminSettings = () => {
             ].map(field => (
               <FieldRow key={field.key} label={field.label}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12, width: '100%' }}>
-                  <label style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 13, color: '#444' }}>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 13, color: 'var(--text-color)' }}>
                     <input type="checkbox"
                       checked={localSocials[field.key]?.enabled || false}
                       onChange={e => updateLocalSocialEnabled(field.key, e.target.checked)} />
@@ -533,7 +540,7 @@ const AdminSettings = () => {
                       ...inputStyle,
                       flex: 1,
                       opacity: localSocials[field.key]?.enabled ? 1 : 0.6,
-                      background: localSocials[field.key]?.enabled ? '#fff' : '#f7f7f7',
+                      background: localSocials[field.key]?.enabled ? 'var(--card-bg)' : 'var(--surface-2)',
                     }} />
                 </div>
               </FieldRow>
@@ -583,12 +590,12 @@ const AdminSettings = () => {
       {tab === 'shipping' && (
         <div>
           <SectionCard title="Shipping Charges">
-            <p style={{ fontSize: 14, color: '#666', marginBottom: 12 }}>
+            <p style={{ fontSize: 14, color: 'var(--gray)', marginBottom: 12 }}>
               Set the delivery fee in PKR. Orders of Rs.500 or more continue to qualify for free shipping.
             </p>
             <FieldRow label="Shipping fee (PKR)">
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                <span style={{ fontSize: 14, fontWeight: 700, color: '#555' }}>Rs.</span>
+                <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--gray)' }}>Rs.</span>
                 <input
                   type="number"
                   min="0"
@@ -612,32 +619,32 @@ const AdminSettings = () => {
       {/* ===== PAYMENT TAB ===== */}
       {tab === 'payment' && (
         <div>
-          <p style={{ fontSize: 14, color: '#666', marginBottom: 20 }}>
+          <p style={{ fontSize: 14, color: 'var(--gray)', marginBottom: 20 }}>
             Choose which payment methods customers can use at checkout.
           </p>
 
           {/* COD */}
           <div style={{
-            border: `2px solid ${localPayment.cod ? '#22c55e' : '#e0e0e0'}`,
+            border: `2px solid ${localPayment.cod ? '#22c55e' : 'var(--border)'}`,
             borderRadius: 12, padding: 20, marginBottom: 16,
-            background: localPayment.cod ? 'rgba(34,197,94,0.04)' : '#fff'
+            background: localPayment.cod ? 'rgba(34,197,94,0.04)' : 'var(--card-bg)'
           }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-                <div style={{ width: 48, height: 48, borderRadius: 12, background: '#f5f5f5', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}>💵</div>
+                <div style={{ width: 48, height: 48, borderRadius: 12, background: 'var(--surface-2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}>💵</div>
                 <div>
                   <div style={{ fontWeight: 700, fontSize: 16 }}>Cash on Delivery (COD)</div>
-                  <div style={{ fontSize: 13, color: '#666', marginTop: 3 }}>Customer pays cash when order arrives at their door.</div>
+                  <div style={{ fontSize: 13, color: 'var(--gray)', marginTop: 3 }}>Customer pays cash when order arrives at their door.</div>
                 </div>
               </div>
               <label style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer' }}>
-                <span style={{ fontSize: 13, color: '#666' }}>Enable</span>
+                <span style={{ fontSize: 13, color: 'var(--gray)' }}>Enable</span>
                 <div onClick={() => updateLocalPayment('cod', !localPayment.cod)}
                   style={{
                     width: 44, height: 24, borderRadius: 12, cursor: 'pointer', position: 'relative', transition: 'background 0.2s',
                     background: localPayment.cod ? '#22c55e' : '#ccc'
                   }}>
-                  <div style={{ position: 'absolute', width: 18, height: 18, borderRadius: '50%', background: '#fff', top: 3, left: localPayment.cod ? 23 : 3, transition: 'left 0.2s' }} />
+                  <div style={{ position: 'absolute', width: 18, height: 18, borderRadius: '50%', background: 'var(--card-bg)', top: 3, left: localPayment.cod ? 23 : 3, transition: 'left 0.2s' }} />
                 </div>
               </label>
             </div>
@@ -650,32 +657,32 @@ const AdminSettings = () => {
 
           {/* Receipt Upload */}
           <div style={{
-            border: `2px solid ${localPayment.receipt ? '#3b82f6' : '#e0e0e0'}`,
+            border: `2px solid ${localPayment.receipt ? '#3b82f6' : 'var(--border)'}`,
             borderRadius: 12, padding: 20, marginBottom: 16,
-            background: localPayment.receipt ? 'rgba(59,130,246,0.04)' : '#fff'
+            background: localPayment.receipt ? 'rgba(59,130,246,0.04)' : 'var(--card-bg)'
           }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-                <div style={{ width: 48, height: 48, borderRadius: 12, background: '#f5f5f5', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}>🧾</div>
+                <div style={{ width: 48, height: 48, borderRadius: 12, background: 'var(--surface-2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}>🧾</div>
                 <div>
                   <div style={{ fontWeight: 700, fontSize: 16 }}>Bank Transfer + Receipt Upload</div>
-                  <div style={{ fontSize: 13, color: '#666', marginTop: 3 }}>Customer transfers to your bank & uploads receipt screenshot. You verify before shipping.</div>
+                  <div style={{ fontSize: 13, color: 'var(--gray)', marginTop: 3 }}>Customer transfers to your bank & uploads receipt screenshot. You verify before shipping.</div>
                 </div>
               </div>
               <label style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer' }}>
-                <span style={{ fontSize: 13, color: '#666' }}>Enable</span>
+                <span style={{ fontSize: 13, color: 'var(--gray)' }}>Enable</span>
                 <div onClick={() => updateLocalPayment('receipt', !localPayment.receipt)}
                   style={{
                     width: 44, height: 24, borderRadius: 12, cursor: 'pointer', position: 'relative', transition: 'background 0.2s',
                     background: localPayment.receipt ? '#3b82f6' : '#ccc'
                   }}>
-                  <div style={{ position: 'absolute', width: 18, height: 18, borderRadius: '50%', background: '#fff', top: 3, left: localPayment.receipt ? 23 : 3, transition: 'left 0.2s' }} />
+                  <div style={{ position: 'absolute', width: 18, height: 18, borderRadius: '50%', background: 'var(--card-bg)', top: 3, left: localPayment.receipt ? 23 : 3, transition: 'left 0.2s' }} />
                 </div>
               </label>
             </div>
 
             {localPayment.receipt && (
-              <div style={{ borderTop: '1px solid #e0e0e0', paddingTop: 18, marginTop: 8 }}>
+              <div style={{ borderTop: '1px solid var(--border)', paddingTop: 18, marginTop: 8 }}>
                 <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 16 }}>Your Bank Account Details</div>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
                   {[
@@ -686,7 +693,7 @@ const AdminSettings = () => {
                     { key: 'bankUpi', label: 'UPI ID (optional)', placeholder: 'e.g. yourstore@upi' },
                   ].map(f => (
                     <div key={f.key} style={{ gridColumn: f.span === 2 ? 'span 2' : 'span 1' }}>
-                      <label style={{ fontSize: 13, fontWeight: 600, color: '#555', marginBottom: 6, display: 'block' }}>{f.label}</label>
+                      <label style={{ fontSize: 13, fontWeight: 600, color: 'var(--gray)', marginBottom: 6, display: 'block' }}>{f.label}</label>
                       <input type="text" value={localPayment[f.key] || ''}
                         onChange={e => updateLocalPayment(f.key, e.target.value)}
                         placeholder={f.placeholder}
@@ -694,7 +701,7 @@ const AdminSettings = () => {
                     </div>
                   ))}
                   <div style={{ gridColumn: 'span 2' }}>
-                    <label style={{ fontSize: 13, fontWeight: 600, color: '#555', marginBottom: 6, display: 'block' }}>
+                    <label style={{ fontSize: 13, fontWeight: 600, color: 'var(--gray)', marginBottom: 6, display: 'block' }}>
                       Instructions for Customer
                     </label>
                     <textarea rows={3} value={localPayment.bankNote || ''}
@@ -705,23 +712,23 @@ const AdminSettings = () => {
                 </div>
 
                 {/* Preview how it looks at checkout */}
-                <div style={{ marginTop: 20, background: '#f9f9f9', borderRadius: 12, padding: 16 }}>
-                  <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 12, color: '#555' }}>👁 Customer Checkout Preview</div>
-                  <div style={{ background: '#fff', border: '1px solid #e0e0e0', borderRadius: 10, padding: 16 }}>
+                <div style={{ marginTop: 20, background: 'var(--surface-2)', borderRadius: 12, padding: 16 }}>
+                  <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 12, color: 'var(--gray)' }}>👁 Customer Checkout Preview</div>
+                  <div style={{ background: 'var(--card-bg)', border: '1px solid var(--border)', borderRadius: 10, padding: 16 }}>
                     <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 10 }}>Bank Transfer Details</div>
                     <div style={{ display: 'grid', gridTemplateColumns: '120px 1fr', gap: '6px 12px', fontSize: 13, marginBottom: 14 }}>
-                      {localPayment.bankHolder && <><span style={{ color: '#888' }}>Name</span><span style={{ fontWeight: 600 }}>{localPayment.bankHolder}</span></>}
-                      {localPayment.bankName && <><span style={{ color: '#888' }}>Bank</span><span>{localPayment.bankName}</span></>}
-                      {localPayment.bankAcc && <><span style={{ color: '#888' }}>Account</span><span style={{ fontFamily: 'monospace', fontWeight: 600 }}>{localPayment.bankAcc}</span></>}
-                      {localPayment.bankIfsc && <><span style={{ color: '#888' }}>IFSC</span><span style={{ fontFamily: 'monospace' }}>{localPayment.bankIfsc}</span></>}
-                      {localPayment.bankUpi && <><span style={{ color: '#888' }}>UPI</span><span style={{ color: '#3b82f6' }}>{localPayment.bankUpi}</span></>}
+                      {localPayment.bankHolder && <><span style={{ color: 'var(--gray)' }}>Name</span><span style={{ fontWeight: 600 }}>{localPayment.bankHolder}</span></>}
+                      {localPayment.bankName && <><span style={{ color: 'var(--gray)' }}>Bank</span><span>{localPayment.bankName}</span></>}
+                      {localPayment.bankAcc && <><span style={{ color: 'var(--gray)' }}>Account</span><span style={{ fontFamily: 'monospace', fontWeight: 600 }}>{localPayment.bankAcc}</span></>}
+                      {localPayment.bankIfsc && <><span style={{ color: 'var(--gray)' }}>IFSC</span><span style={{ fontFamily: 'monospace' }}>{localPayment.bankIfsc}</span></>}
+                      {localPayment.bankUpi && <><span style={{ color: 'var(--gray)' }}>UPI</span><span style={{ color: '#3b82f6' }}>{localPayment.bankUpi}</span></>}
                     </div>
                     {localPayment.bankNote && (
-                      <div style={{ fontSize: 12, color: '#666', background: '#fff8e1', padding: '8px 12px', borderRadius: 8, marginBottom: 12 }}>
+                      <div style={{ fontSize: 12, color: 'var(--gray)', background: 'var(--surface-2)', padding: '8px 12px', borderRadius: 8, marginBottom: 12 }}>
                         ℹ️ {localPayment.bankNote}
                       </div>
                     )}
-                    <div style={{ border: '2px dashed #d1d5db', borderRadius: 10, padding: 20, textAlign: 'center', color: '#888', fontSize: 13 }}>
+                    <div style={{ border: '2px dashed #d1d5db', borderRadius: 10, padding: 20, textAlign: 'center', color: 'var(--gray)', fontSize: 13 }}>
                       📎 <strong>Upload Payment Receipt</strong><br />
                       <span style={{ fontSize: 12 }}>Screenshot or photo of transaction confirmation</span>
                     </div>
@@ -732,7 +739,7 @@ const AdminSettings = () => {
           </div>
 
           {/* Active methods summary */}
-          <div style={{ background: '#f9f9f9', borderRadius: 10, padding: '12px 16px', marginBottom: 20, fontSize: 14 }}>
+          <div style={{ background: 'var(--surface-2)', borderRadius: 10, padding: '12px 16px', marginBottom: 20, fontSize: 14 }}>
             <strong>Active payment methods: </strong>
             {[localPayment.cod && 'Cash on Delivery', localPayment.receipt && 'Bank Transfer + Receipt'].filter(Boolean).join(', ') || (
               <span style={{ color: '#dc3545' }}>⚠️ None selected — please enable at least one!</span>

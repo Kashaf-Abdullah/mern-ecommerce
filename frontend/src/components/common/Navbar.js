@@ -73,7 +73,7 @@
 //       <div style={{ background: navBg }} className="container">
 //         <div style={{ display: 'flex', alignItems: 'center', height: 64, gap: 20 }}>
 //           {/* Logo / Store name */}
-//           <Link to="/" style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 24, color: primary, whiteSpace: 'nowrap' }}>
+//           <Link to="/" style={{ fontWeight: 800, fontSize: 24, color: primary, whiteSpace: 'nowrap' }}>
 //             {t('storeName') || 'ShopNow'}
 //           </Link>
 
@@ -93,17 +93,17 @@
 //               </button>
 //             </form>
 //             {showSuggestions && suggestions.length > 0 && (
-//               <div style={{ position: 'absolute', top: '110%', left: 0, right: 0, background: '#fff', borderRadius: 8, boxShadow: '0 8px 30px rgba(0,0,0,0.15)', zIndex: 100, border: '1px solid #e0e0e0', overflow: 'hidden' }}>
+//               <div style={{ position: 'absolute', top: '110%', left: 0, right: 0, background: 'var(--card-bg)', borderRadius: 8, boxShadow: '0 8px 30px rgba(0,0,0,0.15)', zIndex: 100, border: '1px solid #e0e0e0', overflow: 'hidden' }}>
 //                 {suggestions.map(s => (
 //                   <div key={s._id}
 //                     onClick={() => { navigate(`/products/${s._id}`); setSearch(''); setShowSuggestions(false); }}
-//                     style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 16px', cursor: 'pointer', borderBottom: '1px solid #f5f5f5' }}
-//                     onMouseEnter={e => e.currentTarget.style.background = '#fafafa'}
-//                     onMouseLeave={e => e.currentTarget.style.background = '#fff'}>
+//                     style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 16px', cursor: 'pointer', borderBottom: '1px solid var(--border)' }}
+//                     onMouseEnter={e => e.currentTarget.style.background = 'var(--surface-2)'}
+//                     onMouseLeave={e => e.currentTarget.style.background = 'var(--card-bg)'}>
 //                     <img src={s.images?.[0]?.url} alt={s.name} style={{ width: 38, height: 38, objectFit: 'cover', borderRadius: 6 }} />
 //                     <div>
 //                       <div style={{ fontSize: 14, fontWeight: 500 }}>{s.name}</div>
-//                       <div style={{ fontSize: 12, color: '#888' }}>{s.brand}</div>
+//                       <div style={{ fontSize: 12, color: 'var(--gray)' }}>{s.brand}</div>
 //                     </div>
 //                   </div>
 //                 ))}
@@ -131,23 +131,23 @@
 //                   <FiChevronDown size={14} />
 //                 </button>
 //                 {userMenuOpen && (
-//                   <div style={{ position: 'absolute', right: 0, top: '110%', background: '#fff', borderRadius: 10, boxShadow: '0 8px 30px rgba(0,0,0,0.15)', minWidth: 180, zIndex: 100, border: '1px solid #e0e0e0', overflow: 'hidden' }}>
+//                   <div style={{ position: 'absolute', right: 0, top: '110%', background: 'var(--card-bg)', borderRadius: 10, boxShadow: '0 8px 30px rgba(0,0,0,0.15)', minWidth: 180, zIndex: 100, border: '1px solid #e0e0e0', overflow: 'hidden' }}>
 //                     {[
 //                       { to: '/profile', icon: <FiUser size={15} />, label: 'My Profile' },
 //                       { to: '/orders',  icon: <FiPackage size={15} />, label: 'My Orders' },
 //                       ...(isAdmin ? [{ to: '/admin', icon: <FiSettings size={15} />, label: 'Admin Panel' }] : [])
 //                     ].map(item => (
 //                       <Link key={item.to} to={item.to} onClick={() => setUserMenuOpen(false)}
-//                         style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 16px', fontSize: 14, borderBottom: '1px solid #f5f5f5', color: textColor, textDecoration: 'none' }}
-//                         onMouseEnter={e => e.currentTarget.style.background = '#fafafa'}
-//                         onMouseLeave={e => e.currentTarget.style.background = '#fff'}>
+//                         style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 16px', fontSize: 14, borderBottom: '1px solid var(--border)', color: textColor, textDecoration: 'none' }}
+//                         onMouseEnter={e => e.currentTarget.style.background = 'var(--surface-2)'}
+//                         onMouseLeave={e => e.currentTarget.style.background = 'var(--card-bg)'}>
 //                         {item.icon} {item.label}
 //                       </Link>
 //                     ))}
 //                     <button onClick={() => { logout(); setUserMenuOpen(false); }}
 //                       style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 16px', fontSize: 14, width: '100%', background: 'none', border: 'none', color: '#dc3545', cursor: 'pointer' }}
 //                       onMouseEnter={e => e.currentTarget.style.background = '#fff5f5'}
-//                       onMouseLeave={e => e.currentTarget.style.background = '#fff'}>
+//                       onMouseLeave={e => e.currentTarget.style.background = 'var(--card-bg)'}>
 //                       <FiLogOut size={15} /> Logout
 //                     </button>
 //                   </div>
@@ -168,9 +168,9 @@
 //         <div className="container" style={{ display: 'flex', gap: 4, overflowX: 'auto', padding: '8px 20px' }}>
 //           {['All Products', 'Electronics', 'Fashion', 'Home & Kitchen', 'Sports', 'Books'].map(cat => (
 //             <Link key={cat} to={cat === 'All Products' ? '/products' : `/products?search=${cat}`}
-//               style={{ padding: '6px 14px', borderRadius: 6, fontSize: 13, fontWeight: 500, whiteSpace: 'nowrap', color: '#444', background: 'transparent', textDecoration: 'none', transition: 'all 0.2s' }}
+//               style={{ padding: '6px 14px', borderRadius: 6, fontSize: 13, fontWeight: 500, whiteSpace: 'nowrap', color: 'var(--text-color)', background: 'transparent', textDecoration: 'none', transition: 'all 0.2s' }}
 //               onMouseEnter={e => { e.currentTarget.style.background = primary + '18'; e.currentTarget.style.color = primary; }}
-//               onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#444'; }}>
+//               onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--text-color)'; }}>
 //               {cat}
 //             </Link>
 //           ))}
@@ -221,8 +221,8 @@ const Navbar = () => {
   const secondary = theme.secondary || '#1a1a2e';
 
   // Determine if navbar has dark background (for text color contrast)
-  const isDarkNav = navBg.toLowerCase() === '#ffffff' || navBg.toLowerCase() === '#fff' ? false : true;
-  const categoryLinkColor = isDarkNav ? '#e0e0e0' : '#444';
+  const isDarkNav = document.documentElement.getAttribute('data-nav-dark') === '1' || (() => { const n = parseInt((navBg || '#ffffff').replace('#','').padEnd(6,'0').slice(0,6), 16); return (0.299*((n>>16)&255) + 0.587*((n>>8)&255) + 0.114*(n&255)) < 128; })();
+  const categoryLinkColor = isDarkNav ? 'var(--border)' : '#444';
   const categoryLinkHoverBg = isDarkNav ? 'rgba(255,255,255,0.1)' : primary + '18';
 
   useEffect(() => {
@@ -299,19 +299,19 @@ const Navbar = () => {
     showSuggestions && suggestions.length > 0 ? (
       <div style={{
         position: 'absolute', top: '110%', left: 0, right: 0, zIndex: 300,
-        background: '#fff', borderRadius: 10, border: '1px solid #e0e0e0',
+        background: 'var(--card-bg)', borderRadius: 10, border: '1px solid var(--border)',
         boxShadow: '0 8px 30px rgba(0,0,0,0.15)', overflow: 'hidden'
       }}>
         {suggestions.map(s => (
           <div key={s._id}
             onClick={() => { navigate(`/products/${s._id}`); setSearch(''); setShowSuggestions(false); setMobileSearchOpen(false); }}
-            style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 16px', cursor: 'pointer', borderBottom: '1px solid #f5f5f5' }}
-            onMouseEnter={e => e.currentTarget.style.background = '#fafafa'}
-            onMouseLeave={e => e.currentTarget.style.background = '#fff'}>
+            style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 16px', cursor: 'pointer', borderBottom: '1px solid var(--border)' }}
+            onMouseEnter={e => e.currentTarget.style.background = 'var(--surface-2)'}
+            onMouseLeave={e => e.currentTarget.style.background = 'var(--card-bg)'}>
             <img src={s.images?.[0]?.url} alt={s.name} style={{ width: 38, height: 38, objectFit: 'cover', borderRadius: 6 }} />
             <div>
               <div style={{ fontSize: 14, fontWeight: 500, color: textColor }}>{s.name}</div>
-              <div style={{ fontSize: 12, color: '#888' }}>{s.brand}</div>
+              <div style={{ fontSize: 12, color: 'var(--gray)' }}>{s.brand}</div>
             </div>
           </div>
         ))}
@@ -321,11 +321,11 @@ const Navbar = () => {
   const Badge = ({ count }) =>
     count > 0 ? (
       <span style={{
-        position: 'absolute', top: -7, right: -7, background: primary, color: '#fff',
+        position: 'absolute', top: -7, right: -7, background: primary, color: 'var(--on-primary)',
         fontSize: 9, fontWeight: 700, lineHeight: 1, borderRadius: 999,
         minWidth: 17, height: 17, padding: '0 3px', boxSizing: 'border-box',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        border: '2px solid #fff'
+        border: '2px solid var(--nav-bg)'
       }}>
         {count}
       </span>
@@ -342,13 +342,13 @@ const Navbar = () => {
           onChange={e => setSearch(e.target.value)}
           onFocus={() => suggestions.length > 0 && setShowSuggestions(true)}
           style={{
-            flex: 1, padding: '9px 14px', border: '2px solid #e0e0e0', borderRight: 'none',
+            flex: 1, padding: '9px 14px', border: '2px solid var(--border)', borderRight: 'none',
             borderRadius: '8px 0 0 8px', fontSize: 14, outline: 'none',
             color: textColor, background: '#fafafa', minWidth: 0
           }}
         />
         <button type="submit" style={{
-          background: primary, color: '#fff', padding: '9px 14px',
+          background: primary, color: 'var(--on-primary)', padding: '9px 14px',
           border: 'none', cursor: 'pointer', borderRadius: '0 8px 8px 0',
           display: 'flex', alignItems: 'center', flexShrink: 0
         }}>
@@ -476,7 +476,7 @@ const Navbar = () => {
                     <div ref={userMenuRef} style={{ position: 'relative' }}>
                       <button onClick={() => setUserMenuOpen(v => !v)} style={{
                         display: 'flex', alignItems: 'center', gap: 8, background: 'none',
-                        padding: '6px 10px', borderRadius: 8, border: '2px solid #e0e0e0',
+                        padding: '6px 10px', borderRadius: 8, border: '2px solid var(--border)',
                         cursor: 'pointer', color: textColor
                       }}>
                         <img src={user.avatar?.url} alt={user.name}
@@ -488,9 +488,9 @@ const Navbar = () => {
                       </button>
                       {userMenuOpen && (
                         <div style={{
-                          position: 'absolute', right: 0, top: '110%', background: '#fff',
+                          position: 'absolute', right: 0, top: '110%', background: 'var(--card-bg)',
                           borderRadius: 10, minWidth: 180, zIndex: 300,
-                          border: '1px solid #e0e0e0', boxShadow: '0 8px 30px rgba(0,0,0,0.15)', overflow: 'hidden'
+                          border: '1px solid var(--border)', boxShadow: '0 8px 30px rgba(0,0,0,0.15)', overflow: 'hidden'
                         }}>
                           {[
                             { to: '/profile', icon: <FiUser size={14} />,    label: 'My Profile' },
@@ -500,10 +500,10 @@ const Navbar = () => {
                           ].map(item => (
                             <Link key={item.to} to={item.to} onClick={() => setUserMenuOpen(false)} style={{
                               display: 'flex', alignItems: 'center', gap: 10, padding: '11px 16px',
-                              fontSize: 14, color: textColor, textDecoration: 'none', borderBottom: '1px solid #f5f5f5'
+                              fontSize: 14, color: textColor, textDecoration: 'none', borderBottom: '1px solid var(--border)'
                             }}
-                              onMouseEnter={e => e.currentTarget.style.background = '#fafafa'}
-                              onMouseLeave={e => e.currentTarget.style.background = '#fff'}>
+                              onMouseEnter={e => e.currentTarget.style.background = 'var(--surface-2)'}
+                              onMouseLeave={e => e.currentTarget.style.background = 'var(--card-bg)'}>
                               {item.icon} {item.label}
                             </Link>
                           ))}
@@ -511,8 +511,8 @@ const Navbar = () => {
                             display: 'flex', alignItems: 'center', gap: 10, padding: '11px 16px',
                             fontSize: 14, width: '100%', background: 'none', border: 'none', color: '#dc3545', cursor: 'pointer'
                           }}
-                            onMouseEnter={e => e.currentTarget.style.background = '#fff5f5'}
-                            onMouseLeave={e => e.currentTarget.style.background = '#fff'}>
+                            onMouseEnter={e => e.currentTarget.style.background = 'var(--primary-soft)'}
+                            onMouseLeave={e => e.currentTarget.style.background = 'var(--card-bg)'}>
                             <FiLogOut size={14} /> Logout
                           </button>
                         </div>
@@ -549,7 +549,7 @@ const Navbar = () => {
                     whiteSpace: 'nowrap', color: categoryLinkColor, textDecoration: 'none',
                     transition: 'all 0.2s', background: 'transparent'
                   }}
-                  onMouseEnter={e => { e.currentTarget.style.background = categoryLinkHoverBg; e.currentTarget.style.color = isDarkNav ? '#fff' : primary; }}
+                  onMouseEnter={e => { e.currentTarget.style.background = categoryLinkHoverBg; e.currentTarget.style.color = isDarkNav ? 'var(--card-bg)' : primary; }}
                   onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = categoryLinkColor; }}>
                   {cat.name}
                 </Link>
@@ -566,7 +566,7 @@ const Navbar = () => {
         }}>
           <div onClick={e => e.stopPropagation()} style={{
             position: 'absolute', top: 0, right: 0, width: 'min(300px, 90vw)', height: '100%',
-            background: '#fff', overflowY: 'auto', display: 'flex', flexDirection: 'column',
+            background: 'var(--card-bg)', overflowY: 'auto', display: 'flex', flexDirection: 'column',
             boxShadow: '-4px 0 30px rgba(0,0,0,0.15)'
           }}>
 
@@ -576,7 +576,7 @@ const Navbar = () => {
               padding: '18px 20px', borderBottom: '1px solid #f0f0f0', flexShrink: 0
             }}>
               <Link to="/" onClick={() => setMobileMenuOpen(false)} style={{
-                fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 20,
+                fontWeight: 800, fontSize: 20,
                 color: primary, textDecoration: 'none'
               }}>
                 {t('storeName') || 'ShopNow'}
@@ -596,7 +596,7 @@ const Navbar = () => {
                     style={{ width: 44, height: 44, borderRadius: '50%', objectFit: 'cover' }} />
                   <div>
                     <div style={{ fontWeight: 600, fontSize: 15, color: textColor }}>{user.name}</div>
-                    <div style={{ fontSize: 12, color: '#888' }}>{user.email}</div>
+                    <div style={{ fontSize: 12, color: 'var(--gray)' }}>{user.email}</div>
                   </div>
                 </div>
                 {[
@@ -607,7 +607,7 @@ const Navbar = () => {
                 ].map(item => (
                   <Link key={item.to} to={item.to} onClick={() => setMobileMenuOpen(false)} style={{
                     display: 'flex', alignItems: 'center', gap: 12, padding: '11px 0',
-                    fontSize: 15, color: textColor, textDecoration: 'none', borderBottom: '1px solid #f5f5f5'
+                    fontSize: 15, color: textColor, textDecoration: 'none', borderBottom: '1px solid var(--border)'
                   }}>
                     {item.icon} {item.label}
                   </Link>
@@ -636,7 +636,7 @@ const Navbar = () => {
 
             {/* Categories */}
             <div style={{ padding: '14px 20px', flex: 1 }}>
-              <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 1, color: '#aaa', textTransform: 'uppercase', marginBottom: 10 }}>
+              <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 1, color: 'var(--gray)', textTransform: 'uppercase', marginBottom: 10 }}>
                 Categories
               </div>
               {[{ name: 'All Products', _id: '' }, ...categories].map(cat => (
@@ -645,7 +645,7 @@ const Navbar = () => {
                   onClick={() => setMobileMenuOpen(false)}
                   style={{
                     display: 'block', padding: '12px 0', fontSize: 15,
-                    color: textColor, textDecoration: 'none', borderBottom: '1px solid #f5f5f5',
+                    color: textColor, textDecoration: 'none', borderBottom: '1px solid var(--border)',
                     transition: 'color 0.2s'
                   }}
                   onMouseEnter={e => e.currentTarget.style.color = primary}

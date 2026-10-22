@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 const TabBtn = ({ active, onClick, children }) => (
   <button onClick={onClick} style={{
     padding: '10px 20px', fontWeight: 600, fontSize: 14, background: 'none',
-    color: active ? 'var(--primary)' : '#666',
+    color: active ? 'var(--primary)' : 'var(--gray)',
     borderBottom: `2px solid ${active ? 'var(--primary)' : 'transparent'}`,
     transition: 'all 0.2s', whiteSpace: 'nowrap'
   }}>{children}</button>
@@ -74,16 +74,17 @@ const Profile = () => {
       <h1 style={{ fontSize: 26, fontWeight: 800, marginBottom: 28 }}>My Account</h1>
 
       {/* Profile Header */}
-      <div className="card" style={{ padding: 28, marginBottom: 24, display: 'flex', alignItems: 'center', gap: 20 }}>
-        <div style={{ position: 'relative' }}>
-          <img src={user?.avatar?.url} alt={user?.name}
-            style={{ width: 80, height: 80, borderRadius: '50%', objectFit: 'cover', border: '3px solid var(--primary)' }} />
+      <div className="card profile-head">
+        <div className="profile-avatar">
+          {user?.avatar?.url
+            ? <img src={user.avatar.url} alt={user?.name} />
+            : <span>{(user?.name || '?').trim().charAt(0).toUpperCase()}</span>}
         </div>
         <div>
           <h2 style={{ fontSize: 20, fontWeight: 700 }}>{user?.name}</h2>
           <div style={{ color: 'var(--gray)', fontSize: 14, marginTop: 4 }}>{user?.email}</div>
           <div style={{ marginTop: 8 }}>
-            <span style={{ background: 'rgba(233,69,96,0.1)', color: 'var(--primary)', padding: '3px 10px', borderRadius: 20, fontSize: 12, fontWeight: 600, textTransform: 'capitalize' }}>
+            <span style={{ background: 'var(--primary-soft)', color: 'var(--primary)', padding: '3px 10px', borderRadius: 20, fontSize: 12, fontWeight: 600, textTransform: 'capitalize' }}>
               {user?.role}
             </span>
             {user?.isEmailVerified && (
@@ -97,7 +98,7 @@ const Profile = () => {
 
       {/* Tabs */}
       <div className="card" style={{ padding: 0 }}>
-        <div style={{ display: 'flex', borderBottom: '1px solid #f0f0f0', overflowX: 'auto' }}>
+        <div style={{ display: 'flex', borderBottom: '1px solid var(--border)', overflowX: 'auto' }}>
           <TabBtn active={tab === 'profile'} onClick={() => setTab('profile')}>Profile</TabBtn>
           <TabBtn active={tab === 'addresses'} onClick={() => setTab('addresses')}>Addresses</TabBtn>
           <TabBtn active={tab === 'security'} onClick={() => setTab('security')}>Security</TabBtn>
@@ -123,7 +124,7 @@ const Profile = () => {
               </div>
               <div className="form-group">
                 <label>Email Address</label>
-                <input type="email" value={user?.email} className="form-control" disabled style={{ background: '#f9f9f9', color: '#888' }} />
+                <input type="email" value={user?.email} className="form-control" disabled style={{ background: 'var(--surface-2)', color: 'var(--gray)' }} />
               </div>
               <button onClick={handleProfileSave} disabled={saving} className="btn btn-primary">
                 {saving ? 'Saving...' : 'Save Changes'}
@@ -142,7 +143,7 @@ const Profile = () => {
               </div>
 
               {showAddressForm && (
-                <form onSubmit={handleAddAddress} style={{ background: '#f9f9f9', padding: 20, borderRadius: 12, marginBottom: 20 }}>
+                <form onSubmit={handleAddAddress} style={{ background: 'var(--surface-2)', padding: 20, borderRadius: 12, marginBottom: 20 }}>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
                     {[
                       { key: 'fullName', label: 'Full Name', span: 1 },
@@ -179,14 +180,14 @@ const Profile = () => {
               ) : (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
                   {user.addresses.map(addr => (
-                    <div key={addr._id} style={{ padding: '16px 20px', border: `2px solid ${addr.isDefault ? 'var(--primary)' : '#e0e0e0'}`, borderRadius: 10, position: 'relative' }}>
+                    <div key={addr._id} style={{ padding: '16px 20px', border: `2px solid ${addr.isDefault ? 'var(--primary)' : 'var(--border)'}`, borderRadius: 10, position: 'relative' }}>
                       {addr.isDefault && (
-                        <span style={{ position: 'absolute', top: 10, right: 10, background: 'rgba(233,69,96,0.1)', color: 'var(--primary)', fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 4 }}>
+                        <span style={{ position: 'absolute', top: 10, right: 10, background: 'var(--primary-soft)', color: 'var(--primary)', fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 4 }}>
                           DEFAULT
                         </span>
                       )}
                       <div style={{ fontWeight: 600, fontSize: 15 }}>{addr.fullName}</div>
-                      <div style={{ fontSize: 13, color: '#666', marginTop: 4, lineHeight: 1.7 }}>
+                      <div style={{ fontSize: 13, color: 'var(--gray)', marginTop: 4, lineHeight: 1.7 }}>
                         {addr.addressLine1}, {addr.city}, {addr.state} - {addr.pincode}<br />
                         {addr.phone}
                       </div>

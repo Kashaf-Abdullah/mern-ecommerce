@@ -45,7 +45,7 @@ const AdminUsers = () => {
       {/* Filters */}
       <div style={{ display: 'flex', gap: 14, marginBottom: 20 }}>
         <div style={{ position: 'relative', flex: 1, maxWidth: 380 }}>
-          <FiSearch style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#aaa' }} size={16} />
+          <FiSearch style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: 'var(--gray)' }} size={16} />
           <input type="text" placeholder="Search by name or email..." value={search}
             onChange={e => { setSearch(e.target.value); setPage(1); }}
             className="form-control" style={{ paddingLeft: 42 }} />
@@ -77,23 +77,23 @@ const AdminUsers = () => {
               {loading ? (
                 <tr><td colSpan={7} style={{ textAlign: 'center', padding: 40 }}><div className="spinner" style={{ margin: '0 auto' }} /></td></tr>
               ) : users.length === 0 ? (
-                <tr><td colSpan={7} style={{ textAlign: 'center', padding: 40, color: '#aaa' }}>No users found</td></tr>
+                <tr><td colSpan={7} style={{ textAlign: 'center', padding: 40, color: 'var(--gray)' }}>No users found</td></tr>
               ) : users.map(user => (
                 <tr key={user._id}>
                   <td>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                       <img src={user.avatar?.url} alt={user.name}
-                        style={{ width: 40, height: 40, borderRadius: '50%', objectFit: 'cover', border: '2px solid #f0f0f0' }} />
+                        style={{ width: 40, height: 40, borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--border)' }} />
                       <div>
                         <div style={{ fontWeight: 600, fontSize: 14 }}>{user.name}</div>
-                        <div style={{ fontSize: 12, color: '#888' }}>{user.email}</div>
+                        <div style={{ fontSize: 12, color: 'var(--gray)' }}>{user.email}</div>
                       </div>
                     </div>
                   </td>
                   <td>
                     <span style={{
-                      background: user.role === 'admin' ? 'rgba(233,69,96,0.1)' : user.role === 'subadmin' ? 'rgba(255,193,7,0.15)' : 'rgba(108,117,125,0.1)',
-                      color: user.role === 'admin' ? 'var(--primary)' : user.role === 'subadmin' ? '#856404' : '#666',
+                      background: user.role === 'admin' ? 'var(--primary-soft)' : user.role === 'subadmin' ? 'rgba(255,193,7,0.15)' : 'rgba(108,117,125,0.1)',
+                      color: user.role === 'admin' ? 'var(--primary)' : user.role === 'subadmin' ? '#856404' : 'var(--gray)',
                       padding: '3px 10px', borderRadius: 20, fontSize: 12, fontWeight: 700, textTransform: 'capitalize'
                     }}>{user.role}</span>
                   </td>
@@ -109,10 +109,10 @@ const AdminUsers = () => {
                       padding: '3px 10px', borderRadius: 20, fontSize: 12, fontWeight: 700
                     }}>{user.isActive ? 'Active' : 'Blocked'}</span>
                   </td>
-                  <td style={{ fontSize: 13, color: '#888' }}>
+                  <td style={{ fontSize: 13, color: 'var(--gray)' }}>
                     {user.lastLogin ? new Date(user.lastLogin).toLocaleDateString() : '—'}
                   </td>
-                  <td style={{ fontSize: 13, color: '#888' }}>{new Date(user.createdAt).toLocaleDateString()}</td>
+                  <td style={{ fontSize: 13, color: 'var(--gray)' }}>{new Date(user.createdAt).toLocaleDateString()}</td>
                   <td>
                     {user.role !== 'admin' && (
                       <button
@@ -135,7 +135,7 @@ const AdminUsers = () => {
         </div>
 
         {totalPages > 1 && (
-          <div style={{ padding: '16px 24px', borderTop: '1px solid #f0f0f0' }}>
+          <div style={{ padding: '16px 24px', borderTop: '1px solid var(--border)' }}>
             <div className="pagination" style={{ justifyContent: 'flex-start', marginTop: 0 }}>
               {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
                 <button key={p} onClick={() => setPage(p)} className={`page-btn${page === p ? ' active' : ''}`}>{p}</button>

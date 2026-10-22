@@ -121,18 +121,18 @@ const AdminOrders = () => {
               {loading ? (
                 <tr><td colSpan={8} style={{ textAlign: 'center', padding: 40 }}><div className="spinner" style={{ margin: '0 auto' }} /></td></tr>
               ) : orders.length === 0 ? (
-                <tr><td colSpan={8} style={{ textAlign: 'center', padding: 40, color: '#aaa' }}>No orders found</td></tr>
+                <tr><td colSpan={8} style={{ textAlign: 'center', padding: 40, color: 'var(--gray)' }}>No orders found</td></tr>
               ) : orders.map(order => (
                 <tr key={order._id}>
                   <td style={{ fontWeight: 700, fontSize: 13, color: 'var(--primary)' }}>{order.orderId}</td>
                   <td>
                     <div style={{ fontWeight: 500, fontSize: 14 }}>{order.user?.name || order.shippingAddress?.fullName}</div>
-                    <div style={{ fontSize: 12, color: '#888' }}>{order.user?.email || order.guestEmail}</div>
+                    <div style={{ fontSize: 12, color: 'var(--gray)' }}>{order.user?.email || order.guestEmail}</div>
                   </td>
                   <td style={{ fontSize: 13 }}>{order.items?.length} item(s)</td>
                   <td style={{ fontWeight: 700 }}>Rs.{order.totalPrice?.toFixed(2)}</td>
                   <td>
-                    <span style={{ fontSize: 12, background: '#f5f5f5', padding: '3px 8px', borderRadius: 4, textTransform: 'uppercase', fontWeight: 600 }}>
+                    <span style={{ fontSize: 12, background: 'var(--surface-2)', padding: '3px 8px', borderRadius: 4, textTransform: 'uppercase', fontWeight: 600 }}>
                       {order.paymentMethod}
                     </span>
                     <div style={{ fontSize: 11, color: order.isPaid ? 'var(--success)' : '#ffc107', fontWeight: 600, marginTop: 3 }}>
@@ -146,7 +146,7 @@ const AdminOrders = () => {
                       padding: '4px 12px', borderRadius: 20, fontSize: 12, fontWeight: 700, textTransform: 'capitalize'
                     }}>{order.orderStatus}</span>
                   </td>
-                  <td style={{ fontSize: 13, color: '#888' }}>{new Date(order.createdAt).toLocaleDateString()}</td>
+                  <td style={{ fontSize: 13, color: 'var(--gray)' }}>{new Date(order.createdAt).toLocaleDateString()}</td>
                   <td>
                     <button onClick={() => openUpdateModal(order)}
                       className="btn btn-outline btn-sm" style={{ gap: 6 }}>
@@ -160,7 +160,7 @@ const AdminOrders = () => {
         </div>
 
         {totalPages > 1 && (
-          <div style={{ padding: '16px 24px', borderTop: '1px solid #f0f0f0' }}>
+          <div style={{ padding: '16px 24px', borderTop: '1px solid var(--border)' }}>
             <div className="pagination" style={{ justifyContent: 'flex-start', marginTop: 0 }}>
               {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
                 <button key={p} onClick={() => setPage(p)} className={`page-btn${page === p ? ' active' : ''}`}>{p}</button>
@@ -173,17 +173,17 @@ const AdminOrders = () => {
       {/* Status Update Modal */}
       {selectedOrder && (
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20, overflowY: 'auto' }}>
-          <div className="admin-order-modal" style={{ background: '#fff', borderRadius: 16, width: '100%', maxWidth: 860, minWidth: 540, maxHeight: '90vh', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-            <div style={{ padding: '22px 28px', borderBottom: '1px solid #f0f0f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div className="admin-order-modal" style={{ background: 'var(--card-bg)', borderRadius: 16, width: '100%', maxWidth: 860, minWidth: 540, maxHeight: '90vh', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+            <div style={{ padding: '22px 28px', borderBottom: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <h2 style={{ fontSize: 18, fontWeight: 700 }}>Order Details</h2>
-              <button onClick={closeOrderModal} style={{ background: '#f5f5f5', border: 'none', width: 34, height: 34, borderRadius: 8, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <button onClick={closeOrderModal} style={{ background: 'var(--surface-2)', border: 'none', width: 34, height: 34, borderRadius: 8, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <FiX size={18} />
               </button>
             </div>
 
             <div style={{ padding: '22px 28px', overflowY: 'auto', flex: 1 }}>
               {/* Order Info */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 20, padding: 16, background: '#f9f9f9', borderRadius: 10 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 20, padding: 16, background: 'var(--surface-2)', borderRadius: 10 }}>
                 {[
                   { label: 'Order ID', value: selectedOrder.orderId },
                   { label: 'Customer', value: selectedOrder.user?.name || selectedOrder.shippingAddress?.fullName },
@@ -200,7 +200,7 @@ const AdminOrders = () => {
                   { label: 'Date', value: new Date(selectedOrder.createdAt).toLocaleDateString() },
                 ].map(item => (
                   <div key={item.label}>
-                    <div style={{ fontSize: 11, color: '#888', fontWeight: 600, textTransform: 'uppercase', marginBottom: 3 }}>{item.label}</div>
+                    <div style={{ fontSize: 11, color: 'var(--gray)', fontWeight: 600, textTransform: 'uppercase', marginBottom: 3 }}>{item.label}</div>
                     <div style={{ fontSize: 14, fontWeight: 600, textTransform: item.label === 'Address' ? 'none' : 'capitalize' }}>{item.value}</div>
                   </div>
                 ))}
@@ -208,13 +208,13 @@ const AdminOrders = () => {
 
               {/* Items */}
               <div style={{ marginBottom: 20 }}>
-                <div style={{ fontSize: 13, fontWeight: 700, color: '#888', marginBottom: 10, textTransform: 'uppercase' }}>Items</div>
+                <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--gray)', marginBottom: 10, textTransform: 'uppercase' }}>Items</div>
                 {selectedOrder.items?.map((item, i) => (
                   <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '8px 0', borderBottom: '1px solid #f5f5f5' }}>
                     <img src={item.image} alt={item.name} style={{ width: 40, height: 40, objectFit: 'cover', borderRadius: 6 }} />
                     <div style={{ flex: 1, fontSize: 13 }}>
                       <div style={{ fontWeight: 500 }}>{item.name}</div>
-                      <div style={{ color: '#888' }}>Qty: {item.quantity}</div>
+                      <div style={{ color: 'var(--gray)' }}>Qty: {item.quantity}</div>
                     </div>
                     <div style={{ fontWeight: 700, fontSize: 14 }}>Rs.{(item.price * item.quantity).toLocaleString()}</div>
                   </div>
@@ -224,14 +224,14 @@ const AdminOrders = () => {
               {/* Update Status */}
               {nextStatuses.length > 0 ? (
                 <form onSubmit={handleStatusUpdate}>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: '#888', marginBottom: 12, textTransform: 'uppercase' }}>Update Status</div>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--gray)', marginBottom: 12, textTransform: 'uppercase' }}>Update Status</div>
                   <div style={{ display: 'flex', gap: 10, marginBottom: 14 }}>
                     {nextStatuses.map(s => (
                       <label key={s} style={{
-                        flex: 1, padding: '10px 14px', border: `2px solid ${statusForm.status === s ? statusColors[s] : '#e0e0e0'}`,
+                        flex: 1, padding: '10px 14px', border: `2px solid ${statusForm.status === s ? statusColors[s] : 'var(--border)'}`,
                         borderRadius: 10, cursor: 'pointer', textAlign: 'center', fontSize: 14, fontWeight: 600,
-                        background: statusForm.status === s ? statusColors[s] + '15' : '#fff',
-                        color: statusForm.status === s ? statusColors[s] : '#666',
+                        background: statusForm.status === s ? statusColors[s] + '15' : 'var(--card-bg)',
+                        color: statusForm.status === s ? statusColors[s] : 'var(--gray)',
                         transition: 'all 0.2s', textTransform: 'capitalize'
                       }}>
                         <input type="radio" name="status" value={s}
@@ -267,7 +267,7 @@ const AdminOrders = () => {
                   </div>
                 </form>
               ) : (
-                <div style={{ padding: '14px 18px', background: '#f9f9f9', borderRadius: 10, fontSize: 14, color: '#888', textAlign: 'center' }}>
+                <div style={{ padding: '14px 18px', background: 'var(--surface-2)', borderRadius: 10, fontSize: 14, color: 'var(--gray)', textAlign: 'center' }}>
                   No further status updates available for this order.
                 </div>
               )}

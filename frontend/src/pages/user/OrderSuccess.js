@@ -33,11 +33,11 @@ const OrderSuccess = () => {
         <div className="card" style={{ padding: 24, textAlign: 'left', marginBottom: 24 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
             <div>
-              <div style={{ fontSize: 12, color: '#888', fontWeight: 600 }}>ORDER ID</div>
+              <div style={{ fontSize: 12, color: 'var(--gray)', fontWeight: 600 }}>ORDER ID</div>
               <div style={{ fontSize: 16, fontWeight: 700 }}>{order.orderId || orderId}</div>
             </div>
             <div style={{ textAlign: 'right' }}>
-              <div style={{ fontSize: 12, color: '#888', fontWeight: 600 }}>TOTAL</div>
+              <div style={{ fontSize: 12, color: 'var(--gray)', fontWeight: 600 }}>TOTAL</div>
               <div style={{ fontSize: 20, fontWeight: 800, color: 'var(--primary)' }}>Rs.{order.totalPrice?.toFixed(2)}</div>
             </div>
           </div>
@@ -45,7 +45,7 @@ const OrderSuccess = () => {
             <span style={{ background: '#e8f5e9', color: 'var(--success)', padding: '4px 12px', borderRadius: 6, fontSize: 13, fontWeight: 600 }}>
               {order.orderStatus}
             </span>
-            <span style={{ background: '#f5f5f5', color: '#666', padding: '4px 12px', borderRadius: 6, fontSize: 13 }}>
+            <span style={{ background: 'var(--surface-2)', color: 'var(--gray)', padding: '4px 12px', borderRadius: 6, fontSize: 13 }}>
               {order.paymentMethod?.toUpperCase()}
             </span>
           </div>

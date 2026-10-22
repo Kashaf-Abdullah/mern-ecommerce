@@ -87,7 +87,7 @@ const AdminNotifications = () => {
       <div style={{ marginBottom: 24, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
         <div>
           <h1 style={{ fontSize: 28, fontWeight: 800, marginBottom: 6 }}>Notifications</h1>
-          <p style={{ color: '#6b7280' }}>Post notifications to all users or specific users and review the notification history.</p>
+          <p style={{ color: 'var(--gray)' }}>Post notifications to all users or specific users and review the notification history.</p>
         </div>
       </div>
 
@@ -134,9 +134,9 @@ const AdminNotifications = () => {
               <div>
                 <label>Select Users</label>
                 {usersLoading ? (
-                  <div style={{ padding: 12, color: '#6b7280' }}>Loading users...</div>
+                  <div style={{ padding: 12, color: 'var(--gray)' }}>Loading users...</div>
                 ) : (
-                  <div style={{ maxHeight: 200, overflowY: 'auto', border: '1px solid #e5e7eb', borderRadius: 8, padding: 8 }}>
+                  <div style={{ maxHeight: 200, overflowY: 'auto', border: '1px solid var(--border)', borderRadius: 8, padding: 8 }}>
                     {allUsers.map(user => (
                       <label key={user._id} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: 4 }}>
                         <input
@@ -156,7 +156,7 @@ const AdminNotifications = () => {
                   </div>
                 )}
                 {selectedUsers.length > 0 && (
-                  <div style={{ marginTop: 8, fontSize: 14, color: '#6b7280' }}>
+                  <div style={{ marginTop: 8, fontSize: 14, color: 'var(--gray)' }}>
                     {selectedUsers.length} user{selectedUsers.length > 1 ? 's' : ''} selected
                   </div>
                 )}
@@ -172,28 +172,28 @@ const AdminNotifications = () => {
       <div className="card" style={{ padding: 24 }}>
         <h2 style={{ fontSize: 18, fontWeight: 700, marginBottom: 18 }}>Sent Notifications</h2>
         {loading ? (
-          <div style={{ color: '#6b7280' }}>Loading notifications...</div>
+          <div style={{ color: 'var(--gray)' }}>Loading notifications...</div>
         ) : notifications.length === 0 ? (
-          <div style={{ color: '#6b7280' }}>No notifications posted yet.</div>
+          <div style={{ color: 'var(--gray)' }}>No notifications posted yet.</div>
         ) : (
           <div style={{ display: 'grid', gap: 16 }}>
             {notifications.map(notification => (
-              <div key={notification._id} style={{ padding: 18, borderRadius: 14, border: '1px solid #e5e7eb', background: '#fff' }}>
+              <div key={notification._id} style={{ padding: 18, borderRadius: 14, border: '1px solid var(--border)', background: 'var(--card-bg)' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
                   <h3 style={{ margin: 0, fontSize: 16, fontWeight: 700 }}>{notification.title}</h3>
                   <div style={{ textAlign: 'right' }}>
-                    <span style={{ color: '#6b7280', fontSize: 13 }}>{new Date(notification.createdAt).toLocaleString()}</span>
-                    <div style={{ fontSize: 12, color: '#888', marginTop: 2 }}>
+                    <span style={{ color: 'var(--gray)', fontSize: 13 }}>{new Date(notification.createdAt).toLocaleString()}</span>
+                    <div style={{ fontSize: 12, color: 'var(--gray)', marginTop: 2 }}>
                       Sent to: {notification.targetAll ? 'All Users' : `${notification.users?.length || 0} Users`}
                     </div>
                   </div>
                 </div>
-                <p style={{ margin: '10px 0 0', color: '#444' }}>{notification.message}</p>
+                <p style={{ margin: '10px 0 0', color: 'var(--text-color)' }}>{notification.message}</p>
                 {notification.link && (
                   <a href={notification.link} target="_blank" rel="noreferrer" style={{ color: 'var(--primary)', fontSize: 14 }}>Open Link</a>
                 )}
                 {!notification.targetAll && notification.users && notification.users.length > 0 && (
-                  <div style={{ marginTop: 8, fontSize: 12, color: '#666' }}>
+                  <div style={{ marginTop: 8, fontSize: 12, color: 'var(--gray)' }}>
                     Recipients: {notification.users.map(u => u.name).join(', ')}
                   </div>
                 )}

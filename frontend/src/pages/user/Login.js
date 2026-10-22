@@ -2,21 +2,33 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FiMail, FiLock, FiEye, FiEyeOff } from 'react-icons/fi';
 import { useAuth } from '../../context/AuthContext';
+import { useTheme } from '../../context/ThemeContext';
 
-const AuthCard = ({ title, subtitle, children }) => (
-  <div className="auth-card" style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 20px' }}>
-    <div className="card auth-card-panel" style={{ padding: '40px', width: '100%', maxWidth: 440 }}>
-      <div style={{ textAlign: 'center', marginBottom: 32 }}>
-        <Link to="/" style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 28, color: 'var(--primary)' }}>
-          Shop<span style={{ color: 'var(--dark)' }}>Now</span>
-        </Link>
-        <h2 style={{ fontSize: 22, fontWeight: 700, marginTop: 16 }}>{title}</h2>
-        <p style={{ color: 'var(--gray)', fontSize: 14, marginTop: 6 }}>{subtitle}</p>
+const AuthCard = ({ title, subtitle, children }) => {
+  const { theme, t } = useTheme();
+  const name = theme.logoText || 'ShopNow';
+  return (
+    <div className="auth-card auth-shell">
+      <aside className="auth-aside">
+        <Link to="/" className="auth-brand">{name}</Link>
+        <div>
+          <h2>{t('heroTitle')}</h2>
+          <p>{t('heroSubtitle')}</p>
+        </div>
+      </aside>
+      <div className="auth-main">
+        <div className="card auth-card-panel" style={{ padding: 36, width: '100%', maxWidth: 440 }}>
+          <div style={{ marginBottom: 28 }}>
+            <Link to="/" className="auth-brand-mobile">{name}</Link>
+            <h2 style={{ fontSize: 24, fontWeight: 800 }}>{title}</h2>
+            <p style={{ color: 'var(--gray)', fontSize: 14, marginTop: 6 }}>{subtitle}</p>
+          </div>
+          {children}
+        </div>
       </div>
-      {children}
     </div>
-  </div>
-);
+  );
+};
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -44,7 +56,7 @@ export const Login = () => {
         <div className="form-group">
           <label>Email Address</label>
           <div style={{ position: 'relative' }}>
-            <FiMail style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#aaa' }} size={16} />
+            <FiMail style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: 'var(--gray)' }} size={16} />
             <input type="email" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
               className="form-control" style={{ paddingLeft: 42 }} placeholder="Enter your email" required />
           </div>
@@ -52,12 +64,12 @@ export const Login = () => {
         <div className="form-group">
           <label>Password</label>
           <div style={{ position: 'relative' }}>
-            <FiLock style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#aaa' }} size={16} />
+            <FiLock style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: 'var(--gray)' }} size={16} />
             <input type={showPwd ? 'text' : 'password'} value={form.password}
               onChange={e => setForm(f => ({ ...f, password: e.target.value }))}
               className="form-control" style={{ paddingLeft: 42, paddingRight: 42 }} placeholder="Enter your password" required />
             <button type="button" onClick={() => setShowPwd(!showPwd)}
-              style={{ position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)', background: 'none', color: '#aaa' }}>
+              style={{ position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)', background: 'none', color: 'var(--gray)' }}>
               {showPwd ? <FiEyeOff size={16} /> : <FiEye size={16} />}
             </button>
           </div>
@@ -68,7 +80,7 @@ export const Login = () => {
         <button type="submit" disabled={loading} className="btn btn-primary btn-full btn-lg" style={{ borderRadius: 10, marginBottom: 16 }}>
           {loading ? 'Signing In...' : 'Sign In'}
         </button>
-        <p style={{ textAlign: 'center', fontSize: 14, color: '#666' }}>
+        <p style={{ textAlign: 'center', fontSize: 14, color: 'var(--gray)' }}>
           Don't have an account? <Link to="/register" style={{ color: 'var(--primary)', fontWeight: 600 }}>Sign Up</Link>
         </p>
 
@@ -117,7 +129,7 @@ export const Register = () => {
         <button type="submit" disabled={loading} className="btn btn-primary btn-full btn-lg" style={{ borderRadius: 10, marginBottom: 16, marginTop: 4 }}>
           {loading ? 'Creating Account...' : 'Create Account'}
         </button>
-        <p style={{ textAlign: 'center', fontSize: 14, color: '#666' }}>
+        <p style={{ textAlign: 'center', fontSize: 14, color: 'var(--gray)' }}>
           Already have an account? <Link to="/login" style={{ color: 'var(--primary)', fontWeight: 600 }}>Sign In</Link>
         </p>
       </form>

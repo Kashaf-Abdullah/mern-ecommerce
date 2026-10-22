@@ -37,7 +37,7 @@ const Cart = () => {
   return (
     <div className="container" style={{ paddingTop: isMobile ? 20 : 30, paddingBottom: 60 }}>
       { !isAuthenticated && (
-        <div style={{ marginBottom: isMobile ? 16 : 24, padding: '14px 18px', background: '#fff8e1', border: '1px solid #ffe8a1', borderRadius: 12, color: '#856404', fontSize: isMobile ? 13 : 14 }}>
+        <div style={{ marginBottom: isMobile ? 16 : 24, padding: '14px 18px', background: 'var(--primary-soft)', border: '1px solid var(--border)', borderRadius: 12, color: 'var(--text-color)', fontSize: isMobile ? 13 : 14 }}>
           Your cart is stored locally on this device and can be checked out without an account.
         </div>
       ) }
@@ -45,7 +45,7 @@ const Cart = () => {
         Shopping Cart <span style={{ color: 'var(--gray)', fontWeight: 400, fontSize: isMobile ? 14 : 18 }}>({cart.items.length} items)</span>
       </h1>
 
-      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 340px', gap: isMobile ? 18 : 28 }}>
+      <div className="split-layout" style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 340px', gap: isMobile ? 18 : 28 }}>
         {/* Cart Items */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: isMobile ? 12 : 16 }}>
           {cart.items.map(item => {
@@ -56,25 +56,25 @@ const Cart = () => {
               <div key={item._id} className="card" style={{ padding: isMobile ? '14px 16px' : '20px 24px', display: 'flex', gap: isMobile ? 14 : 20, alignItems: 'flex-start' }}>
                 <Link to={`/products/${product._id}`}>
                   <img src={productImage} alt={product.name}
-                    style={{ width: isMobile ? 70 : 90, height: isMobile ? 70 : 90, objectFit: 'cover', borderRadius: 10, border: '1px solid #f0f0f0', flexShrink: 0 }} />
+                    style={{ width: isMobile ? 70 : 90, height: isMobile ? 70 : 90, objectFit: 'cover', borderRadius: 10, border: '1px solid var(--border)', flexShrink: 0 }} />
                 </Link>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <Link to={`/products/${product._id}`} style={{ textDecoration: 'none' }}>
-                    <h3 style={{ fontSize: isMobile ? 14 : 15, fontWeight: 600, marginBottom: 4, color: 'var(--dark)', wordBreak: 'break-word' }}>{product.name}</h3>
+                    <h3 style={{ fontSize: isMobile ? 14 : 15, fontWeight: 600, marginBottom: 4, color: 'var(--text-color)', wordBreak: 'break-word' }}>{product.name}</h3>
                   </Link>
                   <div style={{ fontSize: isMobile ? 12 : 13, color: 'var(--gray)', marginBottom: 10 }}>{product.brand}</div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? 12 : 20, flexWrap: 'wrap' }}>
                     {/* Qty control */}
-                    <div style={{ display: 'flex', alignItems: 'center', border: '2px solid #e0e0e0', borderRadius: 6, overflow: 'hidden' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', border: '2px solid var(--border)', borderRadius: 6, overflow: 'hidden' }}>
                       <button onClick={() => updateItem(item._id, item.quantity - 1)}
                         disabled={item.quantity <= 1}
-                        style={{ width: isMobile ? 30 : 34, height: isMobile ? 30 : 34, background: '#f5f5f5', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: item.quantity <= 1 ? 'not-allowed' : 'pointer', border: 'none', opacity: item.quantity <= 1 ? 0.6 : 1 }}>
+                        style={{ width: isMobile ? 30 : 34, height: isMobile ? 30 : 34, background: 'var(--surface-2)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: item.quantity <= 1 ? 'not-allowed' : 'pointer', border: 'none', opacity: item.quantity <= 1 ? 0.6 : 1 }}>
                         <FiMinus size={isMobile ? 12 : 14} />
                       </button>
                       <span style={{ width: isMobile ? 40 : 44, textAlign: 'center', fontWeight: 700, fontSize: isMobile ? 13 : 15 }}>{item.quantity}</span>
                       <button onClick={() => updateItem(item._id, item.quantity + 1)}
                         disabled={item.quantity >= product.stock}
-                        style={{ width: isMobile ? 30 : 34, height: isMobile ? 30 : 34, background: '#f5f5f5', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', border: 'none' }}>
+                        style={{ width: isMobile ? 30 : 34, height: isMobile ? 30 : 34, background: 'var(--surface-2)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', border: 'none' }}>
                         <FiPlus size={isMobile ? 12 : 14} />
                       </button>
                     </div>
@@ -104,18 +104,18 @@ const Cart = () => {
               { label: 'Tax (18% GST)', value: `Rs.${Math.round(subtotal * 0.18 * 100) / 100}` },
             ].map(row => (
               <div key={row.label} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12, fontSize: isMobile ? 13 : 14 }}>
-                <span style={{ color: '#666' }}>{row.label}</span>
+                <span style={{ color: 'var(--gray)' }}>{row.label}</span>
                 <span style={{ fontWeight: 600, color: row.color }}>{row.value}</span>
               </div>
             ))}
 
             {subtotal < 500 && (
-              <div style={{ background: '#fff8e1', padding: '10px 14px', borderRadius: 8, fontSize: isMobile ? 12 : 13, marginBottom: 14, color: '#856404', border: '1px solid #ffd54f' }}>
+              <div style={{ background: 'var(--primary-soft)', padding: '10px 14px', borderRadius: 8, fontSize: isMobile ? 12 : 13, marginBottom: 14, color: 'var(--text-color)', border: '1px solid var(--border)' }}>
                 Add Rs.{(500 - subtotal).toFixed(0)} more for free shipping!
               </div>
             )}
 
-            <div style={{ borderTop: '2px solid #f0f0f0', paddingTop: 12, marginBottom: isMobile ? 16 : 20 }}>
+            <div style={{ borderTop: '2px solid var(--border)', paddingTop: 12, marginBottom: isMobile ? 16 : 20 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: isMobile ? 16 : 18, fontWeight: 800 }}>
                 <span>Total</span>
                 <span style={{ color: 'var(--primary)' }}>Rs.{total.toFixed(2)}</span>

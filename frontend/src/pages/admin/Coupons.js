@@ -105,21 +105,21 @@ const AdminCoupons = () => {
               </thead>
               <tbody>
                 {coupons.length === 0 ? (
-                  <tr><td colSpan={7} style={{ textAlign: 'center', padding: 40, color: '#aaa' }}>No coupons yet</td></tr>
+                  <tr><td colSpan={7} style={{ textAlign: 'center', padding: 40, color: 'var(--gray)' }}>No coupons yet</td></tr>
                 ) : coupons.map(coupon => (
                   <tr key={coupon._id}>
                     <td>
-                      <div style={{ fontFamily: 'monospace', fontWeight: 800, fontSize: 15, letterSpacing: 1, color: 'var(--dark)', background: '#f5f5f5', display: 'inline-block', padding: '4px 10px', borderRadius: 6 }}>
+                      <div style={{ fontFamily: 'monospace', fontWeight: 800, fontSize: 15, letterSpacing: 1, color: 'var(--text-color)', background: 'var(--surface-2)', display: 'inline-block', padding: '4px 10px', borderRadius: 6 }}>
                         {coupon.code}
                       </div>
-                      {coupon.description && <div style={{ fontSize: 12, color: '#888', marginTop: 4 }}>{coupon.description}</div>}
+                      {coupon.description && <div style={{ fontSize: 12, color: 'var(--gray)', marginTop: 4 }}>{coupon.description}</div>}
                     </td>
                     <td>
                       <div style={{ fontWeight: 700, fontSize: 16, color: 'var(--primary)', display: 'flex', alignItems: 'center', gap: 4 }}>
                         <FiPercent size={14} />
                         {coupon.discountType === 'percentage' ? `${coupon.discountValue}%` : `Rs.${coupon.discountValue}`}
                       </div>
-                      {coupon.maxDiscount && <div style={{ fontSize: 12, color: '#888' }}>Max: Rs.{coupon.maxDiscount}</div>}
+                      {coupon.maxDiscount && <div style={{ fontSize: 12, color: 'var(--gray)' }}>Max: Rs.{coupon.maxDiscount}</div>}
                     </td>
                     <td style={{ fontSize: 14 }}>Rs.{coupon.minOrderAmount || 0}</td>
                     <td>
@@ -133,8 +133,8 @@ const AdminCoupons = () => {
                       )}
                     </td>
                     <td style={{ fontSize: 13 }}>
-                      <div style={{ color: '#444' }}>{new Date(coupon.startDate).toLocaleDateString()} –</div>
-                      <div style={{ color: isExpired(coupon) ? 'var(--danger)' : '#444' }}>{new Date(coupon.expiryDate).toLocaleDateString()}</div>
+                      <div style={{ color: 'var(--text-color)' }}>{new Date(coupon.startDate).toLocaleDateString()} –</div>
+                      <div style={{ color: isExpired(coupon) ? 'var(--danger)' : 'var(--text-color)' }}>{new Date(coupon.expiryDate).toLocaleDateString()}</div>
                     </td>
                     <td>
                       {!coupon.isActive ? (
@@ -149,7 +149,7 @@ const AdminCoupons = () => {
                     </td>
                     <td>
                       <div style={{ display: 'flex', gap: 8 }}>
-                        <button onClick={() => openEdit(coupon)} style={{ width: 32, height: 32, borderRadius: 8, border: '1px solid #e0e0e0', background: '#fff', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#555' }}>
+                        <button onClick={() => openEdit(coupon)} style={{ width: 32, height: 32, borderRadius: 8, border: '1px solid var(--border)', background: 'var(--card-bg)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--gray)' }}>
                           <FiEdit2 size={14} />
                         </button>
                         <button onClick={() => handleDelete(coupon._id)} style={{ width: 32, height: 32, borderRadius: 8, border: '1px solid #ffcdd2', background: '#fff5f5', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--danger)' }}>
@@ -168,17 +168,17 @@ const AdminCoupons = () => {
       {/* Modal */}
       {showModal && (
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
-          <div style={{ background: '#fff', borderRadius: 16, width: '100%', maxWidth: 560, maxHeight: '90vh', overflow: 'auto' }}>
-            <div style={{ padding: '22px 28px', borderBottom: '1px solid #f0f0f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'sticky', top: 0, background: '#fff', zIndex: 1 }}>
+          <div style={{ background: 'var(--card-bg)', borderRadius: 16, width: '100%', maxWidth: 560, maxHeight: '90vh', overflow: 'auto' }}>
+            <div style={{ padding: '22px 28px', borderBottom: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'sticky', top: 0, background: 'var(--card-bg)', zIndex: 1 }}>
               <h2 style={{ fontSize: 18, fontWeight: 700 }}>{editCoupon ? 'Edit Coupon' : 'Create Coupon'}</h2>
-              <button onClick={() => setShowModal(false)} style={{ background: '#f5f5f5', border: 'none', width: 34, height: 34, borderRadius: 8, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <button onClick={() => setShowModal(false)} style={{ background: 'var(--surface-2)', border: 'none', width: 34, height: 34, borderRadius: 8, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <FiX size={18} />
               </button>
             </div>
             <form onSubmit={handleSubmit} style={{ padding: '22px 28px' }}>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
                 <div style={{ gridColumn: 'span 2' }}>
-                  <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: '#555' }}>Coupon Code *</label>
+                  <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: 'var(--gray)' }}>Coupon Code *</label>
                   <input type="text" value={form.code}
                     onChange={e => setForm(f => ({ ...f, code: e.target.value.toUpperCase() }))}
                     className="form-control" placeholder="e.g. SAVE20" required
@@ -186,14 +186,14 @@ const AdminCoupons = () => {
                 </div>
 
                 <div style={{ gridColumn: 'span 2' }}>
-                  <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: '#555' }}>Description</label>
+                  <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: 'var(--gray)' }}>Description</label>
                   <input type="text" value={form.description}
                     onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
                     className="form-control" placeholder="Optional description" />
                 </div>
 
                 <div>
-                  <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: '#555' }}>Discount Type *</label>
+                  <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: 'var(--gray)' }}>Discount Type *</label>
                   <select value={form.discountType} onChange={e => setForm(f => ({ ...f, discountType: e.target.value }))}
                     className="form-control">
                     <option value="percentage">Percentage (%)</option>
@@ -202,7 +202,7 @@ const AdminCoupons = () => {
                 </div>
 
                 <div>
-                  <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: '#555' }}>
+                  <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: 'var(--gray)' }}>
                     Discount Value * {form.discountType === 'percentage' ? '(%)' : '(Rs.)'}
                   </label>
                   <input type="number" value={form.discountValue}
@@ -212,7 +212,7 @@ const AdminCoupons = () => {
 
                 {form.discountType === 'percentage' && (
                   <div>
-                    <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: '#555' }}>Max Discount (Rs.)</label>
+                    <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: 'var(--gray)' }}>Max Discount (Rs.)</label>
                     <input type="number" value={form.maxDiscount}
                       onChange={e => setForm(f => ({ ...f, maxDiscount: e.target.value }))}
                       className="form-control" min="0" placeholder="No limit" />
@@ -220,28 +220,28 @@ const AdminCoupons = () => {
                 )}
 
                 <div>
-                  <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: '#555' }}>Min Order Amount (Rs.)</label>
+                  <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: 'var(--gray)' }}>Min Order Amount (Rs.)</label>
                   <input type="number" value={form.minOrderAmount}
                     onChange={e => setForm(f => ({ ...f, minOrderAmount: e.target.value }))}
                     className="form-control" min="0" placeholder="0" />
                 </div>
 
                 <div>
-                  <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: '#555' }}>Usage Limit</label>
+                  <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: 'var(--gray)' }}>Usage Limit</label>
                   <input type="number" value={form.usageLimit}
                     onChange={e => setForm(f => ({ ...f, usageLimit: e.target.value }))}
                     className="form-control" min="0" placeholder="Unlimited" />
                 </div>
 
                 <div>
-                  <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: '#555' }}>Start Date *</label>
+                  <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: 'var(--gray)' }}>Start Date *</label>
                   <input type="date" value={form.startDate}
                     onChange={e => setForm(f => ({ ...f, startDate: e.target.value }))}
                     className="form-control" required />
                 </div>
 
                 <div>
-                  <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: '#555' }}>Expiry Date *</label>
+                  <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: 'var(--gray)' }}>Expiry Date *</label>
                   <input type="date" value={form.expiryDate}
                     onChange={e => setForm(f => ({ ...f, expiryDate: e.target.value }))}
                     className="form-control" required />
@@ -257,7 +257,7 @@ const AdminCoupons = () => {
                 </div>
               </div>
 
-              <div style={{ display: 'flex', gap: 12, justifyContent: 'flex-end', marginTop: 24, paddingTop: 20, borderTop: '1px solid #f0f0f0' }}>
+              <div style={{ display: 'flex', gap: 12, justifyContent: 'flex-end', marginTop: 24, paddingTop: 20, borderTop: '1px solid var(--border)' }}>
                 <button type="button" onClick={() => setShowModal(false)} className="btn btn-outline">Cancel</button>
                 <button type="submit" disabled={saving} className="btn btn-primary">
                   {saving ? 'Saving...' : editCoupon ? 'Update Coupon' : 'Create Coupon'}

@@ -30,7 +30,7 @@ const Wishlist = () => {
           return (
           <div key={product._id} className="card" style={{ display: 'flex', flexDirection: 'column' }}>
             <Link to={`/products/${product._id}`}>
-              <div style={{ aspectRatio: '1', overflow: 'hidden', background: '#f8f8f8' }}>
+              <div style={{ aspectRatio: '1', overflow: 'hidden', background: 'var(--surface-2)' }}>
                 <img src={productImage} alt={product.name}
                   style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.3s' }}
                   onMouseEnter={e => e.target.style.transform = 'scale(1.06)'}
@@ -45,7 +45,7 @@ const Wishlist = () => {
               <div style={{ fontSize: 17, fontWeight: 800 }}>
                 Rs.{(product.discountPrice > 0 ? product.discountPrice : product.price).toLocaleString()}
                 {product.discountPrice > 0 && (
-                  <span style={{ fontSize: 13, color: '#aaa', textDecoration: 'line-through', marginLeft: 8 }}>Rs.{product.price}</span>
+                  <span style={{ fontSize: 13, color: 'var(--gray)', textDecoration: 'line-through', marginLeft: 8 }}>Rs.{product.price}</span>
                 )}
               </div>
               <div style={{ display: 'flex', gap: 8, marginTop: 'auto' }}>

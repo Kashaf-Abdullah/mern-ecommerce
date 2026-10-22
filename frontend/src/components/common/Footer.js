@@ -3,30 +3,35 @@ import { Link } from 'react-router-dom';
 import { FiInstagram, FiTwitter, FiFacebook, FiYoutube, FiMail, FiPhone, FiMapPin } from 'react-icons/fi';
 import { FaLinkedin, FaWhatsapp } from 'react-icons/fa';
 import { useTheme } from '../../context/ThemeContext';
+import useBreakpoint from '../../hooks/useBreakpoint';
 
 const Footer = () => {
   const { theme, socials, t } = useTheme();
   const footerBg  = theme.footer  || '#1a1a2e';
   const primary   = theme.primary  || '#e94560';
-  const isMobile = window.innerWidth <= 768;
+  const { isMobile, isTablet } = useBreakpoint();
+  const fn = parseInt((footerBg).replace('#','').padEnd(6,'0').slice(0,6), 16);
+  const footerLight = (0.299*((fn>>16)&255) + 0.587*((fn>>8)&255) + 0.114*(fn&255)) > 150;
+  const muted = footerLight ? '#4b5563' : '#9ca3af';
+  const strong = footerLight ? '#111827' : '#fff';
 
   const linkStyle = {
     display: 'block', marginBottom: 10, fontSize: isMobile ? 13 : 14,
-    color: '#9ca3af', transition: 'color 0.2s', textDecoration: 'none'
+    color: muted, transition: 'color 0.2s', textDecoration: 'none'
   };
 
   return (
-    <footer style={{ background: footerBg, color: '#9ca3af', marginTop: isMobile ? 40 : 60 }}>
+    <footer style={{ background: footerBg, color: muted, marginTop: isMobile ? 40 : 60 }}>
       <div className="container" style={{ padding: isMobile ? '30px 12px 20px' : '50px 20px 30px' }}>
         <div style={{ 
           display: 'grid', 
-          gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(200px, 1fr))', 
+          gridTemplateColumns: isMobile ? '1fr 1fr' : isTablet ? 'repeat(2, 1fr)' : 'repeat(auto-fit, minmax(200px, 1fr))', 
           gap: isMobile ? 24 : 40, 
           marginBottom: isMobile ? 24 : 40 
         }}>
           {/* Brand */}
           <div>
-            <div style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: isMobile ? 20 : 26, color: primary, marginBottom: 12 }}>
+            <div style={{ fontWeight: 800, fontSize: isMobile ? 20 : 26, color: primary, marginBottom: 12 }}>
               {t('storeName') || 'ShopNow'}
             </div>
             <p style={{ fontSize: isMobile ? 13 : 14, lineHeight: 1.8, marginBottom: 16 }}>
@@ -44,7 +49,7 @@ const Footer = () => {
                 <a key={key} href={socials[key].url}
                   target="_blank"
                   rel="noreferrer"
-                  style={{ width: isMobile ? 32 : 36, height: isMobile ? 32 : 36, borderRadius: '50%', background: 'rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', transition: 'background 0.2s' }}
+                  style={{ width: isMobile ? 32 : 36, height: isMobile ? 32 : 36, borderRadius: '50%', background: 'rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: strong, transition: 'background 0.2s' }}
                   onMouseEnter={e => e.currentTarget.style.background = primary}
                   onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.08)'}>
                   <Icon size={isMobile ? 14 : 16} />
@@ -55,7 +60,7 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h4 style={{ color: '#fff', marginBottom: 16, fontSize: isMobile ? 13 : 15, fontWeight: 700 }}>
+            <h4 style={{ color: strong, marginBottom: 16, fontSize: isMobile ? 13 : 15, fontWeight: 700 }}>
               {t('quickLinksTitle') || 'Quick Links'}
             </h4>
             {[
@@ -67,7 +72,7 @@ const Footer = () => {
             ].map(l => (
               <Link key={l.to} to={l.to} style={linkStyle}
                 onMouseEnter={e => e.currentTarget.style.color = primary}
-                onMouseLeave={e => e.currentTarget.style.color = '#9ca3af'}>
+                onMouseLeave={e => e.currentTarget.style.color = 'var(--gray)'}>
                 {l.label}
               </Link>
             ))}
@@ -75,13 +80,13 @@ const Footer = () => {
 
           {/* Categories */}
           <div>
-            <h4 style={{ color: '#fff', marginBottom: 16, fontSize: isMobile ? 13 : 15, fontWeight: 700 }}>
+            <h4 style={{ color: strong, marginBottom: 16, fontSize: isMobile ? 13 : 15, fontWeight: 700 }}>
               {t('categoriesTitle') || 'Categories'}
             </h4>
             {['Electronics', 'Fashion', 'Home & Kitchen', 'Sports', 'Books'].map(cat => (
               <Link key={cat} to={`/products?search=${cat}`} style={linkStyle}
                 onMouseEnter={e => e.currentTarget.style.color = primary}
-                onMouseLeave={e => e.currentTarget.style.color = '#9ca3af'}>
+                onMouseLeave={e => e.currentTarget.style.color = 'var(--gray)'}>
                 {cat}
               </Link>
             ))}
@@ -89,7 +94,7 @@ const Footer = () => {
 
           {/* Contact */}
           <div>
-            <h4 style={{ color: '#fff', marginBottom: 16, fontSize: isMobile ? 13 : 15, fontWeight: 700 }}>
+            <h4 style={{ color: strong, marginBottom: 16, fontSize: isMobile ? 13 : 15, fontWeight: 700 }}>
               {t('contactTitle') || 'Contact Us'}
             </h4>
             {[
@@ -118,9 +123,9 @@ const Footer = () => {
           <p style={{ fontSize: isMobile ? 12 : 13 }}>{t('copyright') || '© 2024 ShopNow. All rights reserved.'}</p>
           <div style={{ display: 'flex', gap: isMobile ? 12 : 16, fontSize: isMobile ? 12 : 13, flexWrap: 'wrap' }}>
             {['Privacy Policy', 'Terms of Service', 'Refund Policy'].map(p => (
-              <a key={p} href="#" style={{ color: '#6b7280', transition: 'color 0.2s', textDecoration: 'none', whiteSpace: 'nowrap' }}
+              <a key={p} href="#" style={{ color: 'var(--gray)', transition: 'color 0.2s', textDecoration: 'none', whiteSpace: 'nowrap' }}
                 onMouseEnter={e => e.currentTarget.style.color = primary}
-                onMouseLeave={e => e.currentTarget.style.color = '#6b7280'}>
+                onMouseLeave={e => e.currentTarget.style.color = 'var(--gray)'}>
                 {p}
               </a>
             ))}

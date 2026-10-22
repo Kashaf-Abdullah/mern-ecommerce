@@ -72,10 +72,10 @@ const Dashboard = () => {
           {revenueChartData.length > 0 ? (
             <ResponsiveContainer width="100%" height={240}>
               <BarChart data={revenueChartData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                <CartesianGrid strokeDasharray="3 3" stroke="currentColor" strokeOpacity={0.12} />
                 <XAxis dataKey="name" fontSize={12} />
                 <YAxis fontSize={12} />
-                <Tooltip formatter={(value) => [`Rs.${value.toLocaleString()}`, 'Revenue']} />
+                <Tooltip formatter={(value) => [`Rs.${value.toLocaleString()}`, 'Revenue']} contentStyle={{ background: 'var(--card-bg)', border: '1px solid var(--border)', borderRadius: 8, color: 'var(--text-color)' }} />
                 <Bar dataKey="revenue" fill="var(--primary)" radius={[6, 6, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
@@ -98,7 +98,7 @@ const Dashboard = () => {
                       <Cell key={i} fill={statusColors[entry.name] || '#ccc'} />
                     ))}
                   </Pie>
-                  <Tooltip />
+                  <Tooltip contentStyle={{ background: 'var(--card-bg)', border: '1px solid var(--border)', borderRadius: 8, color: 'var(--text-color)' }} />
                 </PieChart>
               </ResponsiveContainer>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, justifyContent: 'center' }}>

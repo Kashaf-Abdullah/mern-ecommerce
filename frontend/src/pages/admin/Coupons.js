@@ -176,7 +176,7 @@ const AdminCoupons = () => {
               </button>
             </div>
             <form onSubmit={handleSubmit} style={{ padding: '22px 28px' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+              <div className="form-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
                 <div style={{ gridColumn: 'span 2' }}>
                   <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block', color: 'var(--gray)' }}>Coupon Code *</label>
                   <input type="text" value={form.code}

@@ -595,3 +595,24 @@ tr:hover td { background: var(--surface-2); }
   .product-spec-row span:first-child { min-width: 110px !important; }
   .review-summary { padding: 14px 16px; }
 }
+
+/* ===== Responsive safety net (long names, emails, addresses, big numbers) ===== */
+html, body { overflow-x: clip; }
+body { overflow-wrap: anywhere; }
+input, textarea, select, button, code, pre { overflow-wrap: normal; }
+.container, .card, .pd-gallery, .pd-info, .hero-copy, .cat-tile, .perk, .order-card,
+.products-grid > *, .cat-grid > *, .pd-grid > *, .split-layout > *, .admin-main, .auth-main { min-width: 0; }
+.cat-tile { text-align: center; }
+.pd-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important; }
+@media (max-width: 768px) {
+  .pd-grid, .split-layout { grid-template-columns: minmax(0, 1fr) !important; }
+  .cat-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .perks { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .products-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 768px) { .stack-table { min-width: 0 !important; } }
+
+/* Two-column form grids collapse on small phones */
+.form-grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+.form-grid-2 > * { min-width: 0; }
+@media (max-width: 520px) { .form-grid-2 { grid-template-columns: minmax(0, 1fr) !important; } }

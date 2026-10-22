@@ -182,7 +182,7 @@ const Profile = () => {
                   {user.addresses.map(addr => (
                     <div key={addr._id} style={{ padding: '16px 20px', border: `2px solid ${addr.isDefault ? 'var(--primary)' : 'var(--border)'}`, borderRadius: 10, position: 'relative' }}>
                       {addr.isDefault && (
-                        <span style={{ position: 'absolute', top: 10, right: 10, background: 'rgba(233,69,96,0.1)', color: 'var(--primary)', fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 4 }}>
+                        <span style={{ position: 'absolute', top: 10, right: 10, background: 'var(--primary-soft)', color: 'var(--primary)', fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 4 }}>
                           DEFAULT
                         </span>
                       )}

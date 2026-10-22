@@ -159,7 +159,7 @@
 //                   <td style={{ fontSize: 13 }}>⭐ {p.ratings} ({p.numReviews})</td>
 //                   <td>
 //                     <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-//                       {p.featured && <span style={{ background: 'rgba(233,69,96,0.1)', color: 'var(--primary)', padding: '2px 8px', borderRadius: 4, fontSize: 11, fontWeight: 600, width: 'fit-content' }}>Featured</span>}
+//                       {p.featured && <span style={{ background: 'var(--primary-soft)', color: 'var(--primary)', padding: '2px 8px', borderRadius: 4, fontSize: 11, fontWeight: 600, width: 'fit-content' }}>Featured</span>}
 //                       {p.trending && <span style={{ background: 'rgba(23,162,184,0.1)', color: '#17a2b8', padding: '2px 8px', borderRadius: 4, fontSize: 11, fontWeight: 600, width: 'fit-content' }}>Trending</span>}
 //                       {!p.featured && !p.trending && <span style={{ color: 'var(--gray)', fontSize: 12 }}>—</span>}
 //                     </div>
@@ -474,7 +474,7 @@ const ImageManager = ({ images, newFiles, onAddFiles, onRemoveExisting, onRemove
           style={{
             border: `2px dashed ${draggingOver ? 'var(--primary)' : '#d1d5db'}`,
             borderRadius: 12, padding: '36px 24px', textAlign: 'center', cursor: 'pointer',
-            background: draggingOver ? 'rgba(233,69,96,0.04)' : '#fafafa',
+            background: draggingOver ? 'var(--primary-soft)' : '#fafafa',
             transition: 'all 0.2s'
           }}>
           <FiImage size={40} color={draggingOver ? 'var(--primary)' : '#ccc'} style={{ marginBottom: 12 }} />
@@ -868,7 +868,7 @@ const AdminProducts = () => {
 
                   <td>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                      {p.featured && <span style={{ background: 'rgba(233,69,96,0.1)', color: 'var(--primary)', padding: '2px 8px', borderRadius: 20, fontSize: 11, fontWeight: 700, width: 'fit-content' }}>⭐ Featured</span>}
+                      {p.featured && <span style={{ background: 'var(--primary-soft)', color: 'var(--primary)', padding: '2px 8px', borderRadius: 20, fontSize: 11, fontWeight: 700, width: 'fit-content' }}>⭐ Featured</span>}
                       {p.trending && <span style={{ background: 'rgba(23,162,184,0.12)', color: '#0891b2', padding: '2px 8px', borderRadius: 20, fontSize: 11, fontWeight: 700, width: 'fit-content' }}>🔥 Trending</span>}
                       {!p.featured && !p.trending && <span style={{ color: '#ccc', fontSize: 12 }}>—</span>}
                     </div>
@@ -1022,7 +1022,7 @@ const AdminProducts = () => {
                     { key: 'featured', label: '⭐ Featured', desc: 'Show on homepage' },
                     { key: 'trending', label: '🔥 Trending', desc: 'Show in trending section' },
                   ].map(t => (
-                    <label key={t.key} style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', padding: '10px 16px', border: `2px solid ${form[t.key] ? 'var(--primary)' : 'var(--border)'}`, borderRadius: 10, background: form[t.key] ? 'rgba(233,69,96,0.05)' : '#fff', transition: 'all 0.2s' }}>
+                    <label key={t.key} style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', padding: '10px 16px', border: `2px solid ${form[t.key] ? 'var(--primary)' : 'var(--border)'}`, borderRadius: 10, background: form[t.key] ? 'var(--primary-soft)' : 'var(--card-bg)', transition: 'all 0.2s' }}>
                       <input type="checkbox" checked={form[t.key]}
                         onChange={e => setForm(f => ({ ...f, [t.key]: e.target.checked }))}
                         style={{ accentColor: 'var(--primary)', width: 16, height: 16 }} />

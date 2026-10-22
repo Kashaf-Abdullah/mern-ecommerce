@@ -109,7 +109,7 @@ const AdminCoupons = () => {
                 ) : coupons.map(coupon => (
                   <tr key={coupon._id}>
                     <td>
-                      <div style={{ fontFamily: 'monospace', fontWeight: 800, fontSize: 15, letterSpacing: 1, color: 'var(--dark)', background: 'var(--surface-2)', display: 'inline-block', padding: '4px 10px', borderRadius: 6 }}>
+                      <div style={{ fontFamily: 'monospace', fontWeight: 800, fontSize: 15, letterSpacing: 1, color: 'var(--text-color)', background: 'var(--surface-2)', display: 'inline-block', padding: '4px 10px', borderRadius: 6 }}>
                         {coupon.code}
                       </div>
                       {coupon.description && <div style={{ fontSize: 12, color: 'var(--gray)', marginTop: 4 }}>{coupon.description}</div>}

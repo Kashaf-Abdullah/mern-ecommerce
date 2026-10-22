@@ -627,7 +627,7 @@ const AdminSettings = () => {
           <div style={{
             border: `2px solid ${localPayment.cod ? '#22c55e' : 'var(--border)'}`,
             borderRadius: 12, padding: 20, marginBottom: 16,
-            background: localPayment.cod ? 'rgba(34,197,94,0.04)' : '#fff'
+            background: localPayment.cod ? 'rgba(34,197,94,0.04)' : 'var(--card-bg)'
           }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
@@ -659,7 +659,7 @@ const AdminSettings = () => {
           <div style={{
             border: `2px solid ${localPayment.receipt ? '#3b82f6' : 'var(--border)'}`,
             borderRadius: 12, padding: 20, marginBottom: 16,
-            background: localPayment.receipt ? 'rgba(59,130,246,0.04)' : '#fff'
+            background: localPayment.receipt ? 'rgba(59,130,246,0.04)' : 'var(--card-bg)'
           }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>

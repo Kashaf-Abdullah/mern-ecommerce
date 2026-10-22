@@ -68,7 +68,7 @@ const AdminCategories = () => {
             <div key={cat._id} className="card" style={{ padding: 22 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-                  <div style={{ width: 52, height: 52, borderRadius: 14, background: 'rgba(233,69,96,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 26 }}>
+                  <div style={{ width: 52, height: 52, borderRadius: 14, background: 'var(--primary-soft)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 26 }}>
                     {catEmojis[cat.slug] || '🏷️'}
                   </div>
                   <div>

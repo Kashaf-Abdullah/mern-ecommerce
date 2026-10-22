@@ -191,7 +191,7 @@ const Checkout = () => {
               <div style={{ width: isMobile ? 30 : 34, height: isMobile ? 30 : 34, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: i <= step ? 'var(--primary)' : 'var(--border)', color: i <= step ? '#fff' : 'var(--gray)', fontWeight: 700, fontSize: isMobile ? 12 : 14 }}>
                 {i < step ? <FiCheck size={isMobile ? 14 : 16} /> : i + 1}
               </div>
-              <span style={{ fontSize: isMobile ? 12 : 14, fontWeight: i === step ? 700 : 400, color: i <= step ? 'var(--dark)' : 'var(--gray)', whiteSpace: 'nowrap' }}>{s}</span>
+              <span style={{ fontSize: isMobile ? 12 : 14, fontWeight: i === step ? 700 : 400, color: i <= step ? 'var(--text-color)' : 'var(--gray)', whiteSpace: 'nowrap' }}>{s}</span>
             </div>
             {i < 2 && <div style={{ flex: 1, height: 2, background: i < step ? 'var(--primary)' : 'var(--border)', margin: '0 6px', minWidth: isMobile ? 8 : 12 }} />}
           </React.Fragment>
@@ -210,7 +210,7 @@ const Checkout = () => {
                 <div style={{ marginBottom: 20 }}>
                   <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--gray)', marginBottom: 10 }}>SAVED ADDRESSES</div>
                   {user.addresses.map(addr => (
-                    <div key={addr._id} onClick={() => setAddress({ ...addr, country: 'Pakistan' })} style={{ padding: isMobile ? '12px 14px' : '14px 16px', borderRadius: 10, marginBottom: 8, cursor: 'pointer', border: `2px solid ${address._id === addr._id ? 'var(--primary)' : 'var(--border)'}`, background: address._id === addr._id ? 'rgba(233,69,96,0.04)' : '#fff' }}>
+                    <div key={addr._id} onClick={() => setAddress({ ...addr, country: 'Pakistan' })} style={{ padding: isMobile ? '12px 14px' : '14px 16px', borderRadius: 10, marginBottom: 8, cursor: 'pointer', border: `2px solid ${address._id === addr._id ? 'var(--primary)' : 'var(--border)'}`, background: address._id === addr._id ? 'var(--primary-soft)' : 'var(--card-bg)' }}>
                       <div style={{ fontWeight: 600, fontSize: isMobile ? 13 : 14 }}>{addr.fullName} — {addr.phone}</div>
                       <div style={{ color: 'var(--gray)', fontSize: isMobile ? 12 : 13, marginTop: 3 }}>{addr.addressLine1}, {addr.city}, {addr.state} - {addr.pincode}</div>
                     </div>
@@ -267,13 +267,13 @@ const Checkout = () => {
               </h3>
 
               {availableMethods.length === 0 ? (
-                <div style={{ padding: isMobile ? 20 : 30, textAlign: 'center', color: '#dc3545', background: '#fff5f5', borderRadius: 10, fontSize: isMobile ? 13 : 14 }}>
+                <div style={{ padding: isMobile ? 20 : 30, textAlign: 'center', color: '#dc3545', background: 'var(--primary-soft)', borderRadius: 10, fontSize: isMobile ? 13 : 14 }}>
                   ⚠️ No payment methods configured. Please contact the store admin.
                 </div>
               ) : (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                   {availableMethods.map(opt => (
-                    <label key={opt.value} style={{ display: 'flex', alignItems: 'flex-start', gap: isMobile ? 12 : 14, padding: isMobile ? 14 : 18, border: `2px solid ${paymentMethod === opt.value ? 'var(--primary)' : 'var(--border)'}`, borderRadius: 12, cursor: 'pointer', background: paymentMethod === opt.value ? 'rgba(233,69,96,0.04)' : '#fff', transition: 'all 0.2s' }}>
+                    <label key={opt.value} style={{ display: 'flex', alignItems: 'flex-start', gap: isMobile ? 12 : 14, padding: isMobile ? 14 : 18, border: `2px solid ${paymentMethod === opt.value ? 'var(--primary)' : 'var(--border)'}`, borderRadius: 12, cursor: 'pointer', background: paymentMethod === opt.value ? 'var(--primary-soft)' : 'var(--card-bg)', transition: 'all 0.2s' }}>
                       <input type="radio" name="payment" value={opt.value} checked={paymentMethod === opt.value} onChange={() => setPaymentMethod(opt.value)} style={{ accentColor: 'var(--primary)', marginTop: 3 }} />
                       <span style={{ fontSize: isMobile ? 20 : 24, flexShrink: 0 }}>{opt.icon}</span>
                       <div style={{ flex: 1, minWidth: 0 }}>
@@ -294,7 +294,7 @@ const Checkout = () => {
                                   {paySet.bankUpi && <><span style={{ color: 'var(--gray)' }}>UPI</span><span style={{ color: '#3b82f6', fontWeight: 600, wordBreak: 'break-all' }}>{paySet.bankUpi}</span></>}
                                 </div>
                                 {paySet.bankNote && (
-                                  <div style={{ marginTop: 8, fontSize: isMobile ? 11 : 12, background: '#fff8e1', padding: '6px 10px', borderRadius: 6, color: 'var(--gray)' }}>
+                                  <div style={{ marginTop: 8, fontSize: isMobile ? 11 : 12, background: 'var(--surface-2)', padding: '6px 10px', borderRadius: 6, color: 'var(--gray)' }}>
                                     ℹ️ {paySet.bankNote}
                                   </div>
                                 )}
@@ -309,8 +309,8 @@ const Checkout = () => {
                             {!receiptFile ? (
                               <div onClick={() => fileRef.current.click()}
                                 style={{ border: '2px dashed #d1d5db', borderRadius: 10, padding: isMobile ? '16px' : '20px', textAlign: 'center', cursor: 'pointer', transition: 'all 0.2s' }}
-                                onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--primary)'; e.currentTarget.style.background = 'rgba(233,69,96,0.03)'; }}
-                                onMouseLeave={e => { e.currentTarget.style.borderColor = '#d1d5db'; e.currentTarget.style.background = 'var(--card-bg)'; }}>
+                                onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--primary)'; e.currentTarget.style.background = 'var(--primary-soft)'; }}
+                                onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.background = 'var(--card-bg)'; }}>
                                 <FiUpload size={isMobile ? 22 : 26} color="#aaa" style={{ marginBottom: 6 }} />
                                 <div style={{ fontWeight: 600, color: 'var(--gray)', fontSize: isMobile ? 12 : 13 }}>Click to upload screenshot</div>
                                 <div style={{ fontSize: isMobile ? 10 : 11, color: 'var(--gray)', marginTop: 3 }}>JPG, PNG up to 5MB</div>
@@ -319,7 +319,7 @@ const Checkout = () => {
                               <div style={{ border: '2px solid #22c55e', borderRadius: 10, padding: isMobile ? 10 : 14, display: 'flex', alignItems: 'center', gap: isMobile ? 10 : 14, background: 'rgba(34,197,94,0.04)' }}>
                                 <img src={receiptPreview} alt="Receipt" style={{ width: isMobile ? 48 : 60, height: isMobile ? 48 : 60, objectFit: 'cover', borderRadius: 6, flexShrink: 0 }} />
                                 <div style={{ flex: 1, minWidth: 0 }}>
-                                  <div style={{ fontWeight: 700, fontSize: isMobile ? 12 : 13, color: '#166534' }}>✓ Receipt uploaded!</div>
+                                  <div style={{ fontWeight: 700, fontSize: isMobile ? 12 : 13, color: '#16a34a' }}>✓ Receipt uploaded!</div>
                                   <div style={{ fontSize: isMobile ? 11 : 12, color: 'var(--gray)', marginTop: 2, wordBreak: 'break-word' }}>{receiptFile.name}</div>
                                 </div>
                                 <button onClick={e => { e.stopPropagation(); e.preventDefault(); setReceiptFile(null); setReceiptPreview(null); }}
@@ -336,8 +336,8 @@ const Checkout = () => {
                 </div>
               )}
 
-              <div style={{ display: 'flex', gap: isMobile ? 10 : 12, marginTop: isMobile ? 18 : 24, flexDirection: isMobile ? 'column' : 'row' }}>
-                <button onClick={() => setStep(0)} className="btn btn-outline btn-lg" style={{ borderRadius: 10, flex: isMobile ? 1 : undefined }}>Back</button>
+              <div style={{ display: 'flex', gap: isMobile ? 10 : 12, marginTop: isMobile ? 18 : 24, flexDirection: 'row' }}>
+                <button onClick={() => setStep(0)} className="btn btn-outline btn-lg" style={{ borderRadius: 10, flex: isMobile ? '0 0 28%' : undefined, justifyContent: 'center' }}>Back</button>
                 <button onClick={() => setStep(2)} disabled={!paymentMethod} className="btn btn-primary btn-lg" style={{ borderRadius: 10, flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', whiteSpace: 'normal' }}>Complete Your Order</button>
               </div>
             </div>
@@ -350,12 +350,18 @@ const Checkout = () => {
                 <FiTruck color="var(--primary)" /> Order Review
               </h3>
               <div style={{ background: 'var(--surface-2)', borderRadius: 10, padding: isMobile ? '12px 14px' : '14px 18px', marginBottom: 14 }}>
-                <div style={{ fontSize: 10, fontWeight: 700, color: 'var(--gray)', letterSpacing: 0.8, marginBottom: 6 }}>DELIVERY ADDRESS</div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
+                  <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--gray)', letterSpacing: 0.8 }}>DELIVERY ADDRESS</span>
+                  <button onClick={() => setStep(0)} style={{ background: 'none', border: 'none', color: 'var(--primary)', fontWeight: 700, fontSize: 12, cursor: 'pointer' }}>Change</button>
+                </div>
                 <div style={{ fontWeight: 600, fontSize: isMobile ? 13 : 14 }}>{address.fullName} — {address.phone}</div>
                 <div style={{ color: 'var(--gray)', fontSize: isMobile ? 12 : 13, marginTop: 2, wordBreak: 'break-word' }}>{address.addressLine1}, {address.city}, {address.state} {address.pincode}</div>
               </div>
               <div style={{ background: 'var(--surface-2)', borderRadius: 10, padding: isMobile ? '12px 14px' : '14px 18px', marginBottom: 14 }}>
-                <div style={{ fontSize: 10, fontWeight: 700, color: 'var(--gray)', letterSpacing: 0.8, marginBottom: 6 }}>PAYMENT METHOD</div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
+                  <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--gray)', letterSpacing: 0.8 }}>PAYMENT METHOD</span>
+                  <button onClick={() => setStep(1)} style={{ background: 'none', border: 'none', color: 'var(--primary)', fontWeight: 700, fontSize: 12, cursor: 'pointer' }}>Change</button>
+                </div>
                 <div style={{ fontWeight: 600, fontSize: isMobile ? 13 : 14 }}>{paymentMethod === 'cod' ? '💵 Cash on Delivery' : '🧾 Bank Transfer'}</div>
                 {paymentMethod === 'receipt' && receiptFile && (
                   <div style={{ fontSize: isMobile ? 12 : 13, color: '#22c55e', marginTop: 4, display: 'flex', alignItems: 'center', gap: 6 }}>
@@ -363,20 +369,8 @@ const Checkout = () => {
                   </div>
                 )}
               </div>
-              <div style={{ marginBottom: 14 }}>
-                {cart.items?.map(item => item.product && (
-                  <div key={item._id} style={{ display: 'flex', gap: isMobile ? 10 : 14, padding: '10px 0', borderBottom: '1px solid #f5f5f5', alignItems: 'flex-start' }}>
-                    <img src={getProductImageUrl(item.product)} alt={item.product.name} style={{ width: isMobile ? 48 : 56, height: isMobile ? 48 : 56, objectFit: 'cover', borderRadius: 6, flexShrink: 0 }} />
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontWeight: 600, fontSize: isMobile ? 13 : 14, wordBreak: 'break-word' }}>{item.product.name}</div>
-                      <div style={{ fontSize: isMobile ? 11 : 12, color: 'var(--gray)' }}>Qty: {item.quantity} × Rs.{item.price}</div>
-                    </div>
-                    <div style={{ fontWeight: 700, fontSize: isMobile ? 13 : 14, flexShrink: 0 }}>Rs.{(item.price * item.quantity).toLocaleString()}</div>
-                  </div>
-                ))}
-              </div>
-              <div style={{ display: 'flex', gap: isMobile ? 10 : 12, marginTop: isMobile ? 18 : 24, flexDirection: isMobile ? 'column' : 'row' }}>
-                <button onClick={() => setStep(1)} className="btn btn-outline btn-lg" style={{ borderRadius: 10, flex: isMobile ? 1 : undefined }}>Back</button>
+              <div style={{ display: 'flex', gap: isMobile ? 10 : 12, marginTop: isMobile ? 18 : 24, flexDirection: 'row' }}>
+                <button onClick={() => setStep(1)} className="btn btn-outline btn-lg" style={{ borderRadius: 10, flex: isMobile ? '0 0 28%' : undefined, justifyContent: 'center' }}>Back</button>
                 <button onClick={handlePlaceOrder} disabled={loading} className="btn btn-primary btn-lg" style={{ flex: 1, borderRadius: 10, justifyContent: 'center', fontSize: isMobile ? 13 : 14 }}>
                   {loading ? 'Placing Order...' : `Place Order • Rs.${total.toFixed(2)}`}
                 </button>

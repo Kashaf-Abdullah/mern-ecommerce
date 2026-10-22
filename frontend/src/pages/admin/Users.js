@@ -92,7 +92,7 @@ const AdminUsers = () => {
                   </td>
                   <td>
                     <span style={{
-                      background: user.role === 'admin' ? 'rgba(233,69,96,0.1)' : user.role === 'subadmin' ? 'rgba(255,193,7,0.15)' : 'rgba(108,117,125,0.1)',
+                      background: user.role === 'admin' ? 'var(--primary-soft)' : user.role === 'subadmin' ? 'rgba(255,193,7,0.15)' : 'rgba(108,117,125,0.1)',
                       color: user.role === 'admin' ? 'var(--primary)' : user.role === 'subadmin' ? '#856404' : 'var(--gray)',
                       padding: '3px 10px', borderRadius: 20, fontSize: 12, fontWeight: 700, textTransform: 'capitalize'
                     }}>{user.role}</span>

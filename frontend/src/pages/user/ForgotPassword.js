@@ -8,7 +8,7 @@ const AuthCard = ({ title, subtitle, children }) => (
     <div className="card auth-card-panel" style={{ padding: '40px', width: '100%', maxWidth: 440 }}>
       <div style={{ textAlign: 'center', marginBottom: 32 }}>
         <Link to="/" style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 28, color: 'var(--primary)' }}>
-          Shop<span style={{ color: 'var(--dark)' }}>Now</span>
+          Shop<span style={{ color: 'var(--text-color)' }}>Now</span>
         </Link>
         <h2 style={{ fontSize: 22, fontWeight: 700, marginTop: 16 }}>{title}</h2>
         <p style={{ color: 'var(--gray)', fontSize: 14, marginTop: 6 }}>{subtitle}</p>

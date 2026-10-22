@@ -188,7 +188,7 @@
 //               style={{
 //                 width: 52, height: 52, borderRadius: 10, border: '2px solid var(--border)',
 //                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-//                 color: wished ? 'var(--primary)' : 'var(--gray)', background: wished ? 'rgba(233,69,96,0.08)' : '#fff',
+//                 color: wished ? 'var(--primary)' : 'var(--gray)', background: wished ? 'var(--primary-soft)' : '#fff',
 //                 cursor: 'pointer', transition: 'all 0.2s'
 //               }}>
 //               <FiHeart size={20} fill={wished ? 'currentColor' : 'none'} />
@@ -574,7 +574,7 @@ const ProductDetail = () => {
                   }}>
                   <img src={img.url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   {activeImage === i && (
-                    <div style={{ position: 'absolute', inset: 0, background: 'rgba(233,69,96,0.1)' }} />
+                    <div style={{ position: 'absolute', inset: 0, background: 'var(--primary-soft)' }} />
                   )}
                 </div>
               ))}
@@ -615,7 +615,7 @@ const ProductDetail = () => {
           {/* Price box */}
           <div style={{ background: 'var(--surface-2)', borderRadius: isMobile ? 12 : 14, padding: isMobile ? '14px 16px' : '18px 22px', marginBottom: isMobile ? 18 : 24 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? 10 : 14, flexWrap: 'wrap' }}>
-              <span style={{ fontSize: isMobile ? 28 : 34, fontWeight: 800, color: 'var(--dark)' }}>
+              <span style={{ fontSize: isMobile ? 28 : 34, fontWeight: 800, color: 'var(--text-color)' }}>
                 Rs.{effectivePrice.toLocaleString()}
               </span>
               {savings > 0 && (
@@ -724,7 +724,7 @@ const ProductDetail = () => {
           ))}
         </div>
 
-        <div style={{ padding: 28 }}>
+        <div className="pd-panel">
           {/* Description */}
           {tab === 'description' && (
             <div style={{ lineHeight: 1.9, color: 'var(--text-color)', fontSize: 15 }}>
@@ -738,9 +738,9 @@ const ProductDetail = () => {
           {tab === 'specifications' && (
             <div className="product-spec-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0 40px' }}>
               {product.specifications?.length > 0 ? product.specifications.map((spec, i) => (
-                <div key={i} className="product-spec-row" style={{ display: 'flex', gap: 16, padding: '12px 0', borderBottom: '1px solid #f5f5f5' }}>
+                <div key={i} className="product-spec-row" style={{ display: 'flex', gap: 16, padding: '12px 0', borderBottom: '1px solid var(--border)' }}>
                   <span style={{ fontWeight: 600, minWidth: 130, fontSize: 14, color: 'var(--gray)' }}>{spec.key}</span>
-                  <span style={{ fontSize: 14, color: '#333' }}>{spec.value}</span>
+                  <span style={{ fontSize: 14, color: 'var(--text-color)', wordBreak: 'break-word' }}>{spec.value}</span>
                 </div>
               )) : (
                 <p style={{ color: 'var(--gray)', gridColumn: 'span 2' }}>No specifications available</p>
@@ -783,6 +783,17 @@ const ProductDetail = () => {
                 </form>
               )}
 
+              {/* Rating summary */}
+              {reviews.length > 0 && (
+                <div className="review-summary">
+                  <div className="review-score">{(reviews.reduce((a, r) => a + r.rating, 0) / reviews.length).toFixed(1)}</div>
+                  <div>
+                    <StarRating rating={Math.round(reviews.reduce((a, r) => a + r.rating, 0) / reviews.length)} size={18} />
+                    <div style={{ fontSize: 13, color: 'var(--gray)', marginTop: 4 }}>Based on {reviews.length} review{reviews.length === 1 ? '' : 's'}</div>
+                  </div>
+                </div>
+              )}
+
               {/* Reviews list */}
               {reviews.length === 0 ? (
                 <div style={{ textAlign: 'center', color: 'var(--gray)', padding: '30px 0', fontSize: 15 }}>
@@ -792,8 +803,9 @@ const ProductDetail = () => {
                 <div key={review._id} style={{ padding: '20px 0', borderBottom: '1px solid var(--border)' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                      <img src={review.user.avatar?.url || 'https://via.placeholder.com/36?text=U'} alt={review.user.name}
-                        style={{ width: 38, height: 38, borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--border)' }} />
+                      {review.user.avatar?.url
+                        ? <img src={review.user.avatar.url} alt={review.user.name} style={{ width: 38, height: 38, borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--border)' }} />
+                        : <span className="review-avatar">{(review.user.name || '?').charAt(0).toUpperCase()}</span>}
                       <div>
                         <div style={{ fontWeight: 600, fontSize: 14 }}>{review.user.name}</div>
                         <div style={{ fontSize: 12, color: 'var(--gray)', marginTop: 2 }}>
@@ -803,7 +815,7 @@ const ProductDetail = () => {
                     </div>
                     <StarRating rating={review.rating} size={15} />
                   </div>
-                  {review.title && <h5 style={{ fontSize: 14, marginBottom: 6, color: '#333' }}>{review.title}</h5>}
+                  {review.title && <h5 style={{ fontSize: 14, marginBottom: 6, color: 'var(--text-color)' }}>{review.title}</h5>}
                   <p style={{ fontSize: 14, color: 'var(--gray)', lineHeight: 1.7 }}>{review.comment}</p>
                 </div>
               ))}
@@ -818,8 +830,11 @@ const ProductDetail = () => {
           <div style={{ fontSize: 11, color: 'var(--gray)' }}>Price</div>
           <div style={{ fontWeight: 800, fontSize: 17 }}>Rs.{(product.discountPrice > 0 ? product.discountPrice : product.price).toLocaleString()}</div>
         </div>
-        <button onClick={handleAddToCart} disabled={product.stock === 0} className="btn btn-primary" style={{ flex: 1, justifyContent: 'center', opacity: product.stock === 0 ? 0.5 : 1 }}>
-          <FiShoppingCart size={17} /> {product.stock === 0 ? 'Out of stock' : 'Add to Cart'}
+        <button onClick={handleAddToCart} disabled={product.stock === 0} className="btn btn-outline" aria-label="Add to Cart" style={{ padding: '12px 14px', opacity: product.stock === 0 ? 0.5 : 1 }}>
+          <FiShoppingCart size={18} />
+        </button>
+        <button onClick={handleBuyNow} disabled={product.stock === 0} className="btn btn-primary" style={{ flex: 1, justifyContent: 'center', opacity: product.stock === 0 ? 0.5 : 1 }}>
+          {product.stock === 0 ? 'Out of stock' : 'Buy Now'}
         </button>
       </div>
     </div>

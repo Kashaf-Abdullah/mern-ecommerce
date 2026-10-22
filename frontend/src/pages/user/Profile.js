@@ -108,7 +108,7 @@ const Profile = () => {
           {/* Profile Tab */}
           {tab === 'profile' && (
             <div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 20 }}>
+              <div className="form-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 20 }}>
                 <div className="form-group" style={{ marginBottom: 0 }}>
                   <label>Full Name</label>
                   <input type="text" value={profileForm.name}
@@ -144,7 +144,7 @@ const Profile = () => {
 
               {showAddressForm && (
                 <form onSubmit={handleAddAddress} style={{ background: 'var(--surface-2)', padding: 20, borderRadius: 12, marginBottom: 20 }}>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+                  <div className="form-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
                     {[
                       { key: 'fullName', label: 'Full Name', span: 1 },
                       { key: 'phone', label: 'Phone', span: 1 },

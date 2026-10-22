@@ -183,7 +183,7 @@ const AdminOrders = () => {
 
             <div style={{ padding: '22px 28px', overflowY: 'auto', flex: 1 }}>
               {/* Order Info */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 20, padding: 16, background: 'var(--surface-2)', borderRadius: 10 }}>
+              <div className="form-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 20, padding: 16, background: 'var(--surface-2)', borderRadius: 10 }}>
                 {[
                   { label: 'Order ID', value: selectedOrder.orderId },
                   { label: 'Customer', value: selectedOrder.user?.name || selectedOrder.shippingAddress?.fullName },

@@ -684,7 +684,7 @@ const AdminSettings = () => {
             {localPayment.receipt && (
               <div style={{ borderTop: '1px solid var(--border)', paddingTop: 18, marginTop: 8 }}>
                 <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 16 }}>Your Bank Account Details</div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+                <div className="form-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
                   {[
                     { key: 'bankHolder', label: 'Account Holder Name', placeholder: 'e.g. Ramesh Kumar', span: 2 },
                     { key: 'bankName', label: 'Bank Name', placeholder: 'e.g. State Bank of India' },

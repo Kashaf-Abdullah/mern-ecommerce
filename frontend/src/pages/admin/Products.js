@@ -945,7 +945,7 @@ const AdminProducts = () => {
 
             {/* Modal form body — scrollable */}
             <form onSubmit={handleSubmit} style={{ flex: 1, overflowY: 'auto', padding: '22px 26px' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+              <div className="form-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
 
                 {/* ─────────── IMAGE MANAGER (full width) ─────────── */}
                 <div style={{ gridColumn: 'span 2', padding: '18px', background: '#f9fafb', borderRadius: 14, border: '1px solid var(--border)' }}>

@@ -76,10 +76,10 @@ export const OrderDetail = () => {
       {!['cancelled', 'refunded'].includes(order.orderStatus) && (
         <div className="card" style={{ padding: isMobile ? 18 : 28, marginBottom: 24, overflowX: 'auto' }}>
           <h3 style={{ fontSize: isMobile ? 14 : 16, fontWeight: 700, marginBottom: 24 }}>Order Status</h3>
-          <div style={{ display: 'flex', alignItems: 'center', minWidth: isMobile ? 'max-content' : 'auto' }}>
+          <div style={{ display: 'flex', alignItems: 'center', minWidth: 0 }}>
             {steps.map((s, i) => (
               <React.Fragment key={s}>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, minWidth: isMobile ? 60 : 'auto' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, minWidth: 0, flexShrink: 0 }}>
                   <div style={{
                     width: isMobile ? 30 : 36, height: isMobile ? 30 : 36, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center',
                     background: i <= currentStep ? statusColors[s] : 'var(--border)',
@@ -87,10 +87,10 @@ export const OrderDetail = () => {
                   }}>
                     {i <= currentStep ? '✓' : i + 1}
                   </div>
-                  <span style={{ fontSize: isMobile ? 10 : 12, fontWeight: i === currentStep ? 700 : 400, color: i <= currentStep ? 'var(--text-color)' : 'var(--gray)', textTransform: 'capitalize' }}>{s}</span>
+                  <span style={{ fontSize: isMobile ? 10 : 12, fontWeight: i === currentStep ? 700 : 400, color: i <= currentStep ? 'var(--text-color)' : 'var(--gray)', textTransform: 'capitalize', whiteSpace: 'nowrap' }}>{s}</span>
                 </div>
                 {i < steps.length - 1 && (
-                  <div style={{ flex: 1, height: 3, minWidth: isMobile ? 30 : 40, background: i < currentStep ? statusColors[steps[i + 1]] : 'var(--border)', margin: isMobile ? '0 2px' : '0 4px', marginBottom: 22, borderRadius: 2 }} />
+                  <div style={{ flex: 1, height: 3, minWidth: isMobile ? 6 : 40, background: i < currentStep ? statusColors[steps[i + 1]] : 'var(--border)', margin: isMobile ? '0 2px' : '0 4px', marginBottom: 22, borderRadius: 2 }} />
                 )}
               </React.Fragment>
             ))}

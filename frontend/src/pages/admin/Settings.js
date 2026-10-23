@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { FiSave, FiRefreshCw, FiCopy, FiCheck, FiEye } from 'react-icons/fi';
 import { useTheme } from '../../context/ThemeContext';
 import toast from 'react-hot-toast';
+import { settingsAPI } from '../../utils/api';
 
 const PRESETS = [
   { name: 'Default', primary: '#e94560', secondary: '#1a1a2e', bg: '#f8f9fa', nav: '#ffffff', footer: '#1a1a2e', card: '#ffffff', text: '#1a1a2e' },
@@ -65,6 +66,7 @@ const inputStyle = {
 const AdminSettings = () => {
   const { theme, texts, payment, socials, shippingFee, saveTheme, saveTexts, savePayment, saveSocials, saveShippingFee, t } = useTheme();
   const [tab, setTab] = useState('theme');
+  const [logoUploading, setLogoUploading] = useState(false);
   const [localTheme, setLocalTheme] = useState({
     primary: '#e94560',
     secondary: '#1a1a2e',
@@ -394,36 +396,55 @@ const AdminSettings = () => {
                     </div>
                   )}
                   <div>
-                    <input type="file" accept="image/*" id="logoUpload" style={{ display: 'none' }}
+                    <input type="file" accept="image/png,image/jpeg,image/webp,image/gif,image/svg+xml" id="logoUpload" style={{ display: 'none' }}
+                      disabled={logoUploading}
                       onChange={async (e) => {
-                        const file = e.target.files[0];
+                        const input = e.target;
+                        const file = input.files && input.files[0];
                         if (!file) return;
+
+                        if (!file.type.startsWith('image/')) {
+                          toast.error('Please choose an image file');
+                          input.value = '';
+                          return;
+                        }
+                        if (file.size > 5 * 1024 * 1024) {
+                          toast.error('Logo is too large. Maximum size is 5MB.');
+                          input.value = '';
+                          return;
+                        }
 
                         const formData = new FormData();
                         formData.append('logo', file);
 
+                        setLogoUploading(true);
                         try {
-                          const response = await fetch('/api/upload/logo', {
-                            method: 'POST',
-                            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
-                            body: formData
-                          });
-                          const data = await response.json();
+                          // Goes through the shared API client (base URL, auth token, credentials)
+                          const { data } = await settingsAPI.uploadLogo(formData);
                           if (data.success) {
                             updateLocalTheme('logoImage', data.logo);
-                            toast.success('Logo uploaded successfully!');
+                            toast.success('Logo uploaded! Click "Save Logo Settings" to apply it.');
                           } else {
-                            toast.error('Failed to upload logo');
+                            toast.error(data.message || 'Failed to upload logo');
                           }
                         } catch (error) {
-                          toast.error('Upload failed');
+                          const status = error.response?.status;
+                          toast.error(
+                            error.response?.data?.message ||
+                            (status === 413 ? 'Logo is too large for the server' :
+                             error.message === 'Network Error' ? 'Cannot reach the server. Check your connection.' :
+                             'Upload failed')
+                          );
+                        } finally {
+                          setLogoUploading(false);
+                          input.value = ''; // allow picking the same file again
                         }
                       }} />
                     <label htmlFor="logoUpload" style={{
                       padding: '8px 16px', background: localTheme.primary, color: '#fff', borderRadius: 8,
-                      cursor: 'pointer', fontSize: 14, display: 'inline-block'
+                      cursor: logoUploading ? 'wait' : 'pointer', opacity: logoUploading ? 0.7 : 1, pointerEvents: logoUploading ? 'none' : 'auto', fontSize: 14, display: 'inline-block'
                     }}>
-                      {localTheme.logoImage ? 'Change Logo' : 'Upload Logo'}
+                      {logoUploading ? 'Uploading…' : localTheme.logoImage ? 'Change Logo' : 'Upload Logo'}
                     </label>
                     {localTheme.logoImage && (
                       <button onClick={() => updateLocalTheme('logoImage', null)}

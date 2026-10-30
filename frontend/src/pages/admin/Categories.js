@@ -115,7 +115,7 @@ const AdminCategories = () => {
             </div>
             <form onSubmit={handleSubmit} style={{ padding: '22px 28px' }}>
               <div className="form-group">
-                <label>Category Name *</label>
+                <label>Category Name*</label>
                 <input type="text" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
                   className="form-control" placeholder="e.g. Electronics" required />
               </div>

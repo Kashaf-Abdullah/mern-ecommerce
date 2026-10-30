@@ -222,7 +222,7 @@ const Navbar = () => {
 
   // Determine if navbar has dark background (for text color contrast)
   const isDarkNav = document.documentElement.getAttribute('data-nav-dark') === '1' || (() => { const n = parseInt((navBg || '#ffffff').replace('#','').padEnd(6,'0').slice(0,6), 16); return (0.299*((n>>16)&255) + 0.587*((n>>8)&255) + 0.114*(n&255)) < 128; })();
-  const categoryLinkColor = isDarkNav ? 'var(--border)' : '#444';
+  const categoryLinkColor = isDarkNav ? '#ffffff' : '#444';
   const categoryLinkHoverBg = isDarkNav ? 'rgba(255,255,255,0.1)' : primary + '18';
 
   useEffect(() => {
@@ -363,7 +363,7 @@ const Navbar = () => {
     <>
       <nav style={{
         position: 'sticky', top: 0, zIndex: 1000,
-        boxShadow: scrolled ? '0 2px 20px rgba(0,0,0,0.1)' : '0 1px 0 #f0f0f0',
+        boxShadow: scrolled ? '0 2px 20px rgba(0,0,0,0.18)' : '0 1px 0 var(--border)',
         transition: 'box-shadow 0.3s'
       }}>
 
@@ -539,7 +539,7 @@ const Navbar = () => {
 
         {/* Category bar — desktop only */}
         {!isMobile && (
-          <div style={{ borderTop: isDarkNav ? 'none' : '1px solid #f0f0f0', background: navBg }}>
+          <div style={{ borderTop: isDarkNav ? '1px solid rgba(255,255,255,0.08)' : '1px solid var(--border)', background: navBg }}>
             <div style={{ maxWidth: 1280, margin: '0 auto', display: 'flex', gap: 4, overflowX: 'auto', padding: '7px 16px' }}>
               {[{ name: 'All Products', _id: '' }, ...categories].map(cat => (
                 <Link key={cat._id || cat.name}
@@ -549,7 +549,7 @@ const Navbar = () => {
                     whiteSpace: 'nowrap', color: categoryLinkColor, textDecoration: 'none',
                     transition: 'all 0.2s', background: 'transparent'
                   }}
-                  onMouseEnter={e => { e.currentTarget.style.background = categoryLinkHoverBg; e.currentTarget.style.color = isDarkNav ? 'var(--card-bg)' : primary; }}
+                  onMouseEnter={e => { e.currentTarget.style.background = categoryLinkHoverBg; e.currentTarget.style.color = isDarkNav ? '#ffffff' : primary; }}
                   onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = categoryLinkColor; }}>
                   {cat.name}
                 </Link>
@@ -573,7 +573,7 @@ const Navbar = () => {
             {/* Drawer header */}
             <div style={{
               display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-              padding: '18px 20px', borderBottom: '1px solid #f0f0f0', flexShrink: 0
+              padding: '18px 20px', borderBottom: '1px solid var(--border)', flexShrink: 0
             }}>
               <Link to="/" onClick={() => setMobileMenuOpen(false)} style={{
                 fontWeight: 800, fontSize: 20,
@@ -590,7 +590,7 @@ const Navbar = () => {
 
             {/* Auth section inside drawer */}
             {isAuthenticated ? (
-              <div style={{ padding: '16px 20px', borderBottom: '1px solid #f0f0f0' }}>
+              <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14 }}>
                   <img src={user.avatar?.url} alt={user.name}
                     style={{ width: 44, height: 44, borderRadius: '50%', objectFit: 'cover' }} />
@@ -622,7 +622,7 @@ const Navbar = () => {
               </div>
             ) : (
               /* Login/Signup ONLY inside drawer — not in navbar on mobile */
-              <div style={{ padding: '16px 20px', borderBottom: '1px solid #f0f0f0', display: 'flex', gap: 10 }}>
+              <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)', display: 'flex', gap: 10 }}>
                 <Link to="/login" onClick={() => setMobileMenuOpen(false)}
                   className="btn btn-outline btn-sm" style={{ flex: 1, textAlign: 'center' }}>
                   {t('loginBtn') || 'Login'}
